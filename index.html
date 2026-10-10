@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnóstico de rentabilidad</title>
+  <style>
+    :root {
+      --bg: #f4f7f6;
+      --card: #ffffff;
+      --ink: #10211d;
+      --muted: #63706d;
+      --line: #dfe7e3;
+      --accent: #0b7a6b;
+      --accent-2: #e8f7f3;
+      --shadow: rgba(16, 33, 29, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top left, #dff7ef 0%, #f4f7f6 35%, #edf2f1 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .wrap {
+      width: min(1100px, 100%);
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 28px;
+      box-shadow: 0 26px 80px var(--shadow);
+      padding: clamp(24px, 3vw, 42px);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: var(--accent-2);
+      color: var(--accent);
+      border: 1px solid #cfece6;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      margin: 0 0 18px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.8vw, 1.12rem);
+      line-height: 1.6;
+      margin: 0 0 24px;
+      max-width: 50ch;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    a.button:hover { transform: translateY(-1px); }
+    a.button.primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 18px 32px rgba(11, 122, 107, 0.2);
+    }
+
+    a.button.secondary {
+      background: white;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+    }
+
+    .stat .k {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .stat .v {
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-top: 10px;
+      color: var(--ink);
+    }
+
+    .preview {
+      background: linear-gradient(180deg, #092b2d 0%, #0c3c3a 100%);
+      border-radius: 30px;
+      padding: 22px;
+      box-shadow: 0 28px 80px rgba(9, 42, 45, 0.2);
+      color: white;
+      min-height: 520px;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .mini-app {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mini-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .mini-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .mini-box h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .big {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      margin: 0;
+    }
+
+    .bar {
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 68%;
+      background: linear-gradient(90deg, #28d5b1, #66f2d1);
+      border-radius: 999px;
+    }
+
+    @media (max-width: 860px) {
+      .wrap {
+        grid-template-columns: 1fr;
+      }
+      .preview {
+        order: -1;
+        min-height: 360px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="eyebrow">Herramient de diagnóstico</div>
+      <h1>¿Cuánto ganas realmente?</h1>
+      <p>
+        Evalúa tu margen, cartera vencida, dependencia de clientes y uso del tiempo para decidir
+        si tu negocio es rentable de verdad y qué acciones te ayudarán a mejorar.
+      </p>
+
+      <div class="actions">
+        <a class="button primary" href="diagnostico-rentabilidad.html">Abrir la app</a>
+        <a class="button secondary" href="#features">Ver qué incluye</a>
+      </div>
+
+      <div class="stats" id="features">
+        <div class="stat">
+          <div class="k">Margen</div>
+          <div class="v">%</div>
+        </div>
+        <div class="stat">
+          <div class="k">Cartera vencida</div>
+          <div class="v">$</div>
+        </div>
+        <div class="stat">
+          <div class="k">Dependencia</div>
+          <div class="v">Cliente</div>
+        </div>
+        <div class="stat">
+          <div class="k">Tiempo</div>
+          <div class="v">Horas</div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="preview" aria-label="Vista previa de la app">
+      <div class="mini-app">
+        <div class="mini-header">
+          <span>Rentabilidad</span>
+          <span>Mes</span>
+        </div>
+
+        <div class="mini-box">
+          <h3>Margen neto</h3>
+          <p class="big">23%</p>
+          <div class="bar"><span></span></div>
+        </div>
+
+        <div class="mini-box">
+          <h3>Deuda por cobrar</h3>
+          <p class="big">$1,200</p>
+        </div>
+
+        <div class="mini-box">
+          <h3>Cliente clave</h3>
+          <p class="big">36%</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>

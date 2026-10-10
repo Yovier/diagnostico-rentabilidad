@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagnóstico de rentabilidad</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--surface:#fff;--ink:#0F1419;--muted:#6B7280;--line:#E8EAED;--accent:#0B7A6B;--accent-soft:#E6F4F1;--on-accent:#fff;--ok:#16A34A;--warn:#D97706;--bad:#DC2626;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0F10;--surface:#14181A;--ink:#F3F5F6;--muted:#8B949B;--line:#242A2D;--accent:#3FD0B9;--accent-soft:#12302B;--on-accent:#06201C;--ok:#4ADE80;--warn:#FBBF24;--bad:#F87171}}
+:root[data-theme="dark"]{--bg:#0C0F10;--surface:#14181A;--ink:#F3F5F6;--muted:#8B949B;--line:#242A2D;--accent:#3FD0B9;--accent-soft:#12302B;--on-accent:#06201C;--ok:#4ADE80;--warn:#FBBF24;--bad:#F87171}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+main{max-width:560px;margin:0 auto;padding:36px 20px 64px}
+h1{font-size:2rem;line-height:1.1;font-weight:800;letter-spacing:-.03em;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 28px;font-size:1rem}
+h2{font-size:.95rem;font-weight:700;margin:40px 0 4px;letter-spacing:-.01em}
+.seg{display:flex;background:var(--line);border-radius:12px;padding:4px;margin-bottom:22px}
+.seg button{flex:1;padding:10px;border:0;background:transparent;color:var(--muted);border-radius:9px;font:inherit;font-weight:600;font-size:.92rem;cursor:pointer;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px}
+label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin:0 0 6px}
+input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;font-size:1rem;transition:border-color .2s,box-shadow .2s}
+input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.banner{padding:28px 22px 22px;margin:0 0 28px;border-radius:24px;background:var(--accent-soft);text-align:center}
+.banner p{margin:0 auto 24px;color:var(--muted);max-width:38ch}
+.split{display:flex;height:10px;gap:3px}
+.split i{display:block;height:100%;border-radius:99px}
+.split .c{flex:1;background:var(--muted);opacity:.3}
+.split .g{width:30%;background:var(--accent);animation:grow 1.1s .2s ease-out both}
+@keyframes grow{from{width:0}to{width:30%}}
+.legend{display:flex;justify-content:space-between;margin-top:9px;font-size:.75rem;color:var(--muted)}
+.legend span:last-child{color:var(--accent);font-weight:700}
+@media (prefers-reduced-motion:reduce){.split .g{animation:none}}
+.fb{margin-top:28px;padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--surface);text-align:center}
+.fb h3{margin:0 0 4px;font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+.stars{display:flex;justify-content:center;gap:6px;margin:14px 0 4px}
+.star{border:0;background:transparent;font-size:2.3rem;line-height:1;color:var(--muted);opacity:.35;cursor:pointer;padding:2px;transition:transform .15s,color .15s,opacity .15s}
+.star.on{color:var(--warn);opacity:1}
+.star:active{transform:scale(1.15)}
+.q{text-align:left;margin-top:20px}
+.q p{margin:0 0 8px;font-size:.88rem;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--ink);font:inherit;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+textarea{width:100%;min-height:76px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
+textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+#fbThanks{display:none}
+.drow{display:grid;grid-template-columns:1fr 110px 40px;gap:8px;margin-bottom:8px}
+.x{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:12px;font-size:1.1rem;cursor:pointer}
+.add{padding:9px 14px;border:1px dashed var(--line);background:transparent;color:var(--accent);border-radius:12px;font:inherit;font-weight:600;font-size:.88rem;cursor:pointer}
+.err{display:none;margin-top:14px;padding:12px 14px;border:1px solid var(--bad);border-radius:12px;color:var(--bad);font-size:.88rem}
+.hint{display:block;font-size:.72rem;color:var(--muted);margin-top:5px;line-height:1.35}
+button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.cta{width:100%;margin-top:26px;padding:15px;border:0;border-radius:12px;background:var(--ink);color:var(--bg);font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+#res{display:none;margin-top:12px;border-top:1px solid var(--line)}
+.hero{padding:34px 0 8px}
+.hero small{color:var(--muted);font-size:.85rem;font-weight:500}
+.hero b{display:block;font-size:4.2rem;line-height:1;font-weight:800;letter-spacing:-.05em;margin:6px 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:40ch}
+.rows{margin-top:22px}
+.row{padding:14px 0;border-top:1px solid var(--line)}
+.row .t{display:flex;justify-content:space-between;align-items:baseline;font-size:.92rem}
+.row .t b{font-size:1.05rem;font-weight:700}
+.bar{height:5px;border-radius:9px;background:var(--line);margin:9px 0 5px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px;transition:width .6s ease}
+.row span{font-size:.8rem;color:var(--muted)}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.bar .ok{background:var(--ok)}.bar .warn{background:var(--warn)}.bar .bad{background:var(--bad)}
+.sol{padding:16px 0;border-top:1px solid var(--line)}
+.sol h3{margin:0 0 3px;font-size:1rem;font-weight:700;letter-spacing:-.01em}
+.sol p{margin:0 0 8px;color:var(--muted);font-size:.92rem}
+.tag{font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.plans{margin-top:12px;display:grid;gap:10px}
+.plan{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--surface)}
+.plan.hit{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.plan .h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.plan h3{margin:0;font-size:1rem;font-weight:700}
+.plan .pr{font-weight:800;font-size:1.1rem;text-align:right}
+.plan ul{margin:8px 0 0;padding-left:18px;font-size:.88rem;opacity:.75}
+.note{font-size:.78rem;color:var(--muted);margin:14px 0 0}
+.contact{margin-top:40px;padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--surface)}
+.contact h3{margin:0 0 4px;font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+.contact .sub{font-size:.9rem;margin-bottom:18px}
+.contact .grid{gap:12px}
+.btns{display:grid;gap:8px;margin-top:18px}
+.btn{display:block;text-align:center;text-decoration:none;padding:14px;border-radius:12px;font-weight:700;font-size:.95rem;border:1px solid var(--line);color:var(--ink)}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header class="banner">
+  <h1>¿Cuánto ganas realmente?</h1>
+  <p>Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p>
+  <div class="split" aria-hidden="true"><i class="c"></i><i class="g"></i></div>
+  <div class="legend"><span>Costos y gastos</span><span>Lo que realmente te queda</span></div>
+</header>
+
+<div class="seg" role="group" aria-label="Tipo de cliente">
+  <button type="button" id="b1" aria-pressed="true">Profesionista</button>
+  <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
+</div>
+<div class="grid">
+  <div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="4000"></div>
+  <div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="3400"></div>
+  <div style="grid-column:1/-1"><label>Clientes con pagos vencidos</label><div id="debts"></div><button type="button" class="add" id="addD">+ Agregar cliente</button><div class="hint" id="dtot" style="font-weight:600;color:var(--ink);margin-top:8px"></div><input id="car" type="hidden"><input id="ncar" type="hidden"><span class="hint">Escribe cuánto te debe cada cliente. El total y el número de clientes se calculan solos.</span></div>
+  
+  <div style="grid-column:1/-1"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="2200"><span class="hint">Se divide entre tus ingresos del mes para medir cuánto dependes de ese cliente.</span></div>
+  <div><label for="ing3">Ingresos de los últimos 3 meses ($)</label><input id="ing3" type="number" inputmode="decimal" placeholder="Opcional"></div>
+  <div><label for="top3">Tu mejor cliente en esos 3 meses ($)</label><input id="top3" type="number" inputmode="decimal" placeholder="Opcional"></div>
+  <span class="hint" style="grid-column:1/-1;margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses, un dato más confiable que un solo mes.</span>
+  <div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="70"></div>
+  <div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="140"></div>
+</div>
+<button class="cta" id="go" type="button">Ver mi diagnóstico</button>
+<div class="err" id="err" role="alert"></div>
+
+<section id="res" aria-live="polite">
+  <div class="hero" id="hero"></div>
+  <div class="rows" id="kpis"></div>
+  <h2>Soluciones sugeridas</h2>
+  <div id="sols"></div>
+  <h2>Tu plan recomendado</h2>
+  <div class="plans" id="plans"></div>
+  <p class="note">Precios de referencia en USD al mes. Ajústalos a tu país y a tu costo de operación.</p>
+  <div class="contact">
+    <h3>¿Lo revisamos juntos?</h3>
+    <p class="sub">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
+    <div class="grid">
+      <div><label for="nom">Tu nombre</label><input id="nom" type="text" autocomplete="name"></div>
+      <div><label for="neg">Tu negocio</label><input id="neg" type="text"></div>
+    </div>
+    <div class="btns">
+      <a class="btn main" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
+      <a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+      <a class="btn" id="lMail">Enviar por correo</a>
+    </div>
+  </div>
+
+  <div class="fb" id="fb">
+    <div id="fbForm">
+      <h3>¿Qué tal te pareció?</h3>
+      <p class="sub" style="margin:0">Toca las estrellas que quieras, del 1 al 5.</p>
+      <div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div>
+      <div class="q"><p>¿El diagnóstico refleja tu situación real?</p><div class="chips" data-q="real"><button type="button" class="chip" aria-pressed="false">Sí</button><button type="button" class="chip" aria-pressed="false">En parte</button><button type="button" class="chip" aria-pressed="false">No</button></div></div>
+      <div class="q"><p>¿Entendiste los resultados fácilmente?</p><div class="chips" data-q="claro"><button type="button" class="chip" aria-pressed="false">Muy fácil</button><button type="button" class="chip" aria-pressed="false">Más o menos</button><button type="button" class="chip" aria-pressed="false">Confuso</button></div></div>
+      <div class="q"><p>¿Pagarías por un plan con estas soluciones?</p><div class="chips" data-q="pago"><button type="button" class="chip" aria-pressed="false">Sí</button><button type="button" class="chip" aria-pressed="false">Tal vez</button><button type="button" class="chip" aria-pressed="false">No</button></div></div>
+      <div class="q"><p>¿Qué te gustaría que agregáramos? (opcional)</p><textarea id="fbTxt" aria-label="Sugerencia"></textarea></div>
+      <div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div>
+      <button class="cta" id="fbSend" type="button">Enviar opinión</button>
+    </div>
+    <div id="fbThanks">
+      <h3>¡Gracias por tu opinión!</h3>
+      <p class="sub" style="margin:0">Si quieres, mándamela directo para que la lea.</p>
+      <div class="btns">
+        <a class="btn main" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a class="btn" id="fMail">Enviar por correo</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+/* CONFIGURA TUS DATOS AQUÍ */
+var CALENDAR_URL = "https://calendly.com/TU_USUARIO";
+var WHATSAPP = "521XXXXXXXXXX"; /* país + número, sin signos */
+var EMAIL = "tu@correo.com";
+var resumen = "";
+var tipo = "pro";
+var $ = function(i){return document.getElementById(i)};
+function setTipo(t){tipo=t;$("b1").setAttribute("aria-pressed",t==="pro");$("b2").setAttribute("aria-pressed",t==="pyme")}
+$("b1").onclick=function(){setTipo("pro")};
+$("b2").onclick=function(){setTipo("pyme")};
+
+var PLANES = {
+  basico:{n:"Básico",p:"$19",l:["Carga de datos con plantilla","Tablero de 5 KPIs","Reporte mensual por correo"]},
+  pro:{n:"Pro",p:"$59",l:["Todo lo del Básico","Rentabilidad por cliente y servicio","Alertas de cobranza y proyección a 90 días"]},
+  medida:{n:"A la medida",p:"Desde $500 + $120/mes",l:["Diagnóstico con el experto","Conexión a tu facturación o contabilidad","Tablero personalizado y mantenimiento"]}
+};
+var RANK={basico:1,pro:2,medida:3};
+function pct(a,b){return b>0?a/b*100:0}
+function cls(v,good,bad,inv){
+  if(inv){return v<=good?"ok":v>=bad?"bad":"warn"}
+  return v>=good?"ok":v<=bad?"bad":"warn";
+}
+function updLinks(){
+  var msg="Hola, soy "+($("nom").value||"(mi nombre)")+" de "+($("neg").value||"(mi negocio)")+". Hice el diagnóstico: "+resumen+" Quiero agendar una revisión.";
+  $("lCal").href=CALENDAR_URL;
+  $("lWa").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
+  $("lMail").href="mailto:"+EMAIL+"?subject="+encodeURIComponent("Diagnóstico de rentabilidad")+"&body="+encodeURIComponent(msg);
+}
+$("nom").oninput=updLinks;$("neg").oninput=updLinks;
+
+var debts=[{n:"Cliente A",m:300},{n:"Cliente B",m:200},{n:"Cliente C",m:100}];
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function debtTotals(){var t=0,c=0;debts.forEach(function(d){if(d.m>0){t+=d.m;c++}});$("car").value=t;$("ncar").value=c;$("dtot").textContent="Total vencido: $"+t.toLocaleString()+" en "+c+(c===1?" cliente":" clientes")}
+function renderDebts(){$("debts").innerHTML=debts.map(function(d,i){return '<div class="drow"><input aria-label="Nombre del cliente" data-i="'+i+'" data-k="n" value="'+esc(d.n)+'" placeholder="Cliente"><input aria-label="Monto vencido" data-i="'+i+'" data-k="m" type="number" inputmode="decimal" value="'+(d.m||"")+'" placeholder="Monto"><button type="button" class="x" data-del="'+i+'" aria-label="Quitar cliente">×</button></div>'}).join("");debtTotals()}
+$("debts").oninput=function(e){var i=e.target.getAttribute("data-i"),k=e.target.getAttribute("data-k");if(i===null)return;if(k==="m"){debts[i].m=+e.target.value||0}else{debts[i].n=e.target.value}debtTotals()};
+$("debts").onclick=function(e){var d=e.target.getAttribute("data-del");if(d!==null){debts.splice(+d,1);renderDebts()}};
+$("addD").onclick=function(){debts.push({n:"",m:0});renderDebts()};
+function debtHtml(){var l=debts.filter(function(d){return d.m>0}).sort(function(a,b){return b.m-a.m});if(!l.length)return "";var t=0;l.forEach(function(d){t+=d.m});return '<div class="row"><div class="t"><span>Quién te debe</span><b>$'+t.toLocaleString()+'</b></div>'+l.map(function(d){return '<div class="t" style="margin-top:8px"><span>'+(esc(d.n)||"Sin nombre")+'</span><span>$'+d.m.toLocaleString()+' · '+(d.m/t*100).toFixed(0)+'% del total</span></div>'}).join("")+"</div>"}
+renderDebts();
+
+var fb={stars:0,real:"",claro:"",pago:""};
+(function(){
+  var box=$("stars"),h="";
+  for(var i=1;i<=5;i++)h+='<button type="button" class="star" role="radio" aria-checked="false" aria-label="'+i+(i===1?' estrella':' estrellas')+'" data-s="'+i+'">★</button>';
+  box.innerHTML=h;
+  box.onclick=function(e){var s=e.target.getAttribute("data-s");if(!s)return;fb.stars=+s;
+    [].forEach.call(box.children,function(b,j){b.className="star"+(j<fb.stars?" on":"");b.setAttribute("aria-checked",j+1===fb.stars)});
+    $("fbErr").style.display="none"};
+  [].forEach.call(document.querySelectorAll(".chips"),function(g){
+    g.onclick=function(e){if(e.target.className.indexOf("chip")<0)return;
+      fb[g.getAttribute("data-q")]=e.target.textContent;
+      [].forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===e.target)})}});
+  $("fbSend").onclick=function(){
+    if(!fb.stars){$("fbErr").style.display="block";return}
+    var m="Mi opinión sobre el diagnóstico: "+fb.stars+"/5 estrellas. ¿Refleja mi situación? "+(fb.real||"sin responder")+". ¿Resultados claros? "+(fb.claro||"sin responder")+". ¿Pagaría por un plan? "+(fb.pago||"sin responder")+". Sugerencia: "+($("fbTxt").value||"ninguna")+".";
+    $("fWa").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m);
+    $("fMail").href="mailto:"+EMAIL+"?subject="+encodeURIComponent("Opinión sobre el diagnóstico")+"&body="+encodeURIComponent(m);
+    $("fbForm").style.display="none";$("fbThanks").style.display="block"};
+})();
+
+$("go").onclick=function(){
+  var ing=+$("ing").value||0,cos=+$("cos").value||0,car=+$("car").value||0,top=+$("top").value||0,hf=+$("hf").value||0,hd=+$("hd").value||0,ncar=+$("ncar").value||0;
+  var ing3=+$("ing3").value||0,top3=+$("top3").value||0,err=[];
+  if(ing<=0)err.push("Escribe tus ingresos del mes.");
+  if([ing,cos,car,top,hf,hd,ncar,ing3,top3].some(function(v){return v<0}))err.push("Usa solo números positivos.");
+  if(top>ing)err.push("Tu mejor cliente no puede haber pagado más que tus ingresos del mes.");
+  if(hf>hd)err.push("Las horas facturadas no pueden superar las disponibles.");
+  if((ing3>0)!==(top3>0))err.push("Llena los dos campos de 3 meses o déjalos vacíos.");
+  else if(top3>ing3)err.push("En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.");
+  if(err.length){$("err").innerHTML=err.join("<br>");$("err").style.display="block";return}
+  $("err").style.display="none";
+  var use3=ing3>0&&top3>0;
+  var margen=pct(ing-cos,ing), cart=pct(car,ing), conc=use3?pct(top3,ing3):pct(top,ing), util=pct(hf,hd);
+  var mc=cls(margen,30,15);
+  var frase=mc==="ok"?"Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.":mc==="warn"?"Tu margen es aceptable, pero hay espacio para mejorar.":"De cada $100 que cobras, te quedan muy pocos. Hay que revisar precios y costos.";
+  $("hero").innerHTML='<small>Tu margen este mes</small><b class="'+mc+'">'+margen.toFixed(0)+'%</b><p>'+frase+'</p>';
+
+  var k=[
+    ["Cartera vencida",cart,"$"+car.toLocaleString()+" por cobrar"+(ncar?" en "+ncar+(ncar===1?" cliente":" clientes"):"")+", sobre tus ingresos del mes",cls(cart,15,30,true)],
+    ["Dependencia de un cliente",conc,use3?"$"+top3.toLocaleString()+" de $"+ing3.toLocaleString()+" en 3 meses":"$"+top.toLocaleString()+" de $"+ing.toLocaleString()+" este mes",cls(conc,30,50,true)],
+    ["Uso de tu tiempo",util,"Horas facturadas sobre disponibles",cls(util,70,50)]
+  ];
+  $("kpis").innerHTML=k.map(function(x){var w=Math.max(2,Math.min(100,x[1]));
+    return '<div class="row"><div class="t"><span>'+x[0]+'</span><b class="'+x[3]+'">'+x[1].toFixed(0)+'%</b></div><div class="bar"><i class="'+x[3]+'" style="width:'+w+'%"></i></div><span>'+x[2]+'</span></div>'}).join("");
+
+  $("kpis").innerHTML+=debtHtml();
+  var s=[];
+  if(margen<25) s.push(["Análisis de rentabilidad por cliente y servicio","Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.","pro"]);
+  if(cart>=20) s.push(["Seguimiento de cobranza con alertas","Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.","basico"]);
+  if(conc>=40) s.push(["Reducir dependencia de un cliente","Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.","pro"]);
+  if(util<60) s.push([tipo==="pro"?"Tablero de horas y precio por hora":"Utilización del equipo","Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.","pro"]);
+  if(s.length===0) s.push(["Proyección de flujo de caja a 90 días","Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.","basico"]);
+  s.push(["Reporte mensual automático","Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.","basico"]);
+  if(tipo==="pyme" && s.length>=4) s.push(["Implementación a la medida","Varias alertas a la vez piden un tablero conectado a tu facturación y ajustado a tu negocio.","medida"]);
+  $("sols").innerHTML=s.map(function(x){return '<div class="sol"><h3>'+x[0]+'</h3><p>'+x[1]+'</p><span class="tag">Incluido en '+PLANES[x[2]].n+'</span></div>'}).join("");
+
+  var rec="basico";
+  s.forEach(function(x){if(RANK[x[2]]>RANK[rec])rec=x[2]});
+  if(tipo==="pro"&&rec=="medida")rec="pro";
+  $("plans").innerHTML=Object.keys(PLANES).map(function(key){var p=PLANES[key];
+    return '<div class="plan'+(key===rec?' hit':'')+'"><div class="h"><h3>'+p.n+(key===rec?' · recomendado':'')+'</h3><div class="pr">'+p.p+'</div></div><ul>'+p.l.map(function(i){return '<li>'+i+'</li>'}).join("")+'</ul></div>'}).join("");
+
+  resumen=(tipo==="pro"?"Profesionista":"Pyme de servicios")+" | Margen "+margen.toFixed(0)+"%, cartera vencida "+cart.toFixed(0)+"%, dependencia "+conc.toFixed(0)+"%, uso de tiempo "+util.toFixed(0)+"%. Plan sugerido: "+PLANES[rec].n+".";
+  updLinks();
+  $("res").style.display="block";
+  $("res").scrollIntoView({behavior:"smooth"});
+};
+</script>
+</body>
+</html>
