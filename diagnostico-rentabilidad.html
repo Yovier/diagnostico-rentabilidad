@@ -32,18 +32,18 @@ h1{font-size:2rem;line-height:1.1;font-weight:800;letter-spacing:-.03em;margin:0
   <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
 </div>
 <div class="grid">
-  <div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="4000"></div>
-  <div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="3400"></div>
+  <div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="0"></div>
+  <div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="0"></div>
   <div style="grid-column:1/-1"><label>Clientes con pagos vencidos</label><div id="debts"></div><button type="button" class="add" id="addD">+ Agregar cliente</button><div class="hint" id="dtot" style="display:none"></div></div>
   
-  <div style="grid-column:1/-1"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="2200"><span class="hint">Se divide en tus ingresos totales. Si supera el 30%, tu negocio es muy dependiente.</span></div>
+  <div style="grid-column:1/-1"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="0"><span class="hint">Se divide en tus ingresos totales. Si supera el 30%, tu negocio es muy dependiente.</span></div>
   <div><label for="ing3">Ingresos de los últimos 3 meses ($)</label><input id="ing3" type="number" inputmode="decimal" placeholder="Opcional"></div>
   <div><label for="top3">Tu mejor cliente en esos 3 meses ($)</label><input id="top3" type="number" inputmode="decimal" placeholder="Opcional"></div>
   <span class="hint" style="grid-column:1/-1;margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses, un dato más confiable que un solo mes.</span>
-  <div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="70"></div>
-  <div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="140"></div>
-  <input id="car" type="hidden" value="600">
-  <input id="ncar" type="hidden" value="3">
+  <div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="0"></div>
+  <div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="0"></div>
+  <input id="car" type="hidden" value="0">
+  <input id="ncar" type="hidden" value="0">
 </div>
 <div class="cta-wrap"><button class="cta" id="go" type="button">Ver mi diagnóstico</button></div>
 <div class="err" id="err" role="alert"></div>
@@ -143,7 +143,7 @@ function updLinks(){
 }
 $("nom").oninput=updLinks;$("neg").oninput=updLinks;
 
-var debts=[{n:"Cliente A",m:300},{n:"Cliente B",m:200},{n:"Cliente C",m:100}];
+var debts=[];
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function debtTotals(){var t=0,c=0;debts.forEach(function(d){if(d.m>0){t+=d.m;c++}});$("car").value=t;$("ncar").value=c;$("dtot").textContent="Total vencido: $"+t.toLocaleString()+" en "+c+(c===1?" cliente":" clientes");$("dtot").style.display=t>0?"block":"none"}
 function renderDebts(){$("debts").innerHTML=debts.map(function(d,i){return '<div class="drow"><input aria-label="Nombre del cliente" data-i="'+i+'" data-k="n" value="'+esc(d.n)+'" placeholder="Cliente"><input aria-label="Monto vencido" data-i="'+i+'" data-k="m" type="number" value="'+d.m+'" inputmode="decimal"><button aria-label="Eliminar cliente" data-del="'+i+'" type="button">✕</button></div>'}).join('');debtTotals()}
