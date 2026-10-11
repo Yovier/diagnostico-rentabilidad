@@ -153,7 +153,6 @@ function renderChart(margen, cartera, dependencia){
   ];
   var html = bars.map(function(bar){
     var h = Math.max(18, bar.value);
-    var cls = bar.class;
     return '<div class="chart-bar" data-label="'+bar.label+'" style="height:'+h+'%;" aria-label="'+bar.label+' '+bar.value+'%"><span>'+Math.round(bar.value)+'%</span></div>';
   }).join('');
   $("chartBox").innerHTML = html;
