@@ -3,247 +3,172 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Diagnóstico de rentabilidad</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>¿Cuánto ganas realmente? Diagnóstico de rentabilidad</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f4f7fb;--surface:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0f766e;--accent-strong:#0b5f59;--accent-soft:#dff8f5;--on-accent:#fff;--ok:#16a34a;--warn:#f59e0b;--bad:#e11d48;--card:#ffffff;--shadow:0 20px 45px rgba(15,23,42,0.08)
-}
-@media (prefers-color-scheme:dark){:root{--bg:#0f172a;--surface:#111827;--ink:#e2e8f0;--muted:#94a3b8;--line:#1f2937;--accent:#2dd4bf;--accent-strong:#14b8a6;--accent-soft:rgba(45,212,191,0.14);--on-accent:#052b29;--ok:#4ade80;--warn:#fbbf24;--bad:#fb7185;--card:#111827;--shadow:0 20px 45px rgba(0,0,0,0.28)}}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:radial-gradient(circle at top, rgba(20,184,166,0.12), transparent 35%), linear-gradient(135deg, var(--bg) 0%, #eefaf8 100%);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}main{padding:max(20px,env(safe-area-inset-left)) max(20px,env(safe-area-inset-right))}
-@media (max-width:420px){main{padding:12px 16px}}.banner{background:linear-gradient(135deg, rgba(20,184,166,0.12), rgba(15,118,110,0.04));border:1px solid rgba(15,118,110,0.18);border-radius:24px;padding:28px 24px;margin-bottom:32px;text-align:center;box-shadow:var(--shadow)}.banner p{margin:0;color:var(--muted);font-size:0.95rem}.legend{display:flex;gap:20px;justify-content:center;margin-top:16px;font-size:0.85rem}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:4px}.legend .c{background:var(--muted)}.legend .g{background:var(--accent)}
-h1{font-size:2rem;line-height:1.1;font-weight:800;letter-spacing:-.03em;margin:0 0 10px}.sub{color:var(--muted);margin:0 0 28px;font-size:1rem}h2{font-size:.95rem;font-weight:700;margin:40px 0 4px;text-transform:uppercase;letter-spacing:.05em}h3{font-size:1rem;font-weight:600;margin:0}.seg{display:flex;gap:12px;margin-bottom:30px;background:var(--card);padding:4px;border:1px solid var(--line);border-radius:12px;font-size:0.9rem;box-shadow:0 8px 18px rgba(15,23,42,0.04)}.seg button{flex:1;padding:10px;border:none;background:0;cursor:pointer;border-radius:8px;font-weight:600;color:var(--muted);transition:all 0.2s}.seg button[aria-pressed="true"]{background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:var(--on-accent)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}.label-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.label-row > div{display:flex;flex-direction:column}.label-row label, label{display:block;font-size:0.8rem;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}input,textarea{font-family:inherit;font-size:1rem;border:1px solid var(--line);padding:12px 14px;border-radius:10px;background:var(--surface);color:var(--ink);width:100%;transition:border-color .2s ease, box-shadow .2s ease}input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.hint{font-size:0.85rem;color:var(--muted);display:block;margin-top:6px}.drow{display:grid;grid-template-columns:1fr 120px 24px;gap:8px;align-items:flex-end;margin-bottom:8px}.drow input{margin:0}.drow button{padding:8px;border:1px solid var(--line);background:var(--surface);border-radius:8px;cursor:pointer;color:var(--muted);font-size:0.9rem;transition:all 0.2s}.drow button:hover{color:var(--bad);border-color:var(--bad)}.add{padding:10px 16px;background:rgba(15,118,110,0.05);border:1px dashed rgba(15,118,110,0.3);border-radius:10px;font-size:0.9rem;color:var(--accent);cursor:pointer;margin-top:8px;transition:all 0.2s}.add:hover{border-color:var(--accent);background:var(--accent-soft)}.cta-wrap{text-align:center;margin-bottom:40px}.cta{padding:16px 40px;background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:var(--on-accent);border:none;border-radius:12px;font-weight:800;cursor:pointer;font-size:1rem;transition:all 0.2s;box-shadow:0 12px 20px rgba(15,118,110,0.22)}.cta:hover{transform:translateY(-2px);box-shadow:0 18px 28px rgba(15,118,110,0.28)}.err{background:#fde7ec;border:1px solid rgba(225,29,72,.25);border-radius:10px;padding:12px;color:#9f1239;display:none;margin-bottom:16px;font-size:0.9rem}.card-section{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:38px;box-shadow:var(--shadow)}
-.chart-wrap{margin-bottom:24px}.chart-box{display:flex;align-items:flex-end;justify-content:center;gap:16px;height:240px;background:linear-gradient(180deg, rgba(15,118,110,0.05), var(--surface));border-radius:16px;padding:16px;border:1px solid var(--line)}.chart-bar{flex:0 0 60px;border-radius:10px 10px 0 0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:8px 0;font-weight:700;font-size:0.9rem;color:white;position:relative;transition:all 0.3s;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2)}.chart-bar span{position:absolute;bottom:-22px;font-size:0.8rem;font-weight:700;color:var(--muted)}.chart-bar.ok{background:linear-gradient(180deg,#32d583,#16a34a)}.chart-bar.warn{background:linear-gradient(180deg,#fbbf24,#f59e0b)}.chart-bar.bad{background:linear-gradient(180deg,#fb7185,#e11d48)}.chart-legend{display:flex;justify-content:center;gap:24px;font-size:0.85rem;margin-bottom:10px;flex-wrap:wrap}.chart-legend span{display:flex;align-items:center;gap:6px;color:var(--muted)}.chart-legend strong{font-weight:700;color:var(--ink)}.chart-meter{margin-top:30px}.meter-label{display:flex;justify-content:space-between;font-size:0.9rem;font-weight:700;margin-bottom:8px}.meter-track{height:12px;background:var(--line);border-radius:999px;overflow:hidden}.meter-fill{height:100%;background:linear-gradient(90deg,var(--ok),var(--accent));border-radius:999px;transition:width 0.3s}
-.rows{margin-bottom:40px}.row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.4fr) minmax(0,1fr);align-items:center;gap:18px;box-shadow:0 8px 18px rgba(15,23,42,0.04);overflow:hidden;max-width:100%}.row .t{display:flex;justify-content:space-between;align-items:center;gap:12px;min-width:0;max-width:100%}.row .t span{font-size:0.9rem;color:var(--muted);line-height:1.35;min-width:0;max-width:100%}.row .t b{font-size:1.25rem;font-weight:800;flex-shrink:0}.row b.ok{color:var(--ok)}.row b.warn{color:var(--warn)}.row b.bad{color:var(--bad)}.bar{height:20px;background:var(--line);border-radius:999px;overflow:hidden;min-width:0}.bar i{display:block;height:100%;border-radius:999px;transition:width 0.3s}.bar .ok{background:linear-gradient(90deg,#32d583,#16a34a)}.bar .warn{background:linear-gradient(90deg,#fbbf24,#f59e0b)}.bar .bad{background:linear-gradient(90deg,#fb7185,#e11d48)}.row > span{font-size:0.85rem;color:var(--muted);line-height:1.45;word-break:break-word;overflow-wrap:anywhere;min-width:0}.sol{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 8px 18px rgba(15,23,42,0.04)}.sol h3{margin-bottom:8px}.sol p{font-size:0.95rem;color:var(--muted);margin:0 0 12px}.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:4px 8px;border-radius:6px;font-size:0.8rem;font-weight:700}.plans{display:grid;gap:16px;margin-bottom:40px}@media (min-width:768px){.plans{grid-template-columns:repeat(3,1fr)}}.plan{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 22px rgba(15,23,42,0.04)}.plan.hit{border-color:rgba(15,118,110,0.55);box-shadow:0 0 0 2px rgba(15,118,110,0.12)}.plan .h{padding:20px;border-bottom:1px solid var(--line)}.plan .h h3{margin-bottom:8px}.plan .pr{font-size:1.5rem;font-weight:800;color:var(--accent)}.plan ul{list-style:none;margin:0;padding:20px;flex-grow:1}.plan li{font-size:0.9rem;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--line)}.plan li:last-child{border:0;padding-bottom:0}.note{font-size:0.85rem;color:var(--muted);text-align:center;margin-bottom:40px}.contact{background:linear-gradient(135deg, rgba(15,118,110,0.08), rgba(45,212,191,0.08));border:1px solid rgba(15,118,110,0.2);border-radius:18px;padding:30px;text-align:center;box-shadow:var(--shadow)}.contact h3{font-size:1.3rem;margin-bottom:8px}.contact .grid{margin:24px 0}.contact .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}.btn-link{display:inline-block;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.95rem;transition:all 0.2s;cursor:pointer;border:none}.btn-link.main{background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:var(--on-accent)}.btn-link.main:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(15,118,110,0.25)}.btn-link:not(.main){background:var(--surface);color:var(--accent);border:1px solid rgba(15,118,110,0.18)}.btn-link:not(.main):hover{background:var(--accent);color:var(--on-accent)}
-.fb{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;text-align:center;box-shadow:var(--shadow)}.fb h3{font-size:1.3rem;margin-bottom:8px}.stars{display:flex;gap:8px;justify-content:center;margin:22px 0}.star{width:42px;height:42px;border:1px solid var(--line);background:0;border-radius:10px;font-size:1.55rem;cursor:pointer;transition:all 0.2s;color:var(--muted)}.star:hover{border-color:var(--accent);color:var(--accent)}.star.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}.q{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0}.q p{margin:0 0 12px;font-weight:700;font-size:0.95rem}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:0.9rem;transition:all 0.2s;color:var(--muted)}.chip[aria-pressed="true"]{background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:var(--on-accent);border-color:var(--accent)}.chip:hover{border-color:var(--accent)}textarea{resize:vertical;min-height:90px}#fbThanks{display:none}.split{display:flex;gap:12px;justify-content:center;margin:16px 0;height:16px}.split i{width:14px;border-radius:4px}.hero{font-size:0.9rem;margin-bottom:40px;text-align:center}.hero small{text-transform:uppercase;font-weight:700;letter-spacing:.05em;color:var(--muted)}.hero b{font-size:3.8rem;line-height:1;display:block;font-weight:900;margin:8px 0;letter-spacing:-.04em}.hero b.ok{color:var(--ok)}.hero b.warn{color:var(--warn)}.hero b.bad{color:var(--bad)}.hero p{margin:16px 0 0;color:var(--muted);font-size:0.95rem}@media (max-width:420px){.grid{grid-template-columns:1fr}.cta-wrap .cta{max-width:100%}.chart-box{gap:8px}.hero b{font-size:3.3rem}.row{grid-template-columns:1fr 1fr;align-items:start}.row > span{grid-column:1 / -1}.row .t{justify-content:flex-start}.row .t span{max-width:100%}} 
+:root{--bg:#fff;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--ac:#0f766e;--ac2:#0b5f59;--soft:#dff8f5;--on:#fff;--ok:#16a34a;--wa:#f59e0b;--bad:#e11d48;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--card:#111827;--ink:#e2e8f0;--mut:#94a3b8;--line:#1f2937;--ac:#2dd4bf;--ac2:#14b8a6;--soft:rgba(45,212,191,.14);--on:#052b29;--ok:#4ade80;--wa:#fbbf24;--bad:#fb7185}}
+:root[data-theme="dark"]{--bg:#0f172a;--card:#111827;--ink:#e2e8f0;--mut:#94a3b8;--line:#1f2937;--ac:#2dd4bf;--ac2:#14b8a6;--soft:rgba(45,212,191,.14);--on:#052b29;--ok:#4ade80;--wa:#fbbf24;--bad:#fb7185}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:2rem;line-height:1.1;font-weight:800;letter-spacing:-.03em;margin:0 0 8px}
+h2{font-size:.95rem;font-weight:800;margin:36px 0 10px;text-transform:uppercase;letter-spacing:.05em}
+h3{font-size:1rem;margin:0 0 6px}
+.ban{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center;margin-bottom:24px}
+.ban p,.mut{color:var(--mut);margin:0;font-size:.95rem}
+.seg{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:24px}
+.seg button{flex:1;padding:10px;border:0;border-radius:8px;background:none;color:var(--mut);font:600 .9rem inherit;font-family:inherit;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ac);color:var(--on)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}.full{grid-column:1/-1}
+label{display:block;font-size:.78rem;font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+input{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input:focus{outline:2px solid var(--ac);outline-offset:1px}
+.hint{font-size:.85rem;color:var(--mut);display:block;margin-top:6px}
+.drow{display:grid;grid-template-columns:1fr 110px 36px;gap:8px;margin-bottom:8px}
+.drow button,.add{border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:8px;cursor:pointer;font:inherit}
+.add{padding:10px 14px;border-style:dashed;color:var(--ac);font-size:.9rem}
+.cta{display:block;margin:0 auto 24px;padding:16px 40px;background:var(--ac);color:var(--on);border:0;border-radius:12px;font:800 1rem inherit;font-family:inherit;cursor:pointer}
+.err{display:none;background:#fde7ec;color:#9f1239;border-radius:10px;padding:12px;margin-bottom:16px;font-size:.9rem}
+.hero{text-align:center;margin-bottom:24px}.hero b{display:block;font-size:4rem;line-height:1;font-weight:800;margin:6px 0}
+.ok{color:var(--ok)}.warn{color:var(--wa)}.bad{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.meter{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}.meter i,.bar i{display:block;height:100%;border-radius:99px}
+.kpi{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center}
+.kpi .v{font-weight:800;font-size:1.2rem}.bar{grid-column:1/-1;height:14px;background:var(--line);border-radius:99px;overflow:hidden}
+.kpi span{grid-column:1/-1;font-size:.85rem;color:var(--mut);overflow-wrap:anywhere}
+i.ok{background:var(--ok)}i.warn{background:var(--wa)}i.bad{background:var(--bad)}
+.tag{display:inline-block;background:var(--soft);color:var(--ac);padding:3px 8px;border-radius:6px;font-size:.78rem;font-weight:800}
+.plans{display:grid;gap:12px}@media(min-width:700px){.plans{grid-template-columns:repeat(3,1fr)}}
+.plan.hit{border-color:var(--ac);outline:2px solid var(--soft)}.pr{font-size:1.4rem;font-weight:800;color:var(--ac);margin-bottom:8px}
+.plan ul{margin:0;padding-left:1.1rem;color:var(--mut);font-size:.9rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.btn{padding:12px 20px;border-radius:10px;border:1px solid var(--line);color:var(--ac);text-decoration:none;font-weight:800;font-size:.95rem}.btn.m{background:var(--ac);color:var(--on);border-color:var(--ac)}
+.cbox{display:flex;align-items:flex-end;justify-content:center;gap:16px;height:220px;border:1px solid var(--line);border-radius:14px;padding:16px 16px 34px;margin-top:14px}.cb{flex:0 0 64px;border-radius:10px 10px 0 0;position:relative}.cb span{position:absolute;bottom:-24px;left:0;right:0;text-align:center;font-size:.8rem;font-weight:800;color:var(--mut)}.cb.ok{background:var(--ok)}.cb.warn{background:var(--wa)}.cb.bad{background:var(--bad)}.leg{display:flex;justify-content:center;gap:20px;font-size:.85rem;color:var(--mut);margin-top:8px;flex-wrap:wrap}.fb{text-align:center}.stars{display:flex;gap:8px;justify-content:center;margin:18px 0}.star{width:42px;height:42px;border:1px solid var(--line);background:none;border-radius:10px;font-size:1.5rem;color:var(--mut);cursor:pointer}.star.on{background:var(--soft);border-color:var(--ac);color:var(--ac)}.q{text-align:left;border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}.q p{margin:0 0 10px;font-weight:800;font-size:.95rem}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--mut);font:inherit;cursor:pointer}.chip[aria-pressed=true]{background:var(--ac);color:var(--on);border-color:var(--ac)}textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);min-height:80px}
+:root{--sh:0 18px 40px rgba(15,23,42,.09);--sh2:0 6px 18px rgba(15,23,42,.06);--glow:rgba(20,184,166,.16);--g1:linear-gradient(135deg,#14b8a6,#0b5f59)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sh:0 18px 40px rgba(0,0,0,.4);--sh2:0 6px 18px rgba(0,0,0,.3);--glow:rgba(45,212,191,.12);--g1:linear-gradient(135deg,#5eead4,#14b8a6)}}
+:root[data-theme="dark"]{--sh:0 18px 40px rgba(0,0,0,.4);--sh2:0 6px 18px rgba(0,0,0,.3);--glow:rgba(45,212,191,.12);--g1:linear-gradient(135deg,#5eead4,#14b8a6)}
+body{background:radial-gradient(900px 420px at 50% -80px,var(--glow),transparent 70%),var(--bg)}
+.ban{position:relative;overflow:hidden;padding:32px 24px 26px;border:1px solid var(--line);background:radial-gradient(520px 200px at 50% 0,var(--glow),transparent 75%),var(--card);box-shadow:var(--sh)}
+.ban::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--g1)}
+.ban h1{font-size:clamp(2rem,7vw,2.8rem);letter-spacing:-.04em}
+.sbar{display:flex;height:16px;max-width:340px;margin:22px auto 12px;border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.12)}
+.sbar .c{flex:72;background:linear-gradient(90deg,#94a3b8,#64748b)}.sbar .g{flex:28;background:var(--g1)}
+.leg span{display:flex;align-items:center;gap:6px}u{display:inline-block;width:12px;height:12px;border-radius:4px;text-decoration:none}u.c{background:#7b8ba0}u.g{background:var(--ac)}
+.card{box-shadow:var(--sh2);border-radius:16px}
+.seg{box-shadow:var(--sh2)}.seg button[aria-pressed=true]{background:var(--g1);box-shadow:0 4px 12px rgba(15,118,110,.3)}
+input:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 4px var(--soft)}
+.add:hover{border-color:var(--ac);background:var(--soft)}
+.cta{background:var(--g1);box-shadow:0 12px 24px rgba(15,118,110,.28)}
+.btn.m{background:var(--g1);border-color:transparent;box-shadow:0 6px 16px rgba(15,118,110,.25)}
+.meter{height:14px;box-shadow:inset 0 1px 2px rgba(0,0,0,.1)}.meter i{background:linear-gradient(90deg,#32d583,var(--ac))}
+i.ok{background:linear-gradient(90deg,#32d583,var(--ok))}i.warn{background:linear-gradient(90deg,#fbbf24,var(--wa))}i.bad{background:linear-gradient(90deg,#fb7185,var(--bad))}
+.cb.ok{background:linear-gradient(180deg,#32d583,var(--ok))}.cb.warn{background:linear-gradient(180deg,#fbbf24,var(--wa))}.cb.bad{background:linear-gradient(180deg,#fb7185,var(--bad))}
+.cbox{background:linear-gradient(180deg,var(--soft),transparent)}
+.plan.hit{border-color:var(--ac);outline:0;box-shadow:0 0 0 3px var(--soft),var(--sh)}
+.hero b{letter-spacing:-.05em}
+@media (prefers-reduced-motion:no-preference){.cta,.btn{transition:transform .2s,box-shadow .2s}.cta:hover,.btn.m:hover{transform:translateY(-2px)}.meter i,.bar i{transition:width .4s}}
+.tg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:var(--sh2)}.tg:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.cbox{gap:8px}}
 </style>
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
+<button class="tg" id="tg" type="button" aria-label="Cambiar entre modo claro y oscuro"></button>
 <main>
-<header class="banner">
-  <h1>¿Cuánto ganas realmente?</h1>
-  <p>Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p>
-  <div class="split" aria-hidden="true"><i class="c"></i><i class="g"></i></div>
-  <div class="legend"><span>Costos y gastos</span><span>Lo que realmente te queda</span></div>
-</header>
-
-<div class="seg" role="group" aria-label="Tipo de cliente">
-  <button type="button" id="b1" aria-pressed="true">Profesionista</button>
-  <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
-</div>
+<header class="ban"><h1>¿Cuánto ganas realmente?</h1><p>Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p><div class="sbar" aria-hidden="true"><i class="c"></i><i class="g"></i></div><div class="leg" style="margin-top:0"><span><u class="c"></u>Costos y gastos</span><span><u class="g"></u>Lo que realmente te queda</span></div></header>
+<div class="seg" role="group" aria-label="Tipo de cliente"><button type="button" id="b1" aria-pressed="true">Profesionista</button><button type="button" id="b2" aria-pressed="false">Pyme de servicios</button></div>
 <div class="grid">
-  <div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="0"></div>
-  <div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="0"></div>
-  <div style="grid-column:1/-1"><label>Clientes con pagos vencidos</label><div id="debts"></div><button type="button" class="add" id="addD">+ Agregar cliente</button><div class="hint" id="dtot" style="display:none"></div></div>
-  
-  <div style="grid-column:1/-1"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="0"><span class="hint">Se divide en tus ingresos totales. Si supera el 30%, tu negocio es muy dependiente.</span></div>
-  <div><label for="ing3">Ingresos de los últimos 3 meses ($)</label><input id="ing3" type="number" inputmode="decimal" placeholder="Opcional"></div>
-  <div><label for="top3">Tu mejor cliente en esos 3 meses ($)</label><input id="top3" type="number" inputmode="decimal" placeholder="Opcional"></div>
-  <span class="hint" style="grid-column:1/-1;margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses, un dato más confiable que un solo mes.</span>
-  <div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="0"></div>
-  <div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="0"></div>
-  <input id="car" type="hidden" value="0">
-  <input id="ncar" type="hidden" value="0">
+<div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="0"></div>
+<div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="0"></div>
+<div class="full"><label>Clientes con pagos vencidos</label><div id="debts"></div><button type="button" class="add" id="addD">+ Agregar cliente</button><span class="hint" id="dtot" style="display:none"></span></div>
+<div class="full"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="0"><span class="hint">Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.</span></div>
+<div><label for="ing3">Ingresos de los últimos 3 meses ($)</label><input id="ing3" type="number" inputmode="decimal" value="0"></div>
+<div><label for="top3">Tu mejor cliente en esos 3 meses ($)</label><input id="top3" type="number" inputmode="decimal" value="0"></div>
+<span class="hint full" style="margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.</span>
+<div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="0"></div>
+<div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="0"></div>
 </div>
-<div class="cta-wrap"><button class="cta" id="go" type="button">Ver mi diagnóstico</button></div>
+<button class="cta" id="go" type="button">Ver mi diagnóstico</button>
 <div class="err" id="err" role="alert"></div>
-
-<section id="res" aria-live="polite" style="display:none">
-  <div class="hero" id="hero"></div>
-
-  <div class="card-section">
-    <h2 style="margin-top:0">Resultado general</h2>
-    <div class="chart-wrap">
-      <div class="chart-box" id="chartBox"></div>
-      <div class="chart-legend">
-        <span><strong>Margen</strong> neto</span>
-        <span><strong>Cartera</strong> vencida</span>
-        <span><strong>Dependencia</strong></span>
-      </div>
-    </div>
-    <div class="chart-meter">
-      <div class="meter-label"><span>Salud financiera</span><span id="healthScore">0%</span></div>
-      <div class="meter-track"><div class="meter-fill" id="healthFill" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <div class="rows" id="kpis"></div>
-  <h2>Soluciones sugeridas</h2>
-  <div id="sols"></div>
-  <h2>Tu plan recomendado</h2>
-  <div class="plans" id="plans"></div>
-  <p class="note">Precios de referencia en USD al mes. Ajústalos a tu país y a tu costo de operación.</p>
-  <div class="contact">
-    <h3>¿Lo revisamos juntos?</h3>
-    <p class="sub">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
-    <div class="grid">
-      <div><label for="nom">Tu nombre</label><input id="nom" type="text" autocomplete="name"></div>
-      <div><label for="neg">Tu negocio</label><input id="neg" type="text"></div>
-    </div>
-    <div class="btns">
-      <a class="btn-link main" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
-      <a class="btn-link" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
-      <a class="btn-link" id="lMail">Enviar por correo</a>
-    </div>
-  </div>
-
-  <div class="fb" id="fb">
-    <div id="fbForm">
-      <h3>¿Qué tal te pareció?</h3>
-      <p class="sub" style="margin:0">Toca las estrellas que quieras, del 1 al 5.</p>
-      <div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div>
-      <div class="q"><p>¿El diagnóstico refleja tu situación real?</p><div class="chips" data-q="real"><button type="button" class="chip" aria-pressed="false">Sí</button><button type="button" class="chip" aria-pressed="false">No</button><button type="button" class="chip" aria-pressed="false">Parcialmente</button></div></div>
-      <div class="q"><p>¿Entendiste los resultados fácilmente?</p><div class="chips" data-q="claro"><button type="button" class="chip" aria-pressed="false">Muy fácil</button><button type="button" class="chip" aria-pressed="false">Fácil</button><button type="button" class="chip" aria-pressed="false">Complicado</button></div></div>
-      <div class="q"><p>¿Pagarías por un plan con estas soluciones?</p><div class="chips" data-q="pago"><button type="button" class="chip" aria-pressed="false">Sí</button><button type="button" class="chip" aria-pressed="false">No</button><button type="button" class="chip" aria-pressed="false">Posiblemente</button></div></div>
-      <div class="q"><p>¿Qué te gustaría que agregáramos? (opcional)</p><textarea id="fbTxt" aria-label="Sugerencia"></textarea></div>
-      <div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div>
-      <button class="cta" id="fbSend" type="button">Enviar opinión</button>
-    </div>
-    <div id="fbThanks">
-      <h3>¡Gracias por tu opinión!</h3>
-      <p class="sub" style="margin:0">Si quieres, mándamela directo para que la lea.</p>
-      <div class="btns">
-        <a class="btn-link main" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
-        <a class="btn-link" id="fMail">Enviar por correo</a>
-      </div>
-    </div>
-  </div>
+<section id="res" aria-live="polite" hidden>
+<div class="hero" id="hero"></div>
+<div class="card"><div style="display:flex;justify-content:space-between;font-weight:800"><span>Salud financiera</span><span id="hs">0%</span></div><div class="meter"><i id="hf2" class="ok" style="width:0"></i></div></div>
+<div class="card"><h3>Resultado general</h3><div class="cbox" id="cbox"></div><div class="leg"><span><b>Margen</b> neto</span><span><b>Cartera</b> vencida</span><span><b>Dependencia</b></span></div></div>
+<div id="kpis"></div>
+<h2>Soluciones sugeridas</h2><div id="sols"></div>
+<h2>Tu plan recomendado</h2><div class="plans" id="plans"></div>
+<p class="mut" style="text-align:center;margin:12px 0 32px">Precios de referencia en USD al mes.</p>
+<div class="card" style="text-align:center;padding:24px"><h3>¿Lo revisamos juntos?</h3><p class="mut">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
+<div class="grid" style="margin:20px 0 0;text-align:left"><div><label for="nom">Tu nombre</label><input id="nom" autocomplete="name"></div><div><label for="neg">Tu negocio</label><input id="neg"></div></div>
+<div class="btns"><a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a><a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a><a class="btn" id="lMail">Enviar por correo</a></div></div>
+<div class="card fb" style="padding:24px"><div id="fbForm"><h3>¿Qué tal te pareció?</h3><p class="mut">Toca las estrellas que quieras, del 1 al 5.</p><div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div><div id="qs"></div><div class="q"><p>¿Qué te gustaría que agregáramos? (opcional)</p><textarea id="fbTxt" aria-label="Sugerencia"></textarea></div><div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div><button class="cta" id="fbSend" type="button" style="margin-bottom:0">Enviar opinión</button></div><div id="fbThanks" style="display:none"><h3>¡Gracias por tu opinión!</h3><p class="mut">Si quieres, mándamela directo para que la lea.</p><div class="btns"><a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a><a class="btn" id="fMail">Enviar por correo</a></div></div></div>
 </section>
 </main>
-
 <script>
-/* CONFIGURA TUS DATOS AQUÍ */
-var CALENDAR_URL = "https://calendly.com/TU_USUARIO";
-var WHATSAPP = "521XXXXXXXXXX"; /* país + número, sin signos */
-var EMAIL = "yovier.cruz@gmail.com";
-var resumen = "";
-var tipo = "pro";
-var $ = function(i){return document.getElementById(i)};
-function setTipo(t){tipo=t;$("b1").setAttribute("aria-pressed",t==="pro");$("b2").setAttribute("aria-pressed",t==="pyme")}
-$("b1").onclick=function(){setTipo("pro")};
-$("b2").onclick=function(){setTipo("pyme")};
-
-var PLANES = {
-  basico:{n:"Básico",p:"$19",l:["Carga de datos con plantilla","Tablero de 5 KPIs","Reporte mensual por correo"]},
-  pro:{n:"Pro",p:"$59",l:["Todo lo del Básico","Rentabilidad por cliente y servicio","Alertas de cobranza y proyección a 90 días"]},
-  medida:{n:"A la medida",p:"Desde $500 + $120/mes",l:["Diagnóstico con el experto","Conexión a tu facturación o contabilidad","Tablero personalizado y mantenimiento"]}
-};
-var RANK={basico:1,pro:2,medida:3};
+var CAL="https://calendly.com/TU_USUARIO",WA="521XXXXXXXXXX",MAIL="yovier.cruz@gmail.com",resumen="",tipo="pro",debts=[];
+var $=function(i){return document.getElementById(i)};
+var PL={basico:{n:"Básico",p:"$19",l:["Carga de datos con plantilla","Tablero de 5 KPIs","Reporte mensual por correo"]},pro:{n:"Pro",p:"$59",l:["Todo lo del Básico","Rentabilidad por cliente y servicio","Alertas de cobranza y proyección a 90 días"]},medida:{n:"A la medida",p:"Desde $500 + $120/mes",l:["Diagnóstico con el experto","Conexión a tu facturación","Tablero personalizado"]}};
+var RK={basico:1,pro:2,medida:3};
+function setT(t){tipo=t;$("b1").setAttribute("aria-pressed",t==="pro");$("b2").setAttribute("aria-pressed",t==="pyme")}
+$("b1").onclick=function(){setT("pro")};$("b2").onclick=function(){setT("pyme")};
 function pct(a,b){return b>0?a/b*100:0}
-function cls(v,good,bad,inv){
-  if(inv){return v<=good?"ok":v>=bad?"bad":"warn"}
-  return v>=good?"ok":v<=bad?"bad":"warn";
-}
-function cap(n,min,max){return Math.min(Math.max(n,min),max)}
-function updLinks(){
-  var msg="Hola, soy "+($("nom").value||"(mi nombre)")+" de "+($("neg").value||"(mi negocio)")+". Hice el diagnóstico: "+resumen+" Quiero agendar una revisión.";
-  $("lCal").href=CALENDAR_URL;
-  $("lWa").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
-  $("lMail").href="mailto:"+EMAIL+"?subject="+encodeURIComponent("Diagnóstico de rentabilidad")+"&body="+encodeURIComponent(msg);
-}
-$("nom").oninput=updLinks;$("neg").oninput=updLinks;
-
-var debts=[];
+function cls(v,g,b,inv){return inv?(v<=g?"ok":v>=b?"bad":"warn"):(v>=g?"ok":v<=b?"bad":"warn")}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function debtTotals(){var t=0,c=0;debts.forEach(function(d){if(d.m>0){t+=d.m;c++}});$("car").value=t;$("ncar").value=c;$("dtot").textContent="Total vencido: $"+t.toLocaleString()+" en "+c+(c===1?" cliente":" clientes");$("dtot").style.display=t>0?"block":"none"}
-function renderDebts(){$("debts").innerHTML=debts.map(function(d,i){return '<div class="drow"><input aria-label="Nombre del cliente" data-i="'+i+'" data-k="n" value="'+esc(d.n)+'" placeholder="Cliente"><input aria-label="Monto vencido" data-i="'+i+'" data-k="m" type="number" value="'+d.m+'" inputmode="decimal"><button aria-label="Eliminar cliente" data-del="'+i+'" type="button">✕</button></div>'}).join('');debtTotals()}
-$("debts").oninput=function(e){var i=e.target.getAttribute("data-i"),k=e.target.getAttribute("data-k");if(i===null)return;if(k==="m"){debts[i].m=+e.target.value||0}else{debts[i].n=e.target.value}debtTotals()};
-$("debts").onclick=function(e){var d=e.target.getAttribute("data-del");if(d!==null){debts.splice(+d,1);renderDebts()}};
-$("addD").onclick=function(){debts.push({n:"",m:0});renderDebts()};
-function debtHtml(){var l=debts.filter(function(d){return d.m>0}).sort(function(a,b){return b.m-a.m});if(!l.length)return "";var t=0;l.forEach(function(d){t+=d.m});return '<div class="row"><div class="t"><span>Clientes con pagos vencidos</span></div><div class="bar" style="grid-column:2"><i class="warn" style="width:100%"></i></div><span>'+l.map(function(d){return'<b>'+d.n+'</b> $'+d.m.toLocaleString()}).join(", ")+'</span></div>'}
-renderDebts();
-
-function renderChart(margen, cartera, dependencia){
-  var bars = [
-    {label:'Margen', value: cap(Math.abs(margen), 0, 100), class: cls(margen, 30, 15)},
-    {label:'Cartera', value: cap(cartera, 0, 100), class: cls(cartera, 15, 30, true)},
-    {label:'Depend.', value: cap(dependencia, 0, 100), class: cls(dependencia, 30, 50, true)}
-  ];
-  var html = bars.map(function(bar){
-    var h = Math.max(18, bar.value);
-    return '<div class="chart-bar '+bar.class+'" data-label="'+bar.label+'" style="height:'+h+'%;" aria-label="'+bar.label+' '+bar.value+'%"><span>'+Math.round(bar.value)+'%</span></div>';
-  }).join('');
-  $("chartBox").innerHTML = html;
-}
-
-function renderHealthScore(score){
-  $("healthFill").style.width = score + "%";
-  $("healthScore").textContent = Math.round(score) + "%";
-}
-
-var fb={stars:0,real:"",claro:"",pago:""};
-(function(){
-  var box=$("stars"),h="";
-  for(var i=1;i<=5;i++)h+='<button type="button" class="star" role="radio" aria-checked="false" aria-label="'+i+(i===1?' estrella':' estrellas')+'" data-s="'+i+'">★</button>';
-  box.innerHTML=h;
-  box.onclick=function(e){var s=e.target.getAttribute("data-s");if(!s)return;fb.stars=+s;
-    [].forEach.call(box.children,function(b,j){b.className="star"+(j<fb.stars?" on":"");b.setAttribute("aria-checked",j+1===fb.stars)});
-    $("fbErr").style.display="none"};
-  [].forEach.call(document.querySelectorAll(".chips"),function(g){
-    g.onclick=function(e){if(e.target.className.indexOf("chip")<0)return;
-      fb[g.getAttribute("data-q")]=e.target.textContent;
-      [].forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===e.target)})}});
-  $("fbSend").onclick=function(){
-    if(!fb.stars){$("fbErr").style.display="block";return}
-    var m="Mi opinión sobre el diagnóstico: "+fb.stars+"/5 estrellas. ¿Refleja mi situación? "+(fb.real||"sin responder")+". ¿Resultados claros? "+(fb.claro||"sin responder")+". ¿Pagaría por un plan? "+(fb.pago||"sin responder")+". Sugerencia: "+(($("fbTxt").value||"").trim()||"sin sugerencias");
-    $("fWa").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m);
-    $("fMail").href="mailto:"+EMAIL+"?subject="+encodeURIComponent("Opinión sobre el diagnóstico")+"&body="+encodeURIComponent(m);
-    $("fbForm").style.display="none";$("fbThanks").style.display="block"};
-})();
-
+function fm(n){return n.toLocaleString("es-MX")}
+function links(){var m="Hola, soy "+($("nom").value||"(mi nombre)")+" de "+($("neg").value||"(mi negocio)")+". Hice el diagnóstico: "+resumen+" Quiero agendar una revisión.";
+$("lCal").href=CAL;$("lWa").href="https://wa.me/"+WA+"?text="+encodeURIComponent(m);$("lMail").href="mailto:"+MAIL+"?subject="+encodeURIComponent("Diagnóstico de rentabilidad")+"&body="+encodeURIComponent(m)}
+$("nom").oninput=links;$("neg").oninput=links;
+function tot(){var t=0,c=0;debts.forEach(function(d){if(d.m>0){t+=d.m;c++}});$("dtot").textContent="Total vencido: $"+fm(t)+" en "+c+(c===1?" cliente":" clientes");$("dtot").style.display=t>0?"block":"none";return[t,c]}
+function rd(){$("debts").innerHTML=debts.map(function(d,i){return'<div class="drow"><input aria-label="Nombre del cliente" data-i="'+i+'" data-k="n" value="'+esc(d.n)+'" placeholder="Cliente"><input aria-label="Monto vencido" data-i="'+i+'" data-k="m" type="number" value="'+d.m+'" inputmode="decimal"><button aria-label="Eliminar cliente" data-del="'+i+'" type="button">✕</button></div>'}).join("");tot()}
+$("debts").oninput=function(e){var i=e.target.getAttribute("data-i"),k=e.target.getAttribute("data-k");if(i===null)return;if(k==="m")debts[i].m=+e.target.value||0;else debts[i].n=e.target.value;tot()};
+$("debts").onclick=function(e){var d=e.target.getAttribute("data-del");if(d!==null){debts.splice(+d,1);rd()}};
+$("addD").onclick=function(){debts.push({n:"",m:0});rd()};
+document.addEventListener("focusin",function(e){if(e.target.type==="number")e.target.select()});
+rd();
+var fbd={stars:0},QS=[["real","¿El diagnóstico refleja tu situación real?",["Sí","No","Parcialmente"]],["claro","¿Entendiste los resultados fácilmente?",["Muy fácil","Fácil","Complicado"]],["pago","¿Pagarías por un plan con estas soluciones?",["Sí","No","Posiblemente"]]];
+$("stars").innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" class="star" role="radio" aria-checked="false" aria-label="'+i+(i===1?" estrella":" estrellas")+'" data-s="'+i+'">★</button>'}).join("");
+$("stars").onclick=function(e){var s=e.target.getAttribute("data-s");if(!s)return;fbd.stars=+s;[].forEach.call($("stars").children,function(b,j){b.className="star"+(j<fbd.stars?" on":"");b.setAttribute("aria-checked",j+1===fbd.stars)});$("fbErr").style.display="none"};
+$("qs").innerHTML=QS.map(function(q){return'<div class="q"><p>'+q[1]+'</p><div class="chips" data-q="'+q[0]+'">'+q[2].map(function(o){return'<button type="button" class="chip" aria-pressed="false">'+o+"</button>"}).join("")+"</div></div>"}).join("");
+[].forEach.call(document.querySelectorAll(".chips"),function(g){g.onclick=function(e){if(e.target.className.indexOf("chip")<0)return;fbd[g.getAttribute("data-q")]=e.target.textContent;[].forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===e.target)})}});
+$("fbSend").onclick=function(){if(!fbd.stars){$("fbErr").style.display="block";return}var m="Mi opinión sobre el diagnóstico: "+fbd.stars+"/5 estrellas. ¿Refleja mi situación? "+(fbd.real||"sin responder")+". ¿Resultados claros? "+(fbd.claro||"sin responder")+". ¿Pagaría por un plan? "+(fbd.pago||"sin responder")+". Sugerencia: "+(($("fbTxt").value||"").trim()||"sin sugerencias");$("fWa").href="https://wa.me/"+WA+"?text="+encodeURIComponent(m);$("fMail").href="mailto:"+MAIL+"?subject="+encodeURIComponent("Opinión sobre el diagnóstico")+"&body="+encodeURIComponent(m);$("fbForm").style.display="none";$("fbThanks").style.display="block"};
+var R=document.documentElement,dm=window.matchMedia("(prefers-color-scheme: dark)");function isD(){var t=R.getAttribute("data-theme");return t?t==="dark":dm.matches}function ic(){$("tg").textContent=isD()?"☀":"☾"}
+$("tg").onclick=function(){var n=isD()?"light":"dark";R.setAttribute("data-theme",n);try{localStorage.setItem("tema",n)}catch(e){}ic()};
+if(dm.addEventListener)dm.addEventListener("change",ic);ic();
 $("go").onclick=function(){
-  var ing=+$("ing").value||0,cos=+$("cos").value||0,car=+$("car").value||0,top=+$("top").value||0,hf=+$("hf").value||0,hd=+$("hd").value||0,ncar=+$("ncar").value||0;
-  var ing3=+$("ing3").value||0,top3=+$("top3").value||0,err=[];
-  if(ing<=0)err.push("Escribe tus ingresos del mes.");
-  if([ing,cos,car,top,hf,hd,ncar,ing3,top3].some(function(v){return v<0}))err.push("Usa solo números positivos.");
-  if(top>ing)err.push("Tu mejor cliente no puede haber pagado más que tus ingresos del mes.");
-  if(hf>hd)err.push("Las horas facturadas no pueden superar las disponibles.");
-  if((ing3>0)!==(top3>0))err.push("Llena los dos campos de 3 meses o déjalos vacíos.");
-  else if(top3>ing3)err.push("En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.");
-  if(err.length){$("err").innerHTML=err.join("<br>");$("err").style.display="block";return}
-  $("err").style.display="none";
-  var use3=ing3>0&&top3>0;
-  var margen=pct(ing-cos,ing), cart=pct(car,ing), conc=use3?pct(top3,ing3):pct(top,ing), util=pct(hf,hd);
-  var mc=cls(margen,30,15);
-  var frase=mc==="ok"?"Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.":mc==="warn"?"Tu margen es aceptable, pero hay espacio para mejorar.":"De cada $100 que cobras, te quedan muy pocos. Acciones urgentes: reducir costos, aumentar precios o eliminar servicios no rentables.";
-  $("hero").innerHTML='<small>Tu margen este mes</small><b class="'+mc+'">'+margen.toFixed(0)+'%</b><p>'+frase+'</p>';
-
-  var score = 100 - Math.min(50, cart) - Math.min(30, conc) + Math.min(20, margen/2) - Math.min(20, 100-util)/2;
-  score = cap(score, 0, 100);
-  renderHealthScore(score);
-  renderChart(Math.min(100, margen), Math.min(100, cart), Math.min(100, conc));
-
-  var k=[
-    ["Margen neto",margen,"De cada $100 que cobras, te quedan $"+margen.toFixed(0)+" después de costos y gastos",cls(margen,30,15)],
-    ["Cartera vencida",cart,"$"+car.toLocaleString()+" por cobrar"+(ncar?" en "+ncar+(ncar===1?" cliente":" clientes"):"")+", sobre tus ingresos del mes",cls(cart,15,30,true)],
-    ["Dependencia de un cliente",conc,use3?"$"+top3.toLocaleString()+" de $"+ing3.toLocaleString()+" en 3 meses":"$"+top.toLocaleString()+" de $"+ing.toLocaleString()+" este mes",cls(conc,30,50,true)],
-    ["Uso de tu tiempo",util,"Horas facturadas sobre disponibles",cls(util,70,50)]
-  ];
-  $("kpis").innerHTML=k.map(function(x){var w=Math.max(2,Math.min(100,x[1]));
-    return '<div class="row"><div class="t"><span>'+x[0]+'</span><b class="'+x[3]+'">'+x[1].toFixed(0)+'%</b></div><div class="bar"><i class="'+x[3]+'" style="width:'+w+'%"></i></div><span>'+x[2]+'</span></div>'}).join('');
-
-  $("kpis").innerHTML+=debtHtml();
-  var s=[];
-  if(margen<25) s.push(["Análisis de rentabilidad por cliente y servicio","Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.","pro"]);
-  if(cart>=20) s.push(["Seguimiento de cobranza con alertas","Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.","basico"]);
-  if(conc>=40) s.push(["Reducir dependencia de un cliente","Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.","pro"]);
-  if(util<60) s.push([tipo==="pro"?"Tablero de horas y precio por hora":"Utilización del equipo","Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.","pro"]);
-  if(s.length===0) s.push(["Proyección de flujo de caja a 90 días","Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.","basico"]);
-  s.push(["Reporte mensual automático","Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.","basico"]);
-  if(tipo==="pyme" && s.length>=4) s.push(["Implementación a la medida","Varias alertas a la vez piden un tablero conectado a tu facturación y ajustado a tu negocio.","medida"]);
-  $("sols").innerHTML=s.map(function(x){return '<div class="sol"><h3>'+x[0]+'</h3><p>'+x[1]+'</p><span class="tag">Incluido en '+PLANES[x[2]].n+'</span></div>'}).join("");
-
-  var rec="basico";
-  s.forEach(function(x){if(RANK[x[2]]>RANK[rec])rec=x[2]});
-  if(tipo==="pro"&&rec=="medida")rec="pro";
-  $("plans").innerHTML=Object.keys(PLANES).map(function(key){var p=PLANES[key];
-    return '<div class="plan'+(key===rec?' hit':'')+'"><div class="h"><h3>'+p.n+(key===rec?' · recomendado':'')+'</h3><div class="pr">'+p.p+'</div></div><ul>'+p.l.map(function(i){return '<li>'+i+'</li>'}).join('')+'</ul></div>'}).join('');
-
-  resumen=(tipo==="pro"?"Profesionista":"Pyme de servicios")+" | Margen "+margen.toFixed(0)+"%, cartera vencida "+cart.toFixed(0)+"%, dependencia "+conc.toFixed(0)+"%, uso de tiempo "+util.toFixed(0)+"%";
-  updLinks();
-  $("res").style.display="block";
-  $("res").scrollIntoView({behavior:"smooth"});
-};
+var g=function(i){return+$(i).value||0},ing=g("ing"),cos=g("cos"),top=g("top"),hf=g("hf"),hd=g("hd"),i3=g("ing3"),t3=g("top3"),ct=tot(),car=ct[0],nc=ct[1],er=[];
+if(ing<=0)er.push("Escribe tus ingresos del mes.");
+if([ing,cos,top,hf,hd,i3,t3].some(function(v){return v<0}))er.push("Usa solo números positivos.");
+if(top>ing)er.push("Tu mejor cliente no puede haber pagado más que tus ingresos del mes.");
+if(hf>hd)er.push("Las horas facturadas no pueden superar las disponibles.");
+if((i3>0)!==(t3>0))er.push("Llena los dos campos de 3 meses o déjalos en 0.");else if(t3>i3)er.push("En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.");
+if(er.length){$("err").innerHTML=er.join("<br>");$("err").style.display="block";return}
+$("err").style.display="none";
+var u3=i3>0&&t3>0,mg=pct(ing-cos,ing),ca=pct(car,ing),co=u3?pct(t3,i3):pct(top,ing),ut=pct(hf,hd),mc=cls(mg,30,15);
+var fr=mc==="ok"?"Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.":mc==="warn"?"Tu margen es aceptable, pero hay espacio para mejorar.":"De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.";
+$("hero").innerHTML='<span class="mut">Tu margen este mes</span><b class="'+mc+'">'+mg.toFixed(0)+'%</b><p class="mut">'+fr+'</p>';
+var sc=Math.max(0,Math.min(100,100-Math.min(50,ca)-Math.min(30,co)+Math.min(20,mg/2)-Math.min(20,100-ut)/2));
+$("hs").textContent=Math.round(sc)+"%";$("hf2").style.width=sc+"%";
+$("cbox").innerHTML=[[mg,cls(mg,30,15)],[ca,cls(ca,15,30,true)],[co,cls(co,30,50,true)]].map(function(x){var v=Math.max(0,Math.min(100,Math.abs(x[0])));return'<div class="cb '+x[1]+'" style="height:'+Math.max(8,v)+'%"><span>'+Math.round(v)+'%</span></div>'}).join("");
+var k=[["Margen neto",mg,"De cada $100 que cobras, te quedan $"+mg.toFixed(0)+" después de costos y gastos",cls(mg,30,15)],
+["Cartera vencida",ca,"$"+fm(car)+" por cobrar"+(nc?" en "+nc+(nc===1?" cliente":" clientes"):"")+", sobre tus ingresos del mes",cls(ca,15,30,true)],
+["Dependencia de un cliente",co,u3?"$"+fm(t3)+" de $"+fm(i3)+" en 3 meses":"$"+fm(top)+" de $"+fm(ing)+" este mes",cls(co,30,50,true)],
+["Uso de tu tiempo",ut,"Horas facturadas sobre disponibles",cls(ut,70,50)]];
+var dl=debts.filter(function(d){return d.m>0}).sort(function(a,b){return b.m-a.m});
+$("kpis").innerHTML=k.map(function(x){return'<div class="card kpi"><b>'+x[0]+'</b><b class="v '+x[3]+'">'+x[1].toFixed(0)+'%</b><div class="bar"><i class="'+x[3]+'" style="width:'+Math.max(2,Math.min(100,x[1]))+'%"></i></div><span>'+x[2]+'</span></div>'}).join("")+(dl.length?'<div class="card kpi"><b>Clientes con pagos vencidos</b><span>'+dl.map(function(d){return"<b>"+esc(d.n||"Sin nombre")+"</b> $"+fm(d.m)}).join(", ")+"</span></div>":"");
+var s=[];
+if(mg<25)s.push(["Análisis de rentabilidad por cliente y servicio","Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.","pro"]);
+if(ca>=20)s.push(["Seguimiento de cobranza con alertas","Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.","basico"]);
+if(co>=40)s.push(["Reducir dependencia de un cliente","Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.","pro"]);
+if(ut<60)s.push([tipo==="pro"?"Tablero de horas y precio por hora":"Utilización del equipo","Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.","pro"]);
+if(!s.length)s.push(["Proyección de flujo de caja a 90 días","Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.","basico"]);
+s.push(["Reporte mensual automático","Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.","basico"]);
+if(tipo==="pyme"&&s.length>=4)s.push(["Implementación a la medida","Varias alertas a la vez piden un tablero conectado a tu facturación.","medida"]);
+$("sols").innerHTML=s.map(function(x){return'<div class="card"><h3>'+x[0]+'</h3><p class="mut" style="margin-bottom:10px">'+x[1]+'</p><span class="tag">Incluido en '+PL[x[2]].n+"</span></div>"}).join("");
+var rec="basico";s.forEach(function(x){if(RK[x[2]]>RK[rec])rec=x[2]});if(tipo==="pro"&&rec==="medida")rec="pro";
+$("plans").innerHTML=Object.keys(PL).map(function(key){var p=PL[key];return'<div class="card plan'+(key===rec?" hit":"")+'"><h3>'+p.n+(key===rec?" · recomendado":"")+'</h3><div class="pr">'+p.p+"</div><ul>"+p.l.map(function(l){return"<li>"+l+"</li>"}).join("")+"</ul></div>"}).join("");
+resumen=(tipo==="pro"?"Profesionista":"Pyme de servicios")+" | Margen "+mg.toFixed(0)+"%, cartera vencida "+ca.toFixed(0)+"%, dependencia "+co.toFixed(0)+"%, uso de tiempo "+ut.toFixed(0)+"%";
+links();$("res").hidden=false;$("res").scrollIntoView({behavior:"smooth"})};
 </script>
 </body>
 </html>
