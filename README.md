@@ -6,6 +6,12 @@
 
 Many small businesses track revenue but struggle to determine how much they actually keep after expenses, how much cash is tied up in overdue payments, and how dependent they are on a single customer. This project aims to make these business indicators easier to understand and act upon.
 
+## Project Links
+
+- **Live Application:** [Open the Business Profitability Diagnostic](https://yovier.github.io/diagnostico-rentabilidad/diagnostico-rentabilidad.html)
+- **Landing Page:** [View the Project Landing Page](https://yovier.github.io/diagnostico-rentabilidad/)
+- **HTML Source Code Notebook:** [Explore the HTML Source Code](./Business_Profitability_Diagnostic_Landing_Page_Code.ipynb)
+
 ## The Business Problem
 
 Small businesses often face financial challenges because they lack a simple way to evaluate their profitability, outstanding receivables, customer concentration, and use of available working hours.
