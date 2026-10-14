@@ -54,4 +54,3 @@ The landing page presents the tool's purpose, benefits, and user journey. The di
 Explore the application's source code and implementation details in the project repository.
 
 **[View the HTML Landing Page Source Code Notebook](./Business_Profitability_Diagnostic_Landing_Page_Code.ipynb)**
-## Source Code Documentation
