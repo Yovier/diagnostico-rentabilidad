@@ -54,9 +54,3 @@ The project focuses on making financial analysis more accessible to small busine
 This project demonstrates the development of a web-based financial diagnostic experience, combining user-centered interface design with business-focused financial indicators.
 
 The landing page presents the tool's purpose, benefits, and user journey. The diagnostic application provides the assessment experience.
-
-## Source Code
-
-Explore the application's source code and implementation details in the project repository.
-
-**[View the HTML Landing Page Source Code Notebook](./Business_Profitability_Diagnostic_Landing_Page_Code.ipynb)**
