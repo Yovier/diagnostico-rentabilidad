@@ -10,7 +10,7 @@ Many small businesses track revenue but struggle to determine how much they actu
 
 - **Landing Page:** [View the Project Landing Page](https://yovier.github.io/diagnostico-rentabilidad/)
 - **Live Application:** [Open the Business Profitability Diagnostic](https://yovier.github.io/diagnostico-rentabilidad/diagnostico-rentabilidad.html)
-- **HTML Source Code Notebook:** [Open Notebook in Google Colab](https://colab.research.google.com/github/Yovier/diagnostico-rentabilidad/blob/main/Business_Profitability_Diagnostic_Landing_Page_Code.ipynb)
+- **HTML Source Code Notebook:** - **HTML Source Code:** [View Landing Page HTML](https://raw.githubusercontent.com/Yovier/diagnostico-rentabilidad/main/index.html)
 
 ## The Business Problem
 
