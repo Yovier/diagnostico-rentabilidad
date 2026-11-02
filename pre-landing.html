@@ -469,6 +469,34 @@ h1 em {
     display: none;
 }
 
+/* Clear visual cue to continue upward through the building. */
+.next-floor {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 0 20px 16px;
+    color: var(--a);
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.next-floor .up-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--a);
+    color: #3E2119;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
 .bot {
     position: absolute;
     top: -58px;
@@ -631,6 +659,7 @@ footer {
     border-style: dashed;
     background-image: repeating-linear-gradient(135deg,transparent 0 14px,rgba(205,169,146,.14) 14px 28px);
 }
+
 
 @media (prefers-reduced-motion:reduce) {
     .bl {
@@ -796,6 +825,7 @@ footer {
 .done .hd {
     padding-right: 72px;
 }
+
 
 @media (max-width:480px) {
     .map {
@@ -1063,8 +1093,8 @@ footer {
       fl: "PISO",
       demo: "<b>DEMO</b>QuantiQ es una app demo y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
       f: ["Hoja de ruta", "Landing", "QuantiQ"],
-      h1: "QuantiQ: Piso a piso hacia la <em>inteligencia financiera</em>",
-      ld: "Imagina un edificio en Wall Street, Nueva York. Cada piso es un nuevo descubrimiento: los de abajo ya están resueltos y los de arriba están en investigación. Toca el boton que dice 'piso uno' en la parte superior para encontrar mas información.Luego, cuando llegues al ultimo piso haz clic en el boton que dice 'descubre la app'",
+      h1: "QuantiQ: piso a piso hacia la <em>inteligencia financiera</em>",
+      ld: "Imagina un edificio en Wall Street, Nueva York. Cada piso es un descubrimiento: los de abajo ya están iluminados y los de arriba están en construcción. Toca un piso para entrar.",
       s: ["logrados", "en construcción", "por descubrir"],
       c: "Para ti, cliente",
       v: "Para inversionistas",
@@ -1076,6 +1106,7 @@ footer {
       gh: "Ya puedes entrar a los pisos iluminados",
       gp: "Sigue el recorrido: conoce el producto en la landing y prueba la versión demo de QuantiQ, aún en desarrollo.",
       g1: "Descubre la App",
+      nextFloor: "Sigue al piso siguiente",
       g2: "Hablar con nosotros",
       ft: "© 2026 QuantiQ · Versión demo en proceso",
       lab: {
@@ -1102,6 +1133,7 @@ footer {
       gh: "You can already walk into the lit floors",
       gp: "Follow the journey: meet the product on the landing page and try the QuantiQ demo, still in development.",
       g1: "Discover the App",
+      nextFloor: "Continue to the next floor",
       g2: "Talk to us",
       ft: "© 2026 QuantiQ · Demo version in progress",
       lab: {
@@ -1344,6 +1376,12 @@ footer {
                   <b>${labels.lab[A]}</b>
                   ${escapeHtml(A === "c" ? text[2] : text[3])}
                 </div>
+              </div>
+
+              <!-- New upward navigation cue on every floor -->
+              <div class="next-floor">
+                <span class="up-arrow" aria-hidden="true">↑</span>
+                <span>${labels.nextFloor}</span>
               </div>
 
             </div>
