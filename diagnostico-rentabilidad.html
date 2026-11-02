@@ -7,6 +7,7 @@
 <title>¿Cuánto ganas realmente? Diagnóstico de rentabilidad</title>
 <meta name="description" content="Calcula tu margen, cartera vencida, concentración de clientes y uso de tiempo.">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
 :root{--bg:#FBFBFA;--card:#FBFBFA;--ink:#3E2119;--mut:#7B6B64;--line:#F5E6DB;--ac:#F67F1C;--ac2:#6B3F2A;--soft:#ECC9B2;--on:#FBFBFA;--ok:#2F8F5B;--wa:#D99A2B;--bad:#C0392B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#3E2119;--card:#2A1610;--ink:#F5E6DB;--mut:#CDA992;--line:#4A2C22;--ac:#F67F1C;--ac2:#F67F1C;--soft:rgba(246,127,28,.14);--on:#3E2119;--ok:#67B77A;--wa:#D99A2B;--bad:#E5322D}}
@@ -70,15 +71,72 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 .plan.hit{border-color:var(--ac);outline:0;box-shadow:0 0 0 3px var(--soft),var(--sh)}
 .hero b{letter-spacing:-.05em}
 @media (prefers-reduced-motion:no-preference){.cta,.btn{transition:transform .2s,box-shadow .2s}.cta:hover,.btn.m:hover{transform:translateY(-2px)}.meter i,.bar i{transition:width .4s}}
-.tg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:var(--sh2)}.tg:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.tg{position:static;flex:0 0 44px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:var(--sh2);display:grid;place-items:center}.tg:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 @media(max-width:420px){.grid{grid-template-columns:1fr}.cbox{gap:8px}}
 
-/* LANGUAGE SWITCHER */
-.language-switch{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:64px;z-index:11;display:flex;overflow:hidden;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--sh2)}
-.language-switch button{min-height:44px;padding:0 12px;border:0;background:transparent;color:var(--ink);font-weight:700;font-size:.8rem;font-family:inherit;cursor:pointer}
-.language-switch button[aria-pressed="true"]{background:var(--ac);color:var(--on)}
-@media(max-width:360px){.language-switch{right:60px}.language-switch button{padding:0 9px}}
+/* =========================================================
+   BANNER CONTROLS: LANGUAGE + THEME
+========================================================= */
+.ban{
+  min-height:290px;
+  padding:22px 28px 34px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.banner-controls{
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:10px;
+  margin:0 0 24px;
+}
+.language-switch{
+  position:static;
+  display:flex;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--card);
+  box-shadow:var(--sh2);
+}
+.language-switch button{
+  min-height:44px;
+  padding:0 13px;
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  font-weight:700;
+  font-size:.8rem;
+  font-family:inherit;
+  cursor:pointer;
+}
+.language-switch button[aria-pressed="true"]{
+  background:var(--ac);
+  color:var(--on);
+}
+@media(max-width:520px){
+  .ban{
+    min-height:300px;
+    padding:18px 18px 28px;
+  }
+  .banner-controls{
+    margin-bottom:22px;
+  }
+  .ban h1{
+    font-size:clamp(1.85rem,8vw,2.4rem);
+  }
+  .language-switch button{
+    padding:0 11px;
+  }
+}
+@media(max-width:360px){
+  .ban{padding-left:14px;padding-right:14px}
+  .banner-controls{gap:8px}
+}
 </style>
+
 <script>
 try {
   var savedTheme = localStorage.getItem("tema");
@@ -92,37 +150,52 @@ try {
 </head>
 
 <body>
-  <div class="language-switch" role="group" aria-label="Language / Idioma">
-    <button id="langEs" type="button" aria-pressed="true">ES</button>
-    <button id="langEn" type="button" aria-pressed="false">EN</button>
-  </div>
-
-  <button class="tg" id="tg" type="button" aria-label="Cambiar entre modo claro y oscuro"></button>
-
   <main>
+    <!-- Diagnostic introduction -->
     <header class="ban">
+      <div class="banner-controls">
+        <div class="language-switch" role="group" aria-label="Language / Idioma">
+          <button id="langEs" type="button" aria-pressed="true">ES</button>
+          <button id="langEn" type="button" aria-pressed="false">EN</button>
+        </div>
+
+        <button
+          class="tg"
+          id="tg"
+          type="button"
+          aria-label="Cambiar entre modo claro y oscuro"
+        ></button>
+      </div>
+
       <h1 id="pageTitle">¿Cuánto ganas realmente?</h1>
-      <p id="pageIntro">Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p>
+      <p id="pageIntro">
+        Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.
+      </p>
+
       <div class="sbar" aria-hidden="true">
         <i class="c"></i>
         <i class="g"></i>
       </div>
+
       <div class="leg" style="margin-top:0">
         <span><u class="c"></u><span id="legendCosts">Costos y gastos</span></span>
         <span><u class="g"></u><span id="legendRemainder">Lo que realmente te queda</span></span>
       </div>
     </header>
 
+    <!-- Customer type selector -->
     <div class="seg" role="group" id="customerTypeGroup" aria-label="Tipo de cliente">
       <button type="button" id="b1" aria-pressed="true">Profesionista</button>
       <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
     </div>
 
+    <!-- Financial input fields -->
     <div class="grid">
       <div>
         <label for="ing" id="labelIncome">Ingresos del mes</label>
         <input id="ing" type="number" inputmode="decimal" value="0">
       </div>
+
       <div>
         <label for="cos" id="labelCosts">Costos y gastos</label>
         <input id="cos" type="number" inputmode="decimal" value="0">
@@ -138,24 +211,30 @@ try {
       <div class="full">
         <label for="top" id="labelTopClient">Lo que te pagó tu mejor cliente este mes ($)</label>
         <input id="top" type="number" inputmode="decimal" value="0">
-        <span class="hint" id="topHint">Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.</span>
+        <span class="hint" id="topHint">
+          Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.
+        </span>
       </div>
 
       <div>
         <label for="ing3" id="labelIncome3">Ingresos de los últimos 3 meses ($)</label>
         <input id="ing3" type="number" inputmode="decimal" value="0">
       </div>
+
       <div>
         <label for="top3" id="labelTopClient3">Tu mejor cliente en esos 3 meses ($)</label>
         <input id="top3" type="number" inputmode="decimal" value="0">
       </div>
 
-      <span class="hint full" id="threeMonthHint" style="margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.</span>
+      <span class="hint full" id="threeMonthHint" style="margin-top:-8px">
+        Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.
+      </span>
 
       <div>
         <label for="hf" id="labelBilledHours">Horas facturadas</label>
         <input id="hf" type="number" inputmode="decimal" value="0">
       </div>
+
       <div>
         <label for="hd" id="labelAvailableHours">Horas disponibles</label>
         <input id="hd" type="number" inputmode="decimal" value="0">
@@ -165,6 +244,7 @@ try {
     <button class="cta" id="go" type="button">Ver mi diagnóstico</button>
     <div class="err" id="err" role="alert"></div>
 
+    <!-- Results -->
     <section id="res" aria-live="polite" hidden>
       <div class="hero" id="hero"></div>
 
@@ -181,6 +261,7 @@ try {
       <div class="card">
         <h3 id="generalResultTitle">Resultado general</h3>
         <div class="cbox" id="cbox"></div>
+
         <div class="leg">
           <span><b id="legendMargin">Margen</b> <span id="legendNet">neto</span></span>
           <span><b id="legendReceivables">Cartera</b> <span id="legendOverdue">vencida</span></span>
@@ -189,27 +270,36 @@ try {
       </div>
 
       <div id="kpis"></div>
+
       <h2 id="solutionsTitle">Soluciones sugeridas</h2>
       <div id="sols"></div>
 
       <h2 id="plansTitle">Tu plan recomendado</h2>
       <div class="plans" id="plans"></div>
 
-      <p class="mut" id="priceNote" style="text-align:center;margin:12px 0 32px">Precios de referencia en USD al mes.</p>
+      <p class="mut" id="priceNote" style="text-align:center;margin:12px 0 32px">
+        Precios de referencia en USD al mes.
+      </p>
 
+      <!-- Contact and consultation -->
       <div class="card" style="text-align:center;padding:24px">
         <h3 id="contactTitle">¿Lo revisamos juntos?</h3>
-        <p class="mut" id="contactText">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
+        <p class="mut" id="contactText">
+          Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.
+        </p>
+
         <div class="grid" style="margin:20px 0 0;text-align:left">
           <div>
             <label for="nom" id="labelName">Tu nombre</label>
             <input id="nom" autocomplete="name">
           </div>
+
           <div>
             <label for="neg" id="labelBusiness">Tu negocio</label>
             <input id="neg">
           </div>
         </div>
+
         <div class="btns">
           <a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
           <a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
@@ -217,23 +307,48 @@ try {
         </div>
       </div>
 
+      <!-- Feedback -->
       <div class="card fb" style="padding:24px">
         <div id="fbForm">
           <h3 id="feedbackTitle">¿Qué tal te pareció?</h3>
-          <p class="mut" id="feedbackInstruction">Toca las estrellas que quieras, del 1 al 5.</p>
-          <div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div>
+          <p class="mut" id="feedbackInstruction">
+            Toca las estrellas que quieras, del 1 al 5.
+          </p>
+
+          <div
+            class="stars"
+            id="stars"
+            role="radiogroup"
+            aria-label="Calificación"
+          ></div>
+
           <div id="qs"></div>
+
           <div class="q">
             <p id="suggestionQuestion">¿Qué te gustaría que agregáramos? (opcional)</p>
             <textarea id="fbTxt" aria-label="Sugerencia"></textarea>
           </div>
-          <div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div>
-          <button class="cta" id="fbSend" type="button" style="margin-bottom:0">Enviar opinión</button>
+
+          <div class="err" id="fbErr" role="alert">
+            Elige al menos una calificación de estrellas.
+          </div>
+
+          <button
+            class="cta"
+            id="fbSend"
+            type="button"
+            style="margin-bottom:0"
+          >
+            Enviar opinión
+          </button>
         </div>
 
         <div id="fbThanks" style="display:none">
           <h3 id="thanksTitle">¡Gracias por tu opinión!</h3>
-          <p class="mut" id="thanksText">Si quieres, mándamela directo para que la lea.</p>
+          <p class="mut" id="thanksText">
+            Si quieres, mándamela directo para que la lea.
+          </p>
+
           <div class="btns">
             <a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
             <a class="btn" id="fMail">Enviar por correo</a>
@@ -243,15 +358,25 @@ try {
     </section>
   </main>
 
+  <!-- =====================================================
+       BILINGUAL DIAGNOSTIC LOGIC
+  ====================================================== -->
+
   <script>
     (function () {
       "use strict";
+
+      /* -----------------------------------------------------
+         1. CONFIGURATION AND SHARED STATE
+      ------------------------------------------------------ */
 
       const CAL = "https://calendly.com/TU_USUARIO";
       const WA = "521XXXXXXXXXX";
       const MAIL = "yovier.cruz@gmail.com";
 
       const root = document.documentElement;
+      const themeButton = document.getElementById("tg");
+
       const $ = function (id) {
         return document.getElementById(id);
       };
@@ -271,19 +396,27 @@ try {
         submitted: false
       };
 
+      /* -----------------------------------------------------
+         2. TRANSLATIONS
+      ------------------------------------------------------ */
+
       const TEXT = {
         es: {
           pageTitle: "¿Cuánto ganas realmente? Diagnóstico de rentabilidad",
           metaDescription: "Escribe los números de tu último mes y descubre cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.",
+
           themeToLight: "Cambiar a modo claro",
           themeToDark: "Cambiar a modo oscuro",
+
           heading: "¿Cuánto ganas realmente?",
           intro: "Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.",
           costs: "Costos y gastos",
           remainder: "Lo que realmente te queda",
+
           customerType: "Tipo de cliente",
           professional: "Profesionista",
           serviceBusiness: "Pyme de servicios",
+
           income: "Ingresos del mes",
           costsField: "Costos y gastos",
           overdueClients: "Clientes con pagos vencidos",
@@ -296,6 +429,7 @@ try {
             return "Total vencido: $" + amount + " en " + count +
               (count === 1 ? " cliente" : " clientes");
           },
+
           topClient: "Lo que te pagó tu mejor cliente este mes ($)",
           topHint: "Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.",
           income3: "Ingresos de los últimos 3 meses ($)",
@@ -303,6 +437,7 @@ try {
           threeMonthHint: "Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.",
           billedHours: "Horas facturadas",
           availableHours: "Horas disponibles",
+
           runDiagnostic: "Ver mi diagnóstico",
           errorIncome: "Escribe tus ingresos del mes.",
           errorPositive: "Usa solo números positivos.",
@@ -310,10 +445,12 @@ try {
           errorHours: "Las horas facturadas no pueden superar las disponibles.",
           errorThreeMonthPair: "Llena los dos campos de 3 meses o déjalos en 0.",
           errorThreeMonthTop: "En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.",
+
           marginThisMonth: "Tu margen este mes",
           marginGood: "Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.",
           marginAverage: "Tu margen es aceptable, pero hay espacio para mejorar.",
           marginLow: "De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.",
+
           financialHealth: "Salud financiera",
           generalResult: "Resultado general",
           margin: "Margen",
@@ -321,6 +458,7 @@ try {
           receivables: "Cartera",
           overdue: "vencida",
           dependency: "Dependencia",
+
           kpiMargin: "Margen neto",
           kpiMarginDescription: function (amount) {
             return "De cada $100 que cobras, te quedan $" + amount + " después de costos y gastos";
@@ -342,6 +480,7 @@ try {
           kpiTimeDescription: "Horas facturadas sobre disponibles",
           kpiDebtors: "Clientes con pagos vencidos",
           noName: "Sin nombre",
+
           solutions: "Soluciones sugeridas",
           solutionMarginTitle: "Análisis de rentabilidad por cliente y servicio",
           solutionMarginText: "Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.",
@@ -359,9 +498,11 @@ try {
           solutionCustomTitle: "Implementación a la medida",
           solutionCustomText: "Varias alertas a la vez piden un tablero conectado a tu facturación.",
           includedIn: "Incluido en",
+
           plans: "Tu plan recomendado",
           recommended: "recomendado",
           priceNote: "Precios de referencia en USD al mes.",
+
           planBasic: "Básico",
           planPro: "Pro",
           planCustom: "A la medida",
@@ -381,6 +522,7 @@ try {
             "Tablero personalizado"
           ],
           planCustomPrice: "Desde $500 + $120/mes",
+
           contactTitle: "¿Lo revisamos juntos?",
           contactText: "Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.",
           name: "Tu nombre",
@@ -388,6 +530,7 @@ try {
           bookDiagnostic: "Agenda tu diagnóstico",
           whatsapp: "Escríbeme por WhatsApp",
           email: "Enviar por correo",
+
           feedbackTitle: "¿Qué tal te pareció?",
           feedbackInstruction: "Toca las estrellas que quieras, del 1 al 5.",
           ratingAria: "Calificación",
@@ -409,6 +552,7 @@ try {
           sendFeedback: "Enviar opinión",
           thanksTitle: "¡Gracias por tu opinión!",
           thanksText: "Si quieres, mándamela directo para que la lea.",
+
           emailSubjectDiagnostic: "Diagnóstico de rentabilidad",
           shareGreeting: "Hola, soy ",
           shareFrom: " de ",
@@ -430,15 +574,19 @@ try {
         en: {
           pageTitle: "How much do you really earn? | Profitability diagnostic",
           metaDescription: "Enter last month's numbers and discover how much you keep, how much customers owe you, and how dependent you are on one client.",
+
           themeToLight: "Switch to light mode",
           themeToDark: "Switch to dark mode",
+
           heading: "How much do you really earn?",
           intro: "Enter last month's numbers and get suggested solutions in one minute.",
           costs: "Costs and expenses",
           remainder: "What you actually keep",
+
           customerType: "Customer type",
           professional: "Independent professional",
           serviceBusiness: "Service-based small business",
+
           income: "Monthly income",
           costsField: "Costs and expenses",
           overdueClients: "Customers with overdue payments",
@@ -451,6 +599,7 @@ try {
             return "Total overdue: $" + amount + " across " + count +
               (count === 1 ? " customer" : " customers");
           },
+
           topClient: "Amount paid by your largest client this month ($)",
           topHint: "This amount is divided by your total income. If it exceeds 30%, your business is highly dependent on that client.",
           income3: "Income over the last 3 months ($)",
@@ -458,6 +607,7 @@ try {
           threeMonthHint: "Optional: complete both fields to measure client concentration over 3 months. Otherwise, leave both at 0.",
           billedHours: "Billable hours",
           availableHours: "Available hours",
+
           runDiagnostic: "View my diagnostic",
           errorIncome: "Enter your income for the month.",
           errorPositive: "Use positive numbers only.",
@@ -465,10 +615,12 @@ try {
           errorHours: "Billable hours cannot exceed available hours.",
           errorThreeMonthPair: "Complete both 3-month fields or leave both at 0.",
           errorThreeMonthTop: "Over 3 months, your largest client cannot have paid more than your total income.",
+
           marginThisMonth: "Your margin this month",
           marginGood: "Your business has a healthy margin. Protect it and plan for slower months.",
           marginAverage: "Your margin is acceptable, but there is room to improve.",
           marginLow: "For every $100 you collect, very little remains. Reduce costs, raise prices, or remove unprofitable services.",
+
           financialHealth: "Financial health",
           generalResult: "Overall result",
           margin: "Margin",
@@ -476,6 +628,7 @@ try {
           receivables: "Receivables",
           overdue: "overdue",
           dependency: "Client concentration",
+
           kpiMargin: "Net margin",
           kpiMarginDescription: function (amount) {
             return "For every $100 you collect, you keep $" + amount + " after costs and expenses";
@@ -497,6 +650,7 @@ try {
           kpiTimeDescription: "Billable hours compared with available hours",
           kpiDebtors: "Customers with overdue payments",
           noName: "Unnamed",
+
           solutions: "Suggested solutions",
           solutionMarginTitle: "Profitability analysis by customer and service",
           solutionMarginText: "Your margin is low. Identify which customers and services are unprofitable, then adjust your prices.",
@@ -514,9 +668,11 @@ try {
           solutionCustomTitle: "Customized implementation",
           solutionCustomText: "Several simultaneous alerts may call for a dashboard connected to your billing system.",
           includedIn: "Included in",
+
           plans: "Your recommended plan",
           recommended: "recommended",
           priceNote: "Reference prices in USD per month.",
+
           planBasic: "Basic",
           planPro: "Pro",
           planCustom: "Custom",
@@ -536,6 +692,7 @@ try {
             "Custom dashboard"
           ],
           planCustomPrice: "From $500 + $120/month",
+
           contactTitle: "Shall we review it together?",
           contactText: "Schedule a 45-minute diagnostic. Your results will be included in the message.",
           name: "Your name",
@@ -543,6 +700,7 @@ try {
           bookDiagnostic: "Schedule your diagnostic",
           whatsapp: "Message me on WhatsApp",
           email: "Send by email",
+
           feedbackTitle: "How was your experience?",
           feedbackInstruction: "Select a star rating from 1 to 5.",
           ratingAria: "Rating",
@@ -564,6 +722,7 @@ try {
           sendFeedback: "Submit feedback",
           thanksTitle: "Thank you for your feedback!",
           thanksText: "You can also send it directly so I can read it.",
+
           emailSubjectDiagnostic: "Profitability diagnostic",
           shareGreeting: "Hello, my name is ",
           shareFrom: " from ",
@@ -583,16 +742,24 @@ try {
         }
       };
 
+      /* -----------------------------------------------------
+         3. PLAN CATALOG AND RECOMMENDATION RANKING
+      ------------------------------------------------------ */
+
       const PLAN_RANK = {
         basico: 1,
         pro: 2,
         medida: 3
       };
 
+      /* -----------------------------------------------------
+         4. LANGUAGE AND NUMBER HELPERS
+      ------------------------------------------------------ */
+
       function getSavedLanguage() {
         try {
           const saved = localStorage.getItem("lang");
-          if (saved === "es" || saved === "en") return saved;
+          if (saved === "en" || saved === "es") return saved;
         } catch (error) {
           // Fall back to the browser language.
         }
@@ -620,8 +787,21 @@ try {
           .replace(/"/g, "&quot;");
       }
 
+      function saveLanguage() {
+        try {
+          localStorage.setItem("lang", language);
+        } catch (error) {
+          // Language remains active for the current page session.
+        }
+      }
+
+      /* -----------------------------------------------------
+         5. CUSTOMER TYPE
+      ------------------------------------------------------ */
+
       function setCustomerType(type) {
         customerType = type;
+
         $("b1").setAttribute("aria-pressed", type === "pro");
         $("b2").setAttribute("aria-pressed", type === "pyme");
       }
@@ -633,6 +813,10 @@ try {
       $("b2").addEventListener("click", function () {
         setCustomerType("pyme");
       });
+
+      /* -----------------------------------------------------
+         6. FINANCIAL CALCULATION HELPERS
+      ------------------------------------------------------ */
 
       function pct(a, b) {
         return b > 0 ? (a / b) * 100 : 0;
@@ -653,6 +837,10 @@ try {
             ? "bad"
             : "warn";
       }
+
+      /* -----------------------------------------------------
+         7. OVERDUE CUSTOMER ROWS
+      ------------------------------------------------------ */
 
       function totalDebts() {
         let total = 0;
@@ -686,6 +874,7 @@ try {
                 value="${escapeHtml(debt.name)}"
                 placeholder="${t("clientPlaceholder")}"
               >
+
               <input
                 aria-label="${t("overdueAmountAria")}"
                 data-i="${index}"
@@ -694,6 +883,7 @@ try {
                 value="${debt.amount}"
                 inputmode="decimal"
               >
+
               <button
                 aria-label="${t("removeClientAria")}"
                 data-del="${index}"
@@ -739,6 +929,10 @@ try {
         renderDebts();
       });
 
+      /* -----------------------------------------------------
+         8. DYNAMIC CONTACT LINKS
+      ------------------------------------------------------ */
+
       function buildDiagnosticSummary(result) {
         if (!result) return "";
 
@@ -776,6 +970,10 @@ try {
 
       $("nom").addEventListener("input", updateContactLinks);
       $("neg").addEventListener("input", updateContactLinks);
+
+      /* -----------------------------------------------------
+         9. FEEDBACK QUESTIONS
+      ------------------------------------------------------ */
 
       function getFeedbackQuestions() {
         return [
@@ -840,9 +1038,11 @@ try {
             return `
               <div class="q">
                 <p>${question.question}</p>
+
                 <div class="chips" data-q="${question.key}">
                   ${question.choices.map(function (choice, index) {
                     const pressed = selectedIndex === index;
+
                     return `
                       <button
                         type="button"
@@ -864,6 +1064,7 @@ try {
         if (!selected) return;
 
         feedback.stars = Number(selected);
+
         renderFeedbackQuestions();
         $("fbErr").style.display = "none";
       });
@@ -876,6 +1077,7 @@ try {
         const key = group.getAttribute("data-q");
 
         feedback[key] = Number(chip.getAttribute("data-choice"));
+
         renderFeedbackQuestions();
       });
 
@@ -928,6 +1130,10 @@ try {
         $("fbForm").style.display = feedback.submitted ? "none" : "block";
         $("fbThanks").style.display = feedback.submitted ? "block" : "none";
       }
+
+      /* -----------------------------------------------------
+         10. RECOMMENDATION CATALOG
+      ------------------------------------------------------ */
 
       function getPlans() {
         return {
@@ -1011,6 +1217,10 @@ try {
         return items;
       }
 
+      /* -----------------------------------------------------
+         11. RENDER FINANCIAL RESULTS
+      ------------------------------------------------------ */
+
       function renderResults(result) {
         const plans = getPlans();
 
@@ -1050,6 +1260,7 @@ try {
           `;
         }).join("");
 
+        /* KPI cards */
         const kpis = [
           {
             title: t("kpiMargin"),
@@ -1106,12 +1317,14 @@ try {
             <div class="card kpi">
               <b>${item.title}</b>
               <b class="v ${item.status}">${item.value.toFixed(0)}%</b>
+
               <div class="bar">
                 <i
                   class="${item.status}"
                   style="width:${barWidth}%"
                 ></i>
               </div>
+
               <span>${item.description}</span>
             </div>
           `;
@@ -1131,6 +1344,7 @@ try {
           `;
         }
 
+        /* Suggested solutions */
         const recommendations = getRecommendations(result);
 
         $("sols").innerHTML = recommendations.map(function (item) {
@@ -1147,6 +1361,7 @@ try {
           `;
         }).join("");
 
+        /* Recommended plan */
         let recommendedPlan = "basico";
 
         recommendations.forEach(function (item) {
@@ -1168,7 +1383,9 @@ try {
               <h3>
                 ${plan.name}${recommended ? " · " + t("recommended") : ""}
               </h3>
+
               <div class="pr">${plan.price}</div>
+
               <ul>
                 ${plan.features.map(function (feature) {
                   return `<li>${feature}</li>`;
@@ -1178,9 +1395,14 @@ try {
           `;
         }).join("");
 
+        /* Localized summary for booking, WhatsApp and email */
         summary = buildDiagnosticSummary(result);
         updateContactLinks();
       }
+
+      /* -----------------------------------------------------
+         12. VALIDATION MESSAGES
+      ------------------------------------------------------ */
 
       function renderValidationErrors() {
         if (!currentErrorKeys.length) {
@@ -1197,6 +1419,10 @@ try {
 
         $("err").style.display = "block";
       }
+
+      /* -----------------------------------------------------
+         13. RUN THE DIAGNOSTIC
+      ------------------------------------------------------ */
 
       function runDiagnostic() {
         const value = function (id) {
@@ -1254,6 +1480,7 @@ try {
         renderValidationErrors();
 
         const usingThreeMonths = income3 > 0 && topClient3 > 0;
+
         const margin = pct(income - costs, income);
         const receivables = pct(overdueTotal, income);
 
@@ -1262,6 +1489,7 @@ try {
           : pct(topClient, income);
 
         const timeUse = pct(billedHours, availableHours);
+
         const marginClass = cls(margin, 30, 15);
 
         const score = Math.max(
@@ -1306,6 +1534,10 @@ try {
       }
 
       $("go").addEventListener("click", runDiagnostic);
+
+      /* -----------------------------------------------------
+         13. LANGUAGE SWITCHING
+      ------------------------------------------------------ */
 
       function applyLanguage(nextLanguage, persist = true) {
         language = nextLanguage;
@@ -1426,6 +1658,10 @@ try {
         applyLanguage("en");
       });
 
+      /* -----------------------------------------------------
+         14. THEME MANAGEMENT
+      ------------------------------------------------------ */
+
       function isDarkMode() {
         const setting = root.getAttribute("data-theme");
 
@@ -1448,6 +1684,7 @@ try {
 
       $("tg").addEventListener("click", function () {
         const nextTheme = isDarkMode() ? "light" : "dark";
+
         root.setAttribute("data-theme", nextTheme);
 
         try {
@@ -1466,6 +1703,10 @@ try {
       if (darkPreference.addEventListener) {
         darkPreference.addEventListener("change", updateThemeButton);
       }
+
+      /* -----------------------------------------------------
+         15. INITIALIZATION
+      ------------------------------------------------------ */
 
       document.addEventListener("focusin", function (event) {
         if (event.target.type === "number") {
