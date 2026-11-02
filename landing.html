@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
   --bg:#2a1610;
   --ink:#fbfbfa;
@@ -382,6 +384,51 @@ p{
     transition:background .2s;
   }
 }
+
+
+/* =========================================================
+   LANGUAGE SWITCHER
+========================================================= */
+.language-switch {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  right: 64px;
+  z-index: 11;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--border-accent);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(29, 14, 9, .12);
+}
+
+.language-switch button {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: .8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.language-switch button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+@media (max-width: 360px) {
+  .language-switch {
+    right: 60px;
+  }
+
+  .language-switch button {
+    padding: 0 9px;
+  }
+}
+
 </style>
 
 <script>
@@ -395,310 +442,411 @@ try{
 
 </head>
 
+
 <body>
-
-<button
-  class="tg"
-  id="tg"
-  type="button"
-  aria-label="Cambiar entre modo claro y oscuro">
-</button>
-
-<header class="banner">
-
-  <div class="bi">
-
-    <h1>¿Cuánto ganas realmente?</h1>
-
-    <p class="lead">
-      Escribe los números de tu último mes y en un minuto
-      sabrás cuánto te queda, cuánto te deben y qué tanto
-      dependes de un solo cliente.
-    </p>
-
-    <a
-      href="diagnostico-rentabilidad.html" class="cta">
-      Hacer mi diagnóstico
-    </a>
-
-    <p class="small">
-      Es gratis y no necesitas registrarte.
-    </p>
-
+  <!-- Language and theme controls -->
+  <div class="language-switch" role="group" aria-label="Language / Idioma">
+    <button id="langEs" type="button" aria-pressed="true">ES</button>
+    <button id="langEn" type="button" aria-pressed="false">EN</button>
   </div>
 
-</header>
+  <button
+    class="tg"
+    id="tg"
+    type="button"
+    aria-label="Cambiar entre modo claro y oscuro"
+  ></button>
 
-<main>
+  <!-- Hero section -->
+  <header class="banner">
+    <div class="bi">
+      <h1 id="heroTitle">¿Cuánto ganas realmente?</h1>
 
-  <div
-    class="demo"
-    role="img"
-    aria-label="Ejemplo: de cada 100 pesos que cobras, 72 se van en costos y te quedan 28">
+      <p class="lead" id="heroLead">
+        Escribe los números de tu último mes y en un minuto
+        sabrás cuánto te queda, cuánto te deben y qué tanto
+        dependes de un solo cliente.
+      </p>
 
-    <div class="bar">
+      <a
+        href="diagnostico-rentabilidad.html"
+        class="cta"
+        id="heroCta"
+      >
+        Hacer mi diagnóstico
+      </a>
 
-      <span class="c">
-        Costos y gastos
-      </span>
+      <p class="small" id="heroSmall">
+        Es gratis y no necesitas registrarte.
+      </p>
+    </div>
+  </header>
 
-      <span class="g">
-        Te quedan
-      </span>
+  <main>
+    <!-- Example financial breakdown -->
+    <div
+      class="demo"
+      role="img"
+      id="demoGraphic"
+      aria-label="Ejemplo: de cada 100 pesos que cobras, 72 se van en costos y te quedan 28"
+    >
+      <div class="bar">
+        <span class="c" id="barCosts">Costos y gastos</span>
+        <span class="g" id="barKeep">Te quedan</span>
+      </div>
 
+      <p id="demoCaption">
+        Ejemplo: de cada $100 que cobras,
+        $72 se van en costos y te quedan $28.
+      </p>
     </div>
 
-    <p>
-      Ejemplo: de cada $100 que cobras,
-      $72 se van en costos y te quedan $28.
-    </p>
+    <!-- Value proposition -->
+    <h1 id="benefitsTitle">¿Qué vas a saber?</h1>
 
-  </div>
+    <ul class="cards">
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="3 17 9 11 13 15 21 7"/>
+            <polyline points="15 7 21 7 21 13"/>
+          </svg>
+        </span>
 
+        <h3 id="benefitMarginTitle">Tu margen</h3>
+        <p id="benefitMarginText">
+          ¿Cuánto de lo que cobras es ganancia
+          después de costos y gastos?
+        </p>
+      </li>
 
-  <h1>¿Qué vas a saber?</h1>
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
+          </svg>
+        </span>
 
-  <ul class="cards">
+        <h3 id="benefitReceivablesTitle">Tu cartera vencida</h3>
+        <p id="benefitReceivablesText">
+          ¿Cuánto dinero tienes atrapado
+          en pagos atrasados?
+        </p>
+      </li>
 
-    <li class="card">
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
+          </svg>
+        </span>
 
-      <span class="ic">
+        <h3 id="benefitDependencyTitle">Tu dependencia de un cliente</h3>
+        <p id="benefitDependencyText">
+          ¿Qué pasaría con tus ingresos
+          si tu mejor cliente se va?
+        </p>
+      </li>
 
-        <svg
-          viewBox="0 0 24 24"
-          width="26"
-          height="26"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 3h12"/>
+            <path d="M6 21h12"/>
+            <path d="M7 3c0 5 5 6 5 9s-5 4-5 9"/>
+            <path d="M17 3c0 5-5 6-5 9s5 4 5 9"/>
+          </svg>
+        </span>
 
-          <polyline points="3 17 9 11 13 15 21 7"/>
-          <polyline points="15 7 21 7 21 13"/>
+        <h3 id="benefitTimeTitle">El uso de tu tiempo</h3>
+        <p id="benefitTimeText">
+          ¿Cuántas de tus horas disponibles
+          realmente facturas?
+        </p>
+      </li>
+    </ul>
 
-        </svg>
+    <!-- How it works -->
+    <h1 id="stepsTitle">¿Cómo funciona?</h1>
 
-      </span>
+    <ol class="steps">
+      <li class="card">
+        <h3 id="stepOneTitle" style="margin-top:0">
+          Escribe tus números
+        </h3>
+        <p id="stepOneText">
+          Ingresos, costos, pagos vencidos
+          y horas del último mes.
+        </p>
+      </li>
 
-      <h3>Tu margen</h3>
+      <li class="card">
+        <h3 id="stepTwoTitle" style="margin-top:0">
+          Recibe tu diagnóstico
+        </h3>
+        <p id="stepTwoText">
+          Verás tu margen, tu cartera
+          y una calificación de salud financiera.
+        </p>
+      </li>
 
-      <p>
-        ¿Cuánto de lo que cobras es ganancia
-        después de costos y gastos?
+      <li class="card">
+        <h3 id="stepThreeTitle" style="margin-top:0">
+          Elige tu siguiente paso
+        </h3>
+        <p id="stepThreeText">
+          Revisa las soluciones sugeridas
+          y el plan que mejor te queda.
+        </p>
+      </li>
+    </ol>
+
+    <!-- Final call to action -->
+    <div class="end">
+      <p class="lead" id="finalLead">
+        Tus números se quedan en tu pantalla.
+        Solo los envías si decides agendar una revisión.
       </p>
 
-    </li>
-
-
-    <li class="card">
-
-      <span class="ic">
-
-        <svg
-          viewBox="0 0 24 24"
-          width="26"
-          height="26"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 7v5l3 2"/>
-
-        </svg>
-
-      </span>
-
-      <h3>Tu cartera vencida</h3>
-
-      <p>
-        ¿Cuánto dinero tienes atrapado
-        en pagos atrasados?
-      </p>
-
-    </li>
-
-
-    <li class="card">
-
-      <span class="ic">
-
-        <svg
-          viewBox="0 0 24 24"
-          width="26"
-          height="26"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
-
-        </svg>
-
-      </span>
-
-      <h3>Tu dependencia de un cliente</h3>
-
-      <p>
-        ¿Qué pasaría con tus ingresos
-        si tu mejor cliente se va?
-      </p>
-
-    </li>
-
-
-    <li class="card">
-
-      <span class="ic">
-
-        <svg
-          viewBox="0 0 24 24"
-          width="26"
-          height="26"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-
-          <path d="M6 3h12"/>
-          <path d="M6 21h12"/>
-          <path d="M7 3c0 5 5 6 5 9s-5 4-5 9"/>
-          <path d="M17 3c0 5-5 6-5 9s5 4 5 9"/>
-
-        </svg>
-
-      </span>
-
-      <h3>El uso de tu tiempo</h3>
-
-      <p>
-        ¿Cuántas de tus horas disponibles
-        realmente facturas?
-      </p>
-
-    </li>
-
-  </ul>
-
-
-  <h1>¿Cómo funciona?</h1>
-
-  <ol class="steps">
-
-    <li class="card">
-
-      <h3 style="margin-top:0">
-        Escribe tus números
-      </h3>
-
-      <p>
-        Ingresos, costos, pagos vencidos
-        y horas del último mes.
-      </p>
-
-    </li>
-
-
-    <li class="card">
-
-      <h3 style="margin-top:0">
-        Recibe tu diagnóstico
-      </h3>
-
-      <p>
-        Verás tu margen, tu cartera
-        y una calificación de salud financiera.
-      </p>
-
-    </li>
-
-
-    <li class="card">
-
-      <h3 style="margin-top:0">
-        Elige tu siguiente paso
-      </h3>
-
-      <p>
-        Revisa las soluciones sugeridas
-        y el plan que mejor te queda.
-      </p>
-
-    </li>
-
-  </ol>
-
-
-  <div class="end">
-
-    <p class="lead">
-      Tus números se quedan en tu pantalla.
-      Solo los envías si decides agendar una revisión.
-    </p>
-
-    <a
-      class="cta"
-      href="diagnostico-rentabilidad.html">
-      Hacer mi diagnóstico
-    </a>
-
-  </div>
-
-</main>
-
-
-<script>
-
-var R=document.documentElement,
-    dm=window.matchMedia("(prefers-color-scheme: dark)"),
-    b=document.getElementById("tg");
-
-function isD(){
-
-  var t=R.getAttribute("data-theme");
-
-  return t ? t==="dark" : dm.matches;
-
-}
-
-function ic(){
-
-  b.textContent=isD() ? "\u2600" : "\u263e";
-
-}
-
-b.onclick=function(){
-
-  var n=isD() ? "light" : "dark";
-
-  R.setAttribute("data-theme",n);
-
-  try{
-    localStorage.setItem("tema",n);
-  }catch(e){}
-
-  ic();
-
-};
-
-if(dm.addEventListener){
-  dm.addEventListener("change",ic);
-}
-
-ic();
-
-</script>
-
+      <a
+        class="cta"
+        href="diagnostico-rentabilidad.html"
+        id="finalCta"
+      >
+        Hacer mi diagnóstico
+      </a>
+    </div>
+  </main>
+
+  <!-- Language and theme behavior -->
+  <script>
+    (function () {
+      "use strict";
+
+      const root = document.documentElement;
+      const themeButton = document.getElementById("tg");
+      const languageButtons = {
+        es: document.getElementById("langEs"),
+        en: document.getElementById("langEn")
+      };
+
+      const translations = {
+        es: {
+          title: "¿Cuánto ganas realmente? | Diagnóstico de rentabilidad",
+          description: "Escribe los números de tu último mes y descubre cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.",
+          themeLight: "Cambiar a modo claro",
+          themeDark: "Cambiar a modo oscuro",
+          heroTitle: "¿Cuánto ganas realmente?",
+          heroLead: "Escribe los números de tu último mes y en un minuto sabrás cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.",
+          cta: "Hacer mi diagnóstico",
+          heroSmall: "Es gratis y no necesitas registrarte.",
+          demoAria: "Ejemplo: de cada 100 pesos que cobras, 72 se van en costos y te quedan 28",
+          costs: "Costos y gastos",
+          keep: "Te quedan",
+          demoCaption: "Ejemplo: de cada $100 que cobras, $72 se van en costos y te quedan $28.",
+          benefitsTitle: "¿Qué vas a saber?",
+          marginTitle: "Tu margen",
+          marginText: "¿Cuánto de lo que cobras es ganancia después de costos y gastos?",
+          receivablesTitle: "Tu cartera vencida",
+          receivablesText: "¿Cuánto dinero tienes atrapado en pagos atrasados?",
+          dependencyTitle: "Tu dependencia de un cliente",
+          dependencyText: "¿Qué pasaría con tus ingresos si tu mejor cliente se va?",
+          timeTitle: "El uso de tu tiempo",
+          timeText: "¿Cuántas de tus horas disponibles realmente facturas?",
+          stepsTitle: "¿Cómo funciona?",
+          stepOneTitle: "Escribe tus números",
+          stepOneText: "Ingresos, costos, pagos vencidos y horas del último mes.",
+          stepTwoTitle: "Recibe tu diagnóstico",
+          stepTwoText: "Verás tu margen, tu cartera y una calificación de salud financiera.",
+          stepThreeTitle: "Elige tu siguiente paso",
+          stepThreeText: "Revisa las soluciones sugeridas y el plan que mejor te queda.",
+          finalLead: "Tus números se quedan en tu pantalla. Solo los envías si decides agendar una revisión."
+        },
+        en: {
+          title: "How much do you really earn? | Profitability diagnostic",
+          description: "Enter last month's numbers and discover how much you keep, how much customers owe you, and how dependent you are on one client.",
+          themeLight: "Switch to light mode",
+          themeDark: "Switch to dark mode",
+          heroTitle: "How much do you really earn?",
+          heroLead: "Enter last month's numbers and, in one minute, discover how much you keep, how much customers owe you, and how dependent you are on one client.",
+          cta: "Run my diagnostic",
+          heroSmall: "It's free and no registration is required.",
+          demoAria: "Example: for every 100 dollars you collect, 72 go to costs and you keep 28",
+          costs: "Costs and expenses",
+          keep: "You keep",
+          demoCaption: "Example: for every $100 you collect, $72 go to costs and you keep $28.",
+          benefitsTitle: "What will you discover?",
+          marginTitle: "Your profit margin",
+          marginText: "How much of what you charge is profit after costs and expenses?",
+          receivablesTitle: "Your overdue receivables",
+          receivablesText: "How much money is tied up in overdue payments?",
+          dependencyTitle: "Your client concentration",
+          dependencyText: "What would happen to your income if your biggest client left?",
+          timeTitle: "How you use your time",
+          timeText: "How many of your available hours do you actually bill?",
+          stepsTitle: "How does it work?",
+          stepOneTitle: "Enter your numbers",
+          stepOneText: "Income, costs, overdue payments, and hours from the last month.",
+          stepTwoTitle: "Get your diagnostic",
+          stepTwoText: "See your margin, receivables, and a financial health score.",
+          stepThreeTitle: "Choose your next step",
+          stepThreeText: "Review suggested solutions and the plan that best fits your needs.",
+          finalLead: "Your numbers stay on your screen. You only share them if you decide to schedule a review."
+        }
+      };
+
+      function getLanguage() {
+        try {
+          const saved = localStorage.getItem("lang");
+          if (saved === "en" || saved === "es") return saved;
+        } catch (error) {
+          // Fall back to the browser language.
+        }
+        return (navigator.language || "").toLowerCase().startsWith("en") ? "en" : "es";
+      }
+
+      let currentLanguage = getLanguage();
+
+      function isDarkMode() {
+        const setting = root.getAttribute("data-theme");
+        if (setting) return setting === "dark";
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+
+      function updateThemeButton() {
+        const dark = isDarkMode();
+        themeButton.textContent = dark ? "☀" : "☾";
+        themeButton.setAttribute(
+          "aria-label",
+          translations[currentLanguage][dark ? "themeLight" : "themeDark"]
+        );
+      }
+
+      function applyLanguage(language, persist = true) {
+        currentLanguage = language;
+        const text = translations[language];
+
+        root.lang = language;
+        document.title = text.title;
+
+        const description = document.querySelector('meta[name="description"]');
+        if (description) description.setAttribute("content", text.description);
+
+        const ids = {
+          heroTitle: text.heroTitle,
+          heroLead: text.heroLead,
+          heroCta: text.cta,
+          finalCta: text.cta,
+          heroSmall: text.heroSmall,
+          barCosts: text.costs,
+          barKeep: text.keep,
+          demoCaption: text.demoCaption,
+          benefitsTitle: text.benefitsTitle,
+          benefitMarginTitle: text.marginTitle,
+          benefitMarginText: text.marginText,
+          benefitReceivablesTitle: text.receivablesTitle,
+          benefitReceivablesText: text.receivablesText,
+          benefitDependencyTitle: text.dependencyTitle,
+          benefitDependencyText: text.dependencyText,
+          benefitTimeTitle: text.timeTitle,
+          benefitTimeText: text.timeText,
+          stepsTitle: text.stepsTitle,
+          stepOneTitle: text.stepOneTitle,
+          stepOneText: text.stepOneText,
+          stepTwoTitle: text.stepTwoTitle,
+          stepTwoText: text.stepTwoText,
+          stepThreeTitle: text.stepThreeTitle,
+          stepThreeText: text.stepThreeText,
+          finalLead: text.finalLead
+        };
+
+        Object.entries(ids).forEach(([id, value]) => {
+          const element = document.getElementById(id);
+          if (element) element.textContent = value;
+        });
+
+        document.getElementById("demoGraphic").setAttribute("aria-label", text.demoAria);
+
+        Object.entries(languageButtons).forEach(([key, button]) => {
+          button.setAttribute("aria-pressed", key === language ? "true" : "false");
+        });
+
+        if (persist) {
+          try {
+            localStorage.setItem("lang", language);
+          } catch (error) {
+            // Language remains active for this page session.
+          }
+        }
+
+        updateThemeButton();
+      }
+
+      languageButtons.es.addEventListener("click", () => applyLanguage("es"));
+      languageButtons.en.addEventListener("click", () => applyLanguage("en"));
+
+      themeButton.addEventListener("click", () => {
+        const nextTheme = isDarkMode() ? "light" : "dark";
+        root.setAttribute("data-theme", nextTheme);
+
+        try {
+          localStorage.setItem("tema", nextTheme);
+        } catch (error) {
+          // Theme remains active for this page session.
+        }
+
+        updateThemeButton();
+      });
+
+      const darkPreference = window.matchMedia("(prefers-color-scheme: dark)");
+      if (darkPreference.addEventListener) {
+        darkPreference.addEventListener("change", updateThemeButton);
+      }
+
+      applyLanguage(currentLanguage, false);
+    })();
+  </script>
 </body>
 </html>
