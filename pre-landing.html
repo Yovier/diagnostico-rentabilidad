@@ -12,12 +12,11 @@
     rel="stylesheet"
   >
 
-  <!-- Page styles -->
+  <!-- =======================================================
+       1. STYLES
+  ======================================================== -->
   <style>
-    /* =========================================================
-       1. THEME TOKENS AND GLOBAL STYLES
-    ========================================================= */
-
+    /* Theme tokens */
     :root {
       --a: #F67F1C;
       --bg: #FBFBFA;
@@ -31,6 +30,7 @@
       --gb: #3E2119;
     }
 
+    /* Automatic dark theme */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --bg: #2A1610;
@@ -44,6 +44,7 @@
       }
     }
 
+    /* Manual dark theme */
     :root[data-theme="dark"] {
       --bg: #2A1610;
       --card: #3E2119;
@@ -55,6 +56,7 @@
       --gb: #1D0E09;
     }
 
+    /* Global styles */
     * {
       box-sizing: border-box;
     }
@@ -87,10 +89,9 @@
       outline-offset: 2px;
     }
 
-
-    /* =========================================================
+    /* =======================================================
        2. NAVIGATION
-    ========================================================= */
+    ======================================================== */
 
     .top {
       position: sticky;
@@ -109,51 +110,6 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-    }
-
-    .fl {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: .82rem;
-      font-weight: 700;
-      flex-wrap: wrap;
-    }
-
-    .fl a,
-    .fl span.s {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 44px;
-      padding: 0 6px;
-      color: var(--mu);
-      text-decoration: none;
-    }
-
-    .fl i {
-      font-style: normal;
-      display: grid;
-      place-items: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--rn);
-      color: var(--ink);
-      font-size: .78rem;
-    }
-
-    .fl .on {
-      color: var(--ink);
-    }
-
-    .fl .on i {
-      background: var(--a);
-      color: #3E2119;
-    }
-
-    .fl .ar {
-      color: var(--te);
     }
 
     .rt {
@@ -197,21 +153,15 @@
       cursor: pointer;
     }
 
-    @media (max-width: 480px) {
-      .fl .ar {
-        display: none;
-      }
-
-      .fl a,
-      .fl span.s {
-        padding: 0 3px;
-      }
+    .tg[aria-pressed="true"] {
+      background: var(--a);
+      border-color: var(--a);
+      color: #3E2119;
     }
 
-
-    /* =========================================================
-       3. PAGE LAYOUT AND HERO SECTION
-    ========================================================= */
+    /* =======================================================
+       3. PAGE LAYOUT AND HERO
+    ======================================================== */
 
     .w {
       max-width: 960px;
@@ -253,22 +203,29 @@
       margin: 0 auto 20px;
     }
 
-    .sum {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin: 0 0 22px;
-    }
-
-    .sum span {
+    .demo {
+      display: inline-block;
+      max-width: 58ch;
+      margin: 0 auto 20px;
+      padding: 10px 16px;
+      border: 2px dashed var(--a);
+      border-radius: 14px;
       background: var(--cr);
-      border-radius: 99px;
-      padding: 5px 14px;
-      font-weight: 700;
-      font-size: .86rem;
+      font-size: .95rem;
+      text-align: left;
     }
 
+    .demo b {
+      background: var(--a);
+      color: #3E2119;
+      border-radius: 99px;
+      padding: 2px 10px;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      margin-right: 8px;
+    }
+
+    /* Audience selector */
     .aud {
       display: inline-flex;
       background: var(--cr);
@@ -293,68 +250,143 @@
       color: #3E2119;
     }
 
+    /* =======================================================
+       4. ROADMAP AND BUILDING
+    ======================================================== */
 
-    /* =========================================================
-       4. ROADMAP CARDS AND BUILDING DESIGN
-    ========================================================= */
+    .bld {
+      position: relative;
+      max-width: 760px;
+      margin: 40px auto 0;
+      padding-top: 0;
+    }
+
+    .crown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .crown i {
+      display: block;
+      background: #3E2119;
+      border: 3px solid var(--te);
+      border-bottom: 0;
+    }
+
+    .crown .m {
+      position: relative;
+      width: 5px;
+      height: 84px;
+      border: 0;
+      border-radius: 3px 3px 0 0;
+      background: var(--te);
+    }
+
+    .crown .m::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 11px;
+      height: 11px;
+      margin-left: -5.5px;
+      border-radius: 50%;
+      background: #E5322D;
+      box-shadow: 0 0 12px 4px rgba(229, 50, 45, .75);
+      animation: bc 1.2s steps(1, end) infinite;
+    }
+
+    .crown .t3 {
+      width: 8%;
+      height: 28px;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .crown .t2 {
+      width: 16%;
+      height: 30px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .crown .t1 {
+      width: 30%;
+      height: 34px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    @keyframes bc {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .08;
+        box-shadow: none;
+      }
+    }
 
     .map {
       list-style: none;
-      margin: 40px 0 0;
-      padding: 0 0 8px;
+      margin: 0;
+      padding: 0;
       position: relative;
-    }
-
-    .map::before,
-    .fill {
-      content: "";
-      position: absolute;
-      left: 23px;
-      width: 4px;
-      border-radius: 4px;
-      top: 0;
-    }
-
-    .map::before {
-      bottom: 0;
-      background: repeating-linear-gradient(
-        var(--te) 0 8px,
-        transparent 8px 16px
-      );
-    }
-
-    .fill {
-      background: var(--a);
-      height: 0;
-      transition: height .6s;
-      z-index: 1;
+      border: 0;
+      background: none;
+      border-radius: 0;
     }
 
     .map li {
       display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 16px;
-      margin-bottom: 22px;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      width: calc(var(--w, 100) * 1%);
+      margin: 0 auto;
+      padding: 24px 14px 22px;
       position: relative;
+      background-color: #3E2119;
+      background-image: linear-gradient(
+        90deg,
+        rgba(205, 169, 146, .2) 0 8px,
+        transparent 8px calc(100% - 8px),
+        rgba(205, 169, 146, .2) calc(100% - 8px)
+      );
+      border-left: 3px solid var(--te);
+      border-right: 3px solid var(--te);
+      border-bottom: 5px solid var(--te);
+    }
+
+    .map li:first-of-type {
+      border-top: 3px solid var(--te);
+    }
+
+    .map li:last-child {
+      border-bottom: 0;
     }
 
     .map li.done {
-      margin-top: 56px;
+      padding-top: 52px;
+    }
+
+    .map li.cur {
+      animation: fl 1.8s ease-in-out infinite;
     }
 
     .node {
       grid-column: 1;
       grid-row: 1;
       z-index: 2;
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: grid;
       place-items: center;
       font-weight: 800;
-      background: var(--card);
+      background: transparent;
       border: 3px dashed var(--te);
-      color: var(--mu);
+      color: #F5E6DB;
     }
 
     .done .node {
@@ -364,35 +396,36 @@
     }
 
     .cur .node {
-      background: var(--ink);
-      border: 3px solid var(--ink);
-      color: var(--bg);
-      animation: pu 2s infinite;
+      background: #F5E6DB;
+      border: 3px solid #F5E6DB;
+      color: #3E2119;
     }
 
-    @keyframes pu {
-      0% {
-        box-shadow: 0 0 0 0 rgba(246, 127, 28, .6);
-      }
-
-      70%,
-      100% {
-        box-shadow: 0 0 0 14px rgba(246, 127, 28, 0);
-      }
-    }
-
+    /* Roadmap cards */
     .card {
       position: relative;
       grid-column: 2;
       grid-row: 1;
-      background: var(--card);
-      border: 1px solid var(--rn);
-      border-radius: 20px;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
+      border: 6px solid var(--te);
+      border-radius: 14px 14px 4px 4px;
+    }
+
+    .done .card {
+      border-color: var(--a);
+      box-shadow: 0 0 24px rgba(246, 127, 28, .55);
     }
 
     .cur .card {
-      border: 2px solid var(--a);
+      border: 6px solid #F5E6DB;
+      box-shadow: 0 0 20px rgba(245, 230, 219, .45);
+      animation: fc 1.8s ease-in-out infinite;
+    }
+
+    .next .card {
+      border: 6px solid #7B6B64;
+      background-color: #5A3A2E;
+      color: #F5E6DB;
+      box-shadow: none;
     }
 
     .hd {
@@ -408,6 +441,10 @@
     .hd:focus-visible {
       outline: 3px solid var(--a);
       outline-offset: 2px;
+    }
+
+    .done .hd {
+      padding-right: 72px;
     }
 
     .st {
@@ -430,6 +467,11 @@
     .cur .st {
       background: var(--ink);
       color: var(--bg);
+    }
+
+    .next .st {
+      background: #7B6B64;
+      color: #FBFBFA;
     }
 
     .here {
@@ -464,6 +506,11 @@
       font-size: .97rem;
     }
 
+    .next .ds,
+    .next .dn {
+      color: #CDB7AA;
+    }
+
     .pl {
       float: right;
       font-weight: 800;
@@ -491,21 +538,28 @@
       color: var(--mu);
     }
 
+    .next .dt b {
+      color: #CDB7AA;
+    }
+
+    .next .dt div {
+      background: #3E2119;
+    }
+
     .dt[hidden] {
       display: none;
     }
 
-
-    /* =========================================================
+    /* =======================================================
        5. ROBOT ILLUSTRATION AND ANIMATIONS
-    ========================================================= */
+    ======================================================== */
 
     .bot {
       position: absolute;
-      top: -58px;
-      right: 20px;
-      width: 64px;
-      height: 64px;
+      top: -40px;
+      right: 12px;
+      width: 52px;
+      height: 52px;
       pointer-events: none;
     }
 
@@ -515,8 +569,7 @@
     }
 
     @keyframes dig {
-      0%,
-      100% {
+      0%, 100% {
         transform: rotate(-8deg);
       }
 
@@ -526,6 +579,7 @@
     }
 
     .pa {
+      --dx: 6px;
       animation: pop 1.1s ease-out infinite;
       opacity: 0;
     }
@@ -535,13 +589,8 @@
       animation-delay: .05s;
     }
 
-    .pa {
-      --dx: 6px;
-    }
-
     @keyframes pop {
-      0%,
-      48% {
+      0%, 48% {
         opacity: 0;
         transform: translate(0, 0);
       }
@@ -556,10 +605,45 @@
       }
     }
 
+    @keyframes fl {
+      0%, 100% {
+        background-color: #6B3F2A;
+      }
 
-    /* =========================================================
+      50% {
+        background-color: #3E2119;
+      }
+    }
+
+    @keyframes fc {
+      0%, 100% {
+        border-color: #F5E6DB;
+        box-shadow: 0 0 26px rgba(245, 230, 219, .65);
+      }
+
+      50% {
+        border-color: #7B6B64;
+        box-shadow: none;
+      }
+    }
+
+    /* =======================================================
        6. CALL TO ACTION AND FOOTER
-    ========================================================= */
+    ======================================================== */
+
+    .street {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      background: var(--te);
+      color: #3E2119;
+      border-radius: 0 0 12px 12px;
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: .16em;
+      font-size: .8rem;
+      padding: 12px;
+    }
 
     .go {
       margin: 44px 0 0;
@@ -611,356 +695,17 @@
       padding: 28px 0 36px;
     }
 
-
-    /* =========================================================
-       7. DEMO NOTICE AND EDITING CONTROLS
-    ========================================================= */
-
-    .demo {
-      display: inline-block;
-      max-width: 58ch;
-      margin: 0 auto 20px;
-      padding: 10px 16px;
-      border: 2px dashed var(--a);
-      border-radius: 14px;
-      background: var(--cr);
-      font-size: .95rem;
-      text-align: left;
-    }
-
-    .demo b {
-      background: var(--a);
-      color: #3E2119;
-      border-radius: 99px;
-      padding: 2px 10px;
-      font-size: .72rem;
-      letter-spacing: .08em;
-      margin-right: 8px;
-    }
-
-    .tg[aria-pressed="true"] {
-      background: var(--a);
-      border-color: var(--a);
-      color: #3E2119;
-    }
-
-    .epn {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-      margin: 20px auto 0;
-      font-size: .9rem;
-      color: var(--mu);
-      max-width: 640px;
-    }
-
-    .epn[hidden] {
-      display: none;
-    }
-
-    .epn button,
-    .eb {
-      border: 2px solid var(--te);
-      background: none;
-      color: var(--ink);
-      border-radius: 10px;
-      font-weight: 800;
-      padding: 0 14px;
-      min-height: 44px;
-      cursor: pointer;
-    }
-
-    .eb {
-      margin: 0 20px 16px;
-      border-color: var(--a);
-    }
-
-    .ef .eb {
-      margin: 0;
-    }
-
-    .eb.sv {
-      background: var(--a);
-      color: #3E2119;
-    }
-
-    .ef {
-      padding: 0 20px 18px;
-      display: grid;
-      gap: 10px;
-      text-align: left;
-    }
-
-    .ef label {
-      font-size: .74rem;
-      font-weight: 800;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--mu);
-      display: grid;
-      gap: 4px;
-    }
-
-    .ef input,
-    .ef select,
-    .ef textarea {
-      font: 500 1rem "Plus Jakarta Sans", sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      border: 2px solid var(--te);
-      border-radius: 10px;
-      padding: 10px 12px;
-      min-height: 44px;
-      width: 100%;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    .ef textarea {
-      min-height: 84px;
-      resize: vertical;
-    }
-
-    .ef .r {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .fill {
-      top: auto;
-      bottom: 0;
-    }
-
-    .tw {
-      display: flex;
-      justify-content: center;
-      margin: 0 auto 18px;
-    }
-
-    .tw svg {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .tw g:focus-visible {
-      outline: 3px solid var(--a);
-    }
-
-    .bl {
-      animation: bk 1.6s ease-in-out infinite;
-    }
-
-    @keyframes bk {
-      50% {
-        opacity: .35;
-      }
-    }
-
-    .done .card {
-      box-shadow: 0 0 0 2px rgba(246, 127, 28, .35),
-        0 10px 26px rgba(0, 0, 0, .08);
-    }
-
-    .next .card {
-      border-style: dashed;
-      background-image: repeating-linear-gradient(
-        135deg,
-        transparent 0 14px,
-        rgba(205, 169, 146, .14) 14px 28px
-      );
-    }
-
-    .street {
-      margin: 6px 0 0;
-      background: var(--te);
-      color: #3E2119;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 800;
-      letter-spacing: .16em;
-      font-size: .8rem;
-      padding: 12px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bl {
-        animation: none;
-      }
-    }
-
-    .gb {
-      background: var(--a);
-      color: #3E2119;
-      border: 0;
-      border-radius: 99px;
-      font-weight: 800;
-      font-size: .9rem;
-      padding: 0 18px;
-      min-height: 44px;
-      cursor: pointer;
-    }
-
-    .gb:hover {
-      filter: brightness(1.07);
-    }
-
-    .map::before,
-    .fill {
-      display: none;
-    }
-
-    .bld {
-      position: relative;
-      max-width: 760px;
-      margin: 40px auto 0;
-      padding-top: 50px;
-    }
-
-    .bld::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 4px;
-      height: 34px;
-      transform: translateX(-50%);
-      background: var(--te);
-      border-radius: 3px;
-    }
-
-    .bld::after {
-      content: "";
-      position: absolute;
-      top: 28px;
-      left: 50%;
-      width: 46%;
-      height: 30px;
-      transform: translateX(-50%);
-      background: #3E2119;
-      border: 3px solid var(--te);
-      border-bottom: 0;
-      border-radius: 12px 12px 0 0;
-    }
-
-    .map {
-      margin: 0;
-      padding: 6px 14px 0;
-      position: relative;
-      z-index: 1;
-      border: 3px solid var(--te);
-      border-radius: 10px 10px 0 0;
-      background: linear-gradient(
-        90deg,
-        rgba(205, 169, 146, .2) 0 8px,
-        transparent 8px calc(100% - 8px),
-        rgba(205, 169, 146, .2) calc(100% - 8px)
-      ) #3E2119;
-    }
-
-    .map li {
-      grid-template-columns: 44px 1fr;
-      gap: 12px;
-      margin: 0;
-      padding: 24px 0 22px;
-      border-bottom: 5px solid var(--te);
-    }
-
-    .map li.done {
-      margin-top: 0;
-      padding-top: 52px;
-    }
-
-    .map li:last-child {
-      border-bottom: 0;
-    }
-
-    .node {
-      width: 44px;
-      height: 44px;
-      background: transparent;
-      border: 3px dashed var(--te);
-      color: #F5E6DB;
-    }
-
-    .done .node {
-      background: var(--a);
-      border: 3px solid var(--a);
-      color: #3E2119;
-    }
-
-    .cur .node {
-      background: #F5E6DB;
-      border: 3px solid #F5E6DB;
-      color: #3E2119;
-    }
-
-    .card {
-      border: 6px solid var(--te);
-      border-radius: 14px 14px 4px 4px;
-    }
-
-    .done .card {
-      border-color: var(--a);
-      box-shadow: 0 0 24px rgba(246, 127, 28, .55);
-    }
-
-    .cur .card {
-      border: 6px solid #F5E6DB;
-      box-shadow: 0 0 20px rgba(245, 230, 219, .45);
-    }
-
-    .next .card {
-      border: 6px solid #7B6B64;
-      background-color: #5A3A2E;
-      color: #F5E6DB;
-      box-shadow: none;
-    }
-
-    .next .ds,
-    .next .dn,
-    .next .dt b,
-    .next .ef label {
-      color: #CDB7AA;
-    }
-
-    .next .dt div {
-      background: #3E2119;
-    }
-
-    .next .st {
-      background: #7B6B64;
-      color: #FBFBFA;
-    }
-
-    .bot {
-      top: -40px;
-      right: 12px;
-      width: 52px;
-      height: 52px;
-    }
-
-    .done .hd {
-      padding-right: 72px;
-    }
-
-    .bld .street {
-      position: relative;
-      z-index: 1;
-      margin: 0;
-      border-radius: 0 0 12px 12px;
-    }
+    /* =======================================================
+       7. RESPONSIVE DESIGN AND ACCESSIBILITY
+    ======================================================== */
 
     @media (max-width: 480px) {
-      .map {
-        padding: 6px 10px 0;
-      }
-
       .map li {
         gap: 8px;
         grid-template-columns: 40px 1fr;
+        width: calc(var(--m, 100) * 1%);
+        padding-left: 8px;
+        padding-right: 8px;
       }
 
       .node {
@@ -968,221 +713,43 @@
         height: 40px;
       }
 
-      .gb {
-        padding: 0 12px;
-        font-size: .82rem;
+      .rt {
+        gap: 6px;
       }
     }
 
-    .bld {
-      padding-top: 0;
-    }
-
-    .bld::before,
-    .bld::after {
-      display: none;
-    }
-
-    .crown {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .crown i {
-      display: block;
-      background: #3E2119;
-      border: 3px solid var(--te);
-      border-bottom: 0;
-    }
-
-    .crown .m {
-      position: relative;
-      width: 5px;
-      height: 84px;
-      border: 0;
-      border-radius: 3px 3px 0 0;
-      background: var(--te);
-    }
-
-    .crown .m::after {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: 50%;
-      width: 11px;
-      height: 11px;
-      margin-left: -5.5px;
-      border-radius: 50%;
-      background: #E5322D;
-      box-shadow: 0 0 12px 4px rgba(229, 50, 45, .75);
-      animation: bc 1.2s steps(1, end) infinite;
-    }
-
-    @keyframes bc {
-      0% {
-        opacity: 1;
+    @media (max-width: 360px) {
+      .lang button {
+        padding: 0 9px;
       }
 
-      50% {
-        opacity: .08;
-        box-shadow: none;
-      }
-    }
-
-    .crown .t3 {
-      width: 8%;
-      height: 28px;
-      border-radius: 6px 6px 0 0;
-    }
-
-    .crown .t2 {
-      width: 16%;
-      height: 30px;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .crown .t1 {
-      width: 30%;
-      height: 34px;
-      border-radius: 10px 10px 0 0;
-    }
-
-    .map {
-      border: 0;
-      background: none;
-      padding: 0;
-      border-radius: 0;
-    }
-
-    .map li {
-      background-color: #3E2119;
-      background-image: linear-gradient(
-        90deg,
-        rgba(205, 169, 146, .2) 0 8px,
-        transparent 8px calc(100% - 8px),
-        rgba(205, 169, 146, .2) calc(100% - 8px)
-      );
-      border-left: 3px solid var(--te);
-      border-right: 3px solid var(--te);
-      padding-left: 14px;
-      padding-right: 14px;
-      margin: 0 auto;
-    }
-
-    .f1,
-    .f2 {
-      width: 100%;
-    }
-
-    .f3 {
-      width: 92%;
-    }
-
-    .f4 {
-      width: 84%;
-    }
-
-    .f5 {
-      width: 76%;
-    }
-
-    .f6 {
-      width: 68%;
-      border-top: 3px solid var(--te);
-    }
-
-    .map li.cur {
-      animation: fl 1.8s ease-in-out infinite;
-    }
-
-    .cur .card {
-      animation: fc 1.8s ease-in-out infinite;
-    }
-
-    @keyframes fl {
-      0%,
-      100% {
-        background-color: #6B3F2A;
+      .tg {
+        width: 40px;
+        height: 40px;
       }
 
-      50% {
-        background-color: #3E2119;
-      }
-    }
-
-    @keyframes fc {
-      0%,
-      100% {
-        border-color: #F5E6DB;
-        box-shadow: 0 0 26px rgba(245, 230, 219, .65);
-      }
-
-      50% {
-        border-color: #7B6B64;
-        box-shadow: none;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .map li {
-        padding-left: 8px;
-        padding-right: 8px;
-      }
-
-      .f3 {
-        width: 100%;
-      }
-
-      .f4 {
-        width: 97%;
-      }
-
-      .f5 {
-        width: 94%;
-      }
-
-      .f6 {
-        width: 91%;
+      .w {
+        padding: 0 14px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .map li.cur,
+      .cur .node,
       .cur .card,
-      .crown .m::after {
+      .arm,
+      .pa,
+      .crown .m::after,
+      .map li.cur {
         animation: none;
       }
-    }
 
-    .map li {
-      width: calc(var(--w, 100) * 1%);
-    }
-
-    .map li:first-of-type {
-      border-top: 3px solid var(--te);
-    }
-
-    @media (max-width: 480px) {
-      .map li {
-        width: calc(var(--m, 100) * 1%);
+      .pa {
+        opacity: 0;
       }
-    }
-
-    .eb.dl {
-      border-color: #C0392B;
-      margin-left: auto;
-    }
-
-    .eb.dl.on {
-      background: #C0392B;
-      color: #fff;
     }
   </style>
 
-  <!-- Restore the saved theme before first paint -->
+  <!-- Restore the saved color theme before first paint -->
   <script>
     try {
       var savedTheme = localStorage.getItem("tema");
@@ -1201,19 +768,31 @@
        8. PAGE STRUCTURE
   ======================================================== -->
 
-  <!-- Sticky navigation and accessibility controls -->
+  <!-- Navigation: language and theme controls only -->
   <div class="top">
     <div class="ti">
-      <button class="gb" id="go0" type="button"></button>
+      <button
+        class="gb"
+        id="go0"
+        type="button"
+      ></button>
 
       <div class="rt">
-        <div class="lang" role="group" aria-label="Idioma / Language">
+        <div
+          class="lang"
+          role="group"
+          aria-label="Idioma / Language"
+        >
           <button id="es" aria-pressed="true">ES</button>
           <button id="en" aria-pressed="false">EN</button>
         </div>
 
-        <button class="tg" id="ed" type="button" aria-pressed="false">✎</button>
-        <button class="tg" id="tg" type="button"></button>
+        <button
+          class="tg"
+          id="tg"
+          type="button"
+          aria-label="Cambiar tema"
+        ></button>
       </div>
     </div>
   </div>
@@ -1227,14 +806,16 @@
       <p class="lead" id="ld"></p>
       <p class="demo" id="demo"></p>
 
-      <div class="aud" role="group" id="aud">
+      <!-- Audience selector -->
+      <div
+        class="aud"
+        role="group"
+        id="aud"
+      >
         <button data-a="c" aria-pressed="true"></button>
         <button data-a="v" aria-pressed="false"></button>
       </div>
     </header>
-
-    <!-- Optional editing toolbar -->
-    <div class="epn" id="epn" hidden></div>
 
     <!-- Interactive building and roadmap floors -->
     <div class="bld">
@@ -1245,9 +826,7 @@
         <i class="t1"></i>
       </div>
 
-      <ol class="map" id="map">
-        <div class="fill" id="fill" aria-hidden="true"></div>
-      </ol>
+      <ol class="map" id="map"></ol>
 
       <div class="street" id="stt"></div>
     </div>
@@ -1257,7 +836,11 @@
       <h2 id="gh"></h2>
       <p id="gp"></p>
 
-      <a class="btn" href="index.html" id="g1"></a>
+      <a
+        class="btn"
+        href="index.html"
+        id="g1"
+      ></a>
 
       <a
         class="btn o"
@@ -1281,26 +864,10 @@
 
     var T = {
       es: {
-        ed: "Modo edición",
-        edn: "Modo edición activo: tus cambios se guardan solo en este navegador y en el idioma que estás viendo.",
-        rst: "Restablecer",
-        cp: "Copiar mis cambios",
-        cpd: "¡Copiado!",
-        edt: "✎ Editar",
         g0: "↓ Piso 1",
-        dl: "🗑 Eliminar piso",
-        dc: "¿Seguro? Toca para eliminar",
-        ad: "＋ Añadir piso",
         g0a: "Ir al primer piso",
         fl: "PISO",
         str: "WALL STREET · NUEVA YORK",
-        sv: "Guardar",
-        cn: "Cancelar",
-        fs: "Estado",
-        ft2: "Título",
-        fd: "Resumen",
-        fc: "Para clientes",
-        fv: "Para inversionistas",
         demo: "<b>DEMO</b>QuantiQ es una app demo y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
         f: ["Hoja de ruta", "Landing", "QuantiQ"],
         h1: "QuantiQ: piso a piso hacia la <em>inteligencia financiera</em>",
@@ -1325,26 +892,10 @@
       },
 
       en: {
-        ed: "Edit mode",
-        edn: "Edit mode on: your changes are saved only in this browser and in the language you are viewing.",
-        rst: "Reset",
-        cp: "Copy my changes",
-        cpd: "Copied!",
-        edt: "✎ Edit",
         g0: "↓ Floor 1",
-        dl: "🗑 Delete floor",
-        dc: "Sure? Tap to delete",
-        ad: "＋ Add floor",
         g0a: "Go to the first floor",
         fl: "FLOOR",
         str: "WALL STREET · NEW YORK",
-        sv: "Save",
-        cn: "Cancel",
-        fs: "Status",
-        ft2: "Title",
-        fd: "Summary",
-        fc: "For clients",
-        fv: "For investors",
         demo: "<b>DEMO</b>QuantiQ is a demo app and is still in development: its features, stages and dates may change.",
         f: ["Roadmap", "Landing", "QuantiQ"],
         h1: "QuantiQ: floor by floor to <em>financial intelligence</em>",
@@ -1472,39 +1023,10 @@
       }
     ];
 
-    var DEFAULT_ROADMAP = JSON.stringify(D);
-
-    var EM = false;
-    var ED = -1;
-    var DEL = -1;
-
 
     /* ---------------------------------------------------------
-       9.3. STATE AND LOCAL STORAGE
+       9.3. PAGE STATE
     --------------------------------------------------------- */
-
-    try {
-      var savedRoadmap = JSON.parse(localStorage.getItem("qq_rm") || "null");
-
-      if (
-        savedRoadmap &&
-        savedRoadmap.length >= 1 &&
-        savedRoadmap.length <= 30 &&
-        savedRoadmap.every(function (item) {
-          return (
-            item.k &&
-            item.es &&
-            item.en &&
-            item.es.length === 4 &&
-            item.en.length === 4
-          );
-        })
-      ) {
-        D = savedRoadmap;
-      }
-    } catch (error) {
-      // Keep the default roadmap if saved browser data cannot be read.
-    }
 
     var L = "es";
     var A = "c";
@@ -1514,6 +1036,7 @@
       return document.getElementById(id);
     };
 
+    /* Restore saved language */
     try {
       var savedLanguage = localStorage.getItem("lang");
 
@@ -1523,149 +1046,19 @@
         L = "en";
       }
     } catch (error) {
-      // Keep Spanish as the default language when storage is unavailable.
+      // Spanish remains the default language.
     }
 
 
     /* ---------------------------------------------------------
-       9.4. UTILITY FUNCTIONS AND ROADMAP EDITING
+       9.4. UTILITY FUNCTIONS
     --------------------------------------------------------- */
-
-    function saveRoadmap() {
-      try {
-        localStorage.setItem("qq_rm", JSON.stringify(D));
-      } catch (error) {
-        // The page remains usable if local storage is unavailable.
-      }
-    }
 
     function escapeHtml(value) {
       return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/"/g, "&quot;");
-    }
-
-    function deleteFloor(index) {
-      if (DEL !== index) {
-        DEL = index;
-        paint();
-        return;
-      }
-
-      D.splice(index, 1);
-
-      var updatedOpenState = {};
-
-      for (var key in open) {
-        var floorIndex = Number(key);
-
-        if (floorIndex < index) {
-          updatedOpenState[floorIndex] = open[key];
-        } else if (floorIndex > index) {
-          updatedOpenState[floorIndex - 1] = open[key];
-        }
-      }
-
-      open = updatedOpenState;
-      ED = -1;
-      DEL = -1;
-
-      saveRoadmap();
-      paint();
-    }
-
-    function addFloor() {
-      DEL = -1;
-
-      D.push({
-        k: "next",
-        es: [
-          "Nuevo descubrimiento",
-          "Resumen breve del descubrimiento.",
-          "Lo que descubre el cliente.",
-          "Por qué importa a inversionistas."
-        ],
-        en: [
-          "New discovery",
-          "Short summary of the discovery.",
-          "What the client discovers.",
-          "Why it matters to investors."
-        ]
-      });
-
-      saveRoadmap();
-
-      ED = D.length - 1;
-      open[ED] = 1;
-
-      paint();
-
-      var titleInput = $("e1");
-
-      if (titleInput) {
-        titleInput.scrollIntoView({ block: "center" });
-        titleInput.focus({ preventScroll: true });
-        titleInput.select();
-      }
-    }
-
-    function renderEditor(index, floor, text, labels) {
-      if (ED !== index) {
-        return `<button class="eb" data-e="${index}">${labels.edt}</button>`;
-      }
-
-      var statusOptions = ["done", "cur", "next"]
-        .map(function (status) {
-          var selected = floor.k === status ? " selected" : "";
-
-          var currentLabel = status === "cur"
-            ? ` (${labels.here.toLowerCase()})`
-            : "";
-
-          return `<option value="${status}"${selected}>${labels[status]}${currentLabel}</option>`;
-        })
-        .join("");
-
-      return `
-        <div class="ef">
-          <label>
-            ${labels.fs}
-            <select id="e0">${statusOptions}</select>
-          </label>
-
-          <label>
-            ${labels.ft2}
-            <input id="e1" value="${escapeHtml(text[0])}">
-          </label>
-
-          <label>
-            ${labels.fd}
-            <input id="e2" value="${escapeHtml(text[1])}">
-          </label>
-
-          <label>
-            ${labels.fc}
-            <textarea id="e3">${escapeHtml(text[2])}</textarea>
-          </label>
-
-          <label>
-            ${labels.fv}
-            <textarea id="e4">${escapeHtml(text[3])}</textarea>
-          </label>
-
-          <div class="r">
-            <button class="eb sv" data-s="${index}">${labels.sv}</button>
-            <button class="eb" data-x="1">${labels.cn}</button>
-
-            ${
-              D.length > 1
-                ? `<button class="eb dl${DEL === index ? " on" : ""}" data-d="${index}">${DEL === index ? labels.dc : labels.dl}</button>`
-                : ""
-            }
-          </div>
-        </div>
-      `;
     }
 
 
@@ -1676,26 +1069,79 @@
     var BOT = `
       <svg class="bot" viewBox="0 0 64 64" aria-hidden="true">
         <ellipse cx="32" cy="60" rx="27" ry="4" fill="#CDA992" />
-        <rect x="46" y="51" width="14" height="9" rx="2" fill="#7B6B64" />
-        <path d="M50 51v-2h6v2" stroke="#3E2119" fill="none" stroke-width="1.5" />
+
+        <rect
+          x="46"
+          y="51"
+          width="14"
+          height="9"
+          rx="2"
+          fill="#7B6B64"
+        />
+
+        <path
+          d="M50 51v-2h6v2"
+          stroke="#3E2119"
+          fill="none"
+          stroke-width="1.5"
+        />
+
         <rect x="24" y="50" width="6" height="9" rx="3" fill="#3E2119" />
         <rect x="34" y="50" width="6" height="9" rx="3" fill="#3E2119" />
         <rect x="22" y="34" width="20" height="19" rx="6" fill="#CDA992" />
-        <path d="M30 36h4l1 4-3 9-3-9z" fill="#3E2119" />
-        <line x1="32" y1="9" x2="32" y2="15" stroke="#3E2119" stroke-width="2" />
+
+        <path
+          d="M30 36h4l1 4-3 9-3-9z"
+          fill="#3E2119"
+        />
+
+        <line
+          x1="32"
+          y1="9"
+          x2="32"
+          y2="15"
+          stroke="#3E2119"
+          stroke-width="2"
+        />
+
         <circle cx="32" cy="7" r="3" fill="#F67F1C" />
         <rect x="17" y="14" width="30" height="23" rx="11" fill="#F67F1C" />
         <rect x="21" y="18" width="22" height="14" rx="7" fill="#FBFBFA" />
         <circle cx="28" cy="24" r="2.4" fill="#3E2119" />
         <circle cx="36" cy="24" r="2.4" fill="#3E2119" />
-        <path d="M29 28Q32 30.6 35 28" stroke="#3E2119" fill="none" stroke-width="1.4" stroke-linecap="round" />
+
+        <path
+          d="M29 28Q32 30.6 35 28"
+          stroke="#3E2119"
+          fill="none"
+          stroke-width="1.4"
+          stroke-linecap="round"
+        />
+
         <circle cx="24" cy="28" r="1.6" fill="#ECC9B2" />
         <circle cx="40" cy="28" r="1.6" fill="#ECC9B2" />
 
         <g class="arm">
           <rect x="38" y="36" width="10" height="5" rx="2.5" fill="#CDA992" />
-          <line x1="46" y1="38" x2="54" y2="30" stroke="#7B6B64" stroke-width="2.6" stroke-linecap="round" />
-          <circle cx="57" cy="26" r="5" fill="rgba(251,251,250,.6)" stroke="#3E2119" stroke-width="2" />
+
+          <line
+            x1="46"
+            y1="38"
+            x2="54"
+            y2="30"
+            stroke="#7B6B64"
+            stroke-width="2.6"
+            stroke-linecap="round"
+          />
+
+          <circle
+            cx="57"
+            cy="26"
+            r="5"
+            fill="rgba(251,251,250,.6)"
+            stroke="#3E2119"
+            stroke-width="2"
+          />
         </g>
 
         <circle class="pa" cx="58" cy="17" r="1.8" fill="#F67F1C" />
@@ -1705,20 +1151,12 @@
 
 
     /* ---------------------------------------------------------
-       9.6. LANGUAGE, THEME AND ROADMAP RENDERING
+       9.6. ROADMAP RENDERING
     --------------------------------------------------------- */
 
     function fill() {
-      var nodes = document.querySelectorAll(".done .node, .cur .node");
-      var currentNode = nodes[0];
-      var roadmap = $("map");
-
-      if (currentNode) {
-        $("fill").style.height =
-          roadmap.getBoundingClientRect().bottom -
-          currentNode.getBoundingClientRect().top -
-          24 + "px";
-      }
+      // The visual progress line is not displayed in this design.
+      return;
     }
 
     function paint() {
@@ -1726,37 +1164,26 @@
 
       document.documentElement.lang = L;
 
+      /* Language buttons */
       $("es").setAttribute("aria-pressed", L === "es");
       $("en").setAttribute("aria-pressed", L === "en");
 
+      /* Hero content */
       $("h1").innerHTML = labels.h1;
       $("go0").textContent = labels.g0;
       $("go0").setAttribute("aria-label", labels.g0a);
       $("stt").textContent = labels.str;
       $("demo").innerHTML = labels.demo;
-
-      $("ed").setAttribute("aria-pressed", EM);
-      $("ed").setAttribute("aria-label", labels.ed);
-      $("ed").title = labels.ed;
-
-      $("epn").hidden = !EM;
-
-      if (EM) {
-        $("epn").innerHTML = `
-          <span>${labels.edn}</span>
-          <button id="ad">${labels.ad}</button>
-          <button id="rs">${labels.rst}</button>
-          <button id="cp">${labels.cp}</button>
-        `;
-      }
-
       $("ld").textContent = labels.ld;
+
+      /* Call-to-action content */
       $("gh").textContent = labels.gh;
       $("gp").textContent = labels.gp;
       $("g1").textContent = labels.g1;
       $("g2").textContent = labels.g2;
       $("ft").textContent = labels.ft;
 
+      /* Audience selector */
       var audienceButtons = $("aud").children;
 
       audienceButtons[0].textContent = labels.c;
@@ -1765,8 +1192,7 @@
       audienceButtons[0].setAttribute("aria-pressed", A === "c");
       audienceButtons[1].setAttribute("aria-pressed", A === "v");
 
-      var fillElement = $("fill");
-
+      /* Generate roadmap floors */
       $("map").innerHTML = D.map(function (floor, index) {
         return [floor, index];
       })
@@ -1794,8 +1220,13 @@
             : "";
 
           return `
-            <li class="${floor.k}" style="--w:${width}; --m:${mobileWidth};">
-              <div class="node" aria-hidden="true">${nodeLabel}</div>
+            <li
+              class="${floor.k}"
+              style="--w:${width}; --m:${mobileWidth};"
+            >
+              <div class="node" aria-hidden="true">
+                ${nodeLabel}
+              </div>
 
               <div class="card">
                 ${floor.k === "done" ? BOT : ""}
@@ -1805,12 +1236,27 @@
                   data-i="${index}"
                   aria-expanded="${!!isOpen}"
                 >
-                  <span class="pl" aria-hidden="true">${isOpen ? "−" : "+"}</span>
-                  <span class="st">${labels[floor.k]}</span>
+                  <span class="pl" aria-hidden="true">
+                    ${isOpen ? "−" : "+"}
+                  </span>
+
+                  <span class="st">
+                    ${labels[floor.k]}
+                  </span>
+
                   ${currentMarker}
-                  <span class="dn">${labels.d} · ${labels.fl} 0${index + 1}</span>
-                  <span class="tt">${escapeHtml(text[0])}</span>
-                  <span class="ds">${escapeHtml(text[1])}</span>
+
+                  <span class="dn">
+                    ${labels.d} · ${labels.fl} 0${index + 1}
+                  </span>
+
+                  <span class="tt">
+                    ${escapeHtml(text[0])}
+                  </span>
+
+                  <span class="ds">
+                    ${escapeHtml(text[1])}
+                  </span>
                 </button>
 
                 <div class="dt"${isOpen ? "" : " hidden"}>
@@ -1819,15 +1265,11 @@
                     ${escapeHtml(A === "c" ? text[2] : text[3])}
                   </div>
                 </div>
-
-                ${EM && isOpen ? renderEditor(index, floor, text, labels) : ""}
               </div>
             </li>
           `;
         })
         .join("");
-
-      $("map").insertBefore(fillElement, $("map").firstChild);
 
       fill();
       updateThemeButton();
@@ -1845,7 +1287,9 @@
         "(prefers-color-scheme: dark)"
       );
 
-      return theme ? theme === "dark" : darkPreference.matches;
+      return theme
+        ? theme === "dark"
+        : darkPreference.matches;
     }
 
     function updateThemeButton() {
@@ -1866,7 +1310,7 @@
       try {
         localStorage.setItem("lang", L);
       } catch (error) {
-        // Language selection remains active for the current page session.
+        // Language remains active for the current page session.
       }
     }
 
@@ -1875,52 +1319,8 @@
        9.8. EVENT LISTENERS
     --------------------------------------------------------- */
 
+    /* Expand and collapse roadmap floors */
     $("map").addEventListener("click", function (event) {
-      var editButton = event.target.closest(".eb");
-
-      if (editButton) {
-        var data = editButton.dataset;
-
-        if (data.e !== undefined) {
-          ED = Number(data.e);
-          DEL = -1;
-          open[ED] = 1;
-
-          paint();
-
-          var titleInput = $("e1");
-
-          if (titleInput) {
-            titleInput.focus();
-          }
-        } else if (data.d !== undefined) {
-          deleteFloor(Number(data.d));
-        } else if (data.s !== undefined) {
-          var index = Number(data.s);
-
-          D[index].k = $("e0").value;
-
-          D[index][L] = [
-            $("e1").value,
-            $("e2").value,
-            $("e3").value,
-            $("e4").value
-          ];
-
-          ED = -1;
-
-          saveRoadmap();
-          paint();
-        } else {
-          ED = -1;
-          DEL = -1;
-
-          paint();
-        }
-
-        return;
-      }
-
       var floorButton = event.target.closest(".hd");
 
       if (!floorButton) {
@@ -1929,7 +1329,9 @@
 
       var floorIndex = floorButton.dataset.i;
 
-      open[floorIndex] = open[floorIndex] ? 0 : 1;
+      open[floorIndex] = open[floorIndex]
+        ? 0
+        : 1;
 
       paint();
 
@@ -1943,7 +1345,7 @@
     });
 
 
-    /* Audience selector */
+    /* Switch between client and investor information */
     $("aud").addEventListener("click", function (event) {
       var button = event.target.closest("button");
 
@@ -1954,10 +1356,9 @@
     });
 
 
-    /* Navigate to the first roadmap floor */
+    /* Scroll to the first roadmap floor */
     $("go0").onclick = function () {
       open[0] = 1;
-
       paint();
 
       var firstFloorButton = document.querySelector(
@@ -1974,65 +1375,22 @@
           block: "center"
         });
 
-        firstFloorButton.focus({ preventScroll: true });
+        firstFloorButton.focus({
+          preventScroll: true
+        });
       }
     };
 
 
-    /* Toggle editing mode */
-    $("ed").onclick = function () {
-      EM = !EM;
-
-      if (!EM) {
-        ED = -1;
-      }
-
-      paint();
-    };
-
-
-    /* Editing toolbar actions */
-    $("epn").addEventListener("click", function (event) {
-      var button = event.target.closest("button");
-
-      if (!button) {
-        return;
-      }
-
-      if (button.id === "rs") {
-        try {
-          localStorage.removeItem("qq_rm");
-        } catch (error) {
-          // Continue by restoring the default roadmap in memory.
-        }
-
-        D = JSON.parse(DEFAULT_ROADMAP);
-        ED = -1;
-
-        paint();
-      } else if (button.id === "ad") {
-        addFloor();
-      } else if (button.id === "cp") {
-        try {
-          navigator.clipboard.writeText(
-            JSON.stringify(D, null, 1)
-          ).then(function () {
-            button.textContent = T[L].cpd;
-          });
-        } catch (error) {
-          // Clipboard access may be unavailable outside a secure context.
-        }
-      }
-    });
-
-
-    /* Language selector */
+    /* Spanish language */
     $("es").onclick = function () {
       L = "es";
       saveLanguage();
       paint();
     };
 
+
+    /* English language */
     $("en").onclick = function () {
       L = "en";
       saveLanguage();
@@ -2040,9 +1398,11 @@
     };
 
 
-    /* Theme selector */
+    /* Light and dark theme toggle */
     $("tg").onclick = function () {
-      var nextTheme = isDarkMode() ? "light" : "dark";
+      var nextTheme = isDarkMode()
+        ? "light"
+        : "dark";
 
       document.documentElement.setAttribute(
         "data-theme",
@@ -2052,14 +1412,14 @@
       try {
         localStorage.setItem("tema", nextTheme);
       } catch (error) {
-        // Theme selection remains active for the current page session.
+        // Theme remains active for the current page session.
       }
 
       updateThemeButton();
     };
 
 
-    /* System theme preference */
+    /* Follow system theme preference changes */
     var colorScheme = window.matchMedia(
       "(prefers-color-scheme: dark)"
     );
