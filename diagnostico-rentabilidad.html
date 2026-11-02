@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>¿Cuánto ganas realmente? Diagnóstico de rentabilidad</title>
+<meta name="description" content="Calcula tu margen, cartera vencida, concentración de clientes y uso de tiempo.">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FBFBFA;--card:#FBFBFA;--ink:#3E2119;--mut:#7B6B64;--line:#F5E6DB;--ac:#F67F1C;--ac2:#6B3F2A;--soft:#ECC9B2;--on:#FBFBFA;--ok:#2F8F5B;--wa:#D99A2B;--bad:#C0392B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -70,105 +72,1412 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 @media (prefers-reduced-motion:no-preference){.cta,.btn{transition:transform .2s,box-shadow .2s}.cta:hover,.btn.m:hover{transform:translateY(-2px)}.meter i,.bar i{transition:width .4s}}
 .tg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:var(--sh2)}.tg:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 @media(max-width:420px){.grid{grid-template-columns:1fr}.cbox{gap:8px}}
+
+/* LANGUAGE SWITCHER */
+.language-switch{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:64px;z-index:11;display:flex;overflow:hidden;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--sh2)}
+.language-switch button{min-height:44px;padding:0 12px;border:0;background:transparent;color:var(--ink);font-weight:700;font-size:.8rem;font-family:inherit;cursor:pointer}
+.language-switch button[aria-pressed="true"]{background:var(--ac);color:var(--on)}
+@media(max-width:360px){.language-switch{right:60px}.language-switch button{padding:0 9px}}
 </style>
-<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-</head>
-<body>
-<button class="tg" id="tg" type="button" aria-label="Cambiar entre modo claro y oscuro"></button>
-<main>
-<header class="ban"><h1>¿Cuánto ganas realmente?</h1><p>Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p><div class="sbar" aria-hidden="true"><i class="c"></i><i class="g"></i></div><div class="leg" style="margin-top:0"><span><u class="c"></u>Costos y gastos</span><span><u class="g"></u>Lo que realmente te queda</span></div></header>
-<div class="seg" role="group" aria-label="Tipo de cliente"><button type="button" id="b1" aria-pressed="true">Profesionista</button><button type="button" id="b2" aria-pressed="false">Pyme de servicios</button></div>
-<div class="grid">
-<div><label for="ing">Ingresos del mes</label><input id="ing" type="number" inputmode="decimal" value="0"></div>
-<div><label for="cos">Costos y gastos</label><input id="cos" type="number" inputmode="decimal" value="0"></div>
-<div class="full"><label>Clientes con pagos vencidos</label><div id="debts"></div><button type="button" class="add" id="addD">+ Agregar cliente</button><span class="hint" id="dtot" style="display:none"></span></div>
-<div class="full"><label for="top">Lo que te pagó tu mejor cliente este mes ($)</label><input id="top" type="number" inputmode="decimal" value="0"><span class="hint">Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.</span></div>
-<div><label for="ing3">Ingresos de los últimos 3 meses ($)</label><input id="ing3" type="number" inputmode="decimal" value="0"></div>
-<div><label for="top3">Tu mejor cliente en esos 3 meses ($)</label><input id="top3" type="number" inputmode="decimal" value="0"></div>
-<span class="hint full" style="margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.</span>
-<div><label for="hf">Horas facturadas</label><input id="hf" type="number" inputmode="decimal" value="0"></div>
-<div><label for="hd">Horas disponibles</label><input id="hd" type="number" inputmode="decimal" value="0"></div>
-</div>
-<button class="cta" id="go" type="button">Ver mi diagnóstico</button>
-<div class="err" id="err" role="alert"></div>
-<section id="res" aria-live="polite" hidden>
-<div class="hero" id="hero"></div>
-<div class="card"><div style="display:flex;justify-content:space-between;font-weight:800"><span>Salud financiera</span><span id="hs">0%</span></div><div class="meter"><i id="hf2" class="ok" style="width:0"></i></div></div>
-<div class="card"><h3>Resultado general</h3><div class="cbox" id="cbox"></div><div class="leg"><span><b>Margen</b> neto</span><span><b>Cartera</b> vencida</span><span><b>Dependencia</b></span></div></div>
-<div id="kpis"></div>
-<h2>Soluciones sugeridas</h2><div id="sols"></div>
-<h2>Tu plan recomendado</h2><div class="plans" id="plans"></div>
-<p class="mut" style="text-align:center;margin:12px 0 32px">Precios de referencia en USD al mes.</p>
-<div class="card" style="text-align:center;padding:24px"><h3>¿Lo revisamos juntos?</h3><p class="mut">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
-<div class="grid" style="margin:20px 0 0;text-align:left"><div><label for="nom">Tu nombre</label><input id="nom" autocomplete="name"></div><div><label for="neg">Tu negocio</label><input id="neg"></div></div>
-<div class="btns"><a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a><a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a><a class="btn" id="lMail">Enviar por correo</a></div></div>
-<div class="card fb" style="padding:24px"><div id="fbForm"><h3>¿Qué tal te pareció?</h3><p class="mut">Toca las estrellas que quieras, del 1 al 5.</p><div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div><div id="qs"></div><div class="q"><p>¿Qué te gustaría que agregáramos? (opcional)</p><textarea id="fbTxt" aria-label="Sugerencia"></textarea></div><div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div><button class="cta" id="fbSend" type="button" style="margin-bottom:0">Enviar opinión</button></div><div id="fbThanks" style="display:none"><h3>¡Gracias por tu opinión!</h3><p class="mut">Si quieres, mándamela directo para que la lea.</p><div class="btns"><a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a><a class="btn" id="fMail">Enviar por correo</a></div></div></div>
-</section>
-</main>
 <script>
-var CAL="https://calendly.com/TU_USUARIO",WA="521XXXXXXXXXX",MAIL="yovier.cruz@gmail.com",resumen="",tipo="pro",debts=[];
-var $=function(i){return document.getElementById(i)};
-var PL={basico:{n:"Básico",p:"$19",l:["Carga de datos con plantilla","Tablero de 5 KPIs","Reporte mensual por correo"]},pro:{n:"Pro",p:"$59",l:["Todo lo del Básico","Rentabilidad por cliente y servicio","Alertas de cobranza y proyección a 90 días"]},medida:{n:"A la medida",p:"Desde $500 + $120/mes",l:["Diagnóstico con el experto","Conexión a tu facturación","Tablero personalizado"]}};
-var RK={basico:1,pro:2,medida:3};
-function setT(t){tipo=t;$("b1").setAttribute("aria-pressed",t==="pro");$("b2").setAttribute("aria-pressed",t==="pyme")}
-$("b1").onclick=function(){setT("pro")};$("b2").onclick=function(){setT("pyme")};
-function pct(a,b){return b>0?a/b*100:0}
-function cls(v,g,b,inv){return inv?(v<=g?"ok":v>=b?"bad":"warn"):(v>=g?"ok":v<=b?"bad":"warn")}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function fm(n){return n.toLocaleString("es-MX")}
-function links(){var m="Hola, soy "+($("nom").value||"(mi nombre)")+" de "+($("neg").value||"(mi negocio)")+". Hice el diagnóstico: "+resumen+" Quiero agendar una revisión.";
-$("lCal").href=CAL;$("lWa").href="https://wa.me/"+WA+"?text="+encodeURIComponent(m);$("lMail").href="mailto:"+MAIL+"?subject="+encodeURIComponent("Diagnóstico de rentabilidad")+"&body="+encodeURIComponent(m)}
-$("nom").oninput=links;$("neg").oninput=links;
-function tot(){var t=0,c=0;debts.forEach(function(d){if(d.m>0){t+=d.m;c++}});$("dtot").textContent="Total vencido: $"+fm(t)+" en "+c+(c===1?" cliente":" clientes");$("dtot").style.display=t>0?"block":"none";return[t,c]}
-function rd(){$("debts").innerHTML=debts.map(function(d,i){return'<div class="drow"><input aria-label="Nombre del cliente" data-i="'+i+'" data-k="n" value="'+esc(d.n)+'" placeholder="Cliente"><input aria-label="Monto vencido" data-i="'+i+'" data-k="m" type="number" value="'+d.m+'" inputmode="decimal"><button aria-label="Eliminar cliente" data-del="'+i+'" type="button">✕</button></div>'}).join("");tot()}
-$("debts").oninput=function(e){var i=e.target.getAttribute("data-i"),k=e.target.getAttribute("data-k");if(i===null)return;if(k==="m")debts[i].m=+e.target.value||0;else debts[i].n=e.target.value;tot()};
-$("debts").onclick=function(e){var d=e.target.getAttribute("data-del");if(d!==null){debts.splice(+d,1);rd()}};
-$("addD").onclick=function(){debts.push({n:"",m:0});rd()};
-document.addEventListener("focusin",function(e){if(e.target.type==="number")e.target.select()});
-rd();
-var fbd={stars:0},QS=[["real","¿El diagnóstico refleja tu situación real?",["Sí","No","Parcialmente"]],["claro","¿Entendiste los resultados fácilmente?",["Muy fácil","Fácil","Complicado"]],["pago","¿Pagarías por un plan con estas soluciones?",["Sí","No","Posiblemente"]]];
-$("stars").innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" class="star" role="radio" aria-checked="false" aria-label="'+i+(i===1?" estrella":" estrellas")+'" data-s="'+i+'">★</button>'}).join("");
-$("stars").onclick=function(e){var s=e.target.getAttribute("data-s");if(!s)return;fbd.stars=+s;[].forEach.call($("stars").children,function(b,j){b.className="star"+(j<fbd.stars?" on":"");b.setAttribute("aria-checked",j+1===fbd.stars)});$("fbErr").style.display="none"};
-$("qs").innerHTML=QS.map(function(q){return'<div class="q"><p>'+q[1]+'</p><div class="chips" data-q="'+q[0]+'">'+q[2].map(function(o){return'<button type="button" class="chip" aria-pressed="false">'+o+"</button>"}).join("")+"</div></div>"}).join("");
-[].forEach.call(document.querySelectorAll(".chips"),function(g){g.onclick=function(e){if(e.target.className.indexOf("chip")<0)return;fbd[g.getAttribute("data-q")]=e.target.textContent;[].forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===e.target)})}});
-$("fbSend").onclick=function(){if(!fbd.stars){$("fbErr").style.display="block";return}var m="Mi opinión sobre el diagnóstico: "+fbd.stars+"/5 estrellas. ¿Refleja mi situación? "+(fbd.real||"sin responder")+". ¿Resultados claros? "+(fbd.claro||"sin responder")+". ¿Pagaría por un plan? "+(fbd.pago||"sin responder")+". Sugerencia: "+(($("fbTxt").value||"").trim()||"sin sugerencias");$("fWa").href="https://wa.me/"+WA+"?text="+encodeURIComponent(m);$("fMail").href="mailto:"+MAIL+"?subject="+encodeURIComponent("Opinión sobre el diagnóstico")+"&body="+encodeURIComponent(m);$("fbForm").style.display="none";$("fbThanks").style.display="block"};
-var R=document.documentElement,dm=window.matchMedia("(prefers-color-scheme: dark)");function isD(){var t=R.getAttribute("data-theme");return t?t==="dark":dm.matches}function ic(){$("tg").textContent=isD()?"☀":"☾"}
-$("tg").onclick=function(){var n=isD()?"light":"dark";R.setAttribute("data-theme",n);try{localStorage.setItem("tema",n)}catch(e){}ic()};
-if(dm.addEventListener)dm.addEventListener("change",ic);ic();
-$("go").onclick=function(){
-var g=function(i){return+$(i).value||0},ing=g("ing"),cos=g("cos"),top=g("top"),hf=g("hf"),hd=g("hd"),i3=g("ing3"),t3=g("top3"),ct=tot(),car=ct[0],nc=ct[1],er=[];
-if(ing<=0)er.push("Escribe tus ingresos del mes.");
-if([ing,cos,top,hf,hd,i3,t3].some(function(v){return v<0}))er.push("Usa solo números positivos.");
-if(top>ing)er.push("Tu mejor cliente no puede haber pagado más que tus ingresos del mes.");
-if(hf>hd)er.push("Las horas facturadas no pueden superar las disponibles.");
-if((i3>0)!==(t3>0))er.push("Llena los dos campos de 3 meses o déjalos en 0.");else if(t3>i3)er.push("En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.");
-if(er.length){$("err").innerHTML=er.join("<br>");$("err").style.display="block";return}
-$("err").style.display="none";
-var u3=i3>0&&t3>0,mg=pct(ing-cos,ing),ca=pct(car,ing),co=u3?pct(t3,i3):pct(top,ing),ut=pct(hf,hd),mc=cls(mg,30,15);
-var fr=mc==="ok"?"Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.":mc==="warn"?"Tu margen es aceptable, pero hay espacio para mejorar.":"De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.";
-$("hero").innerHTML='<span class="mut">Tu margen este mes</span><b class="'+mc+'">'+mg.toFixed(0)+'%</b><p class="mut">'+fr+'</p>';
-var sc=Math.max(0,Math.min(100,100-Math.min(50,ca)-Math.min(30,co)+Math.min(20,mg/2)-Math.min(20,100-ut)/2));
-$("hs").textContent=Math.round(sc)+"%";$("hf2").style.width=sc+"%";
-$("cbox").innerHTML=[[mg,cls(mg,30,15)],[ca,cls(ca,15,30,true)],[co,cls(co,30,50,true)]].map(function(x){var v=Math.max(0,Math.min(100,Math.abs(x[0])));return'<div class="cb '+x[1]+'" style="height:'+Math.max(8,v)+'%"><span>'+Math.round(v)+'%</span></div>'}).join("");
-var k=[["Margen neto",mg,"De cada $100 que cobras, te quedan $"+mg.toFixed(0)+" después de costos y gastos",cls(mg,30,15)],
-["Cartera vencida",ca,"$"+fm(car)+" por cobrar"+(nc?" en "+nc+(nc===1?" cliente":" clientes"):"")+", sobre tus ingresos del mes",cls(ca,15,30,true)],
-["Dependencia de un cliente",co,u3?"$"+fm(t3)+" de $"+fm(i3)+" en 3 meses":"$"+fm(top)+" de $"+fm(ing)+" este mes",cls(co,30,50,true)],
-["Uso de tu tiempo",ut,"Horas facturadas sobre disponibles",cls(ut,70,50)]];
-var dl=debts.filter(function(d){return d.m>0}).sort(function(a,b){return b.m-a.m});
-$("kpis").innerHTML=k.map(function(x){return'<div class="card kpi"><b>'+x[0]+'</b><b class="v '+x[3]+'">'+x[1].toFixed(0)+'%</b><div class="bar"><i class="'+x[3]+'" style="width:'+Math.max(2,Math.min(100,x[1]))+'%"></i></div><span>'+x[2]+'</span></div>'}).join("")+(dl.length?'<div class="card kpi"><b>Clientes con pagos vencidos</b><span>'+dl.map(function(d){return"<b>"+esc(d.n||"Sin nombre")+"</b> $"+fm(d.m)}).join(", ")+"</span></div>":"");
-var s=[];
-if(mg<25)s.push(["Análisis de rentabilidad por cliente y servicio","Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.","pro"]);
-if(ca>=20)s.push(["Seguimiento de cobranza con alertas","Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.","basico"]);
-if(co>=40)s.push(["Reducir dependencia de un cliente","Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.","pro"]);
-if(ut<60)s.push([tipo==="pro"?"Tablero de horas y precio por hora":"Utilización del equipo","Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.","pro"]);
-if(!s.length)s.push(["Proyección de flujo de caja a 90 días","Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.","basico"]);
-s.push(["Reporte mensual automático","Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.","basico"]);
-if(tipo==="pyme"&&s.length>=4)s.push(["Implementación a la medida","Varias alertas a la vez piden un tablero conectado a tu facturación.","medida"]);
-$("sols").innerHTML=s.map(function(x){return'<div class="card"><h3>'+x[0]+'</h3><p class="mut" style="margin-bottom:10px">'+x[1]+'</p><span class="tag">Incluido en '+PL[x[2]].n+"</span></div>"}).join("");
-var rec="basico";s.forEach(function(x){if(RK[x[2]]>RK[rec])rec=x[2]});if(tipo==="pro"&&rec==="medida")rec="pro";
-$("plans").innerHTML=Object.keys(PL).map(function(key){var p=PL[key];return'<div class="card plan'+(key===rec?" hit":"")+'"><h3>'+p.n+(key===rec?" · recomendado":"")+'</h3><div class="pr">'+p.p+"</div><ul>"+p.l.map(function(l){return"<li>"+l+"</li>"}).join("")+"</ul></div>"}).join("");
-resumen=(tipo==="pro"?"Profesionista":"Pyme de servicios")+" | Margen "+mg.toFixed(0)+"%, cartera vencida "+ca.toFixed(0)+"%, dependencia "+co.toFixed(0)+"%, uso de tiempo "+ut.toFixed(0)+"%";
-links();$("res").hidden=false;$("res").scrollIntoView({behavior:"smooth"})};
+try {
+  var savedTheme = localStorage.getItem("tema");
+  if (savedTheme) {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+} catch (error) {
+  // Use the default theme when local storage is unavailable.
+}
 </script>
+</head>
+
+<body>
+  <div class="language-switch" role="group" aria-label="Language / Idioma">
+    <button id="langEs" type="button" aria-pressed="true">ES</button>
+    <button id="langEn" type="button" aria-pressed="false">EN</button>
+  </div>
+
+  <button class="tg" id="tg" type="button" aria-label="Cambiar entre modo claro y oscuro"></button>
+
+  <main>
+    <header class="ban">
+      <h1 id="pageTitle">¿Cuánto ganas realmente?</h1>
+      <p id="pageIntro">Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.</p>
+      <div class="sbar" aria-hidden="true">
+        <i class="c"></i>
+        <i class="g"></i>
+      </div>
+      <div class="leg" style="margin-top:0">
+        <span><u class="c"></u><span id="legendCosts">Costos y gastos</span></span>
+        <span><u class="g"></u><span id="legendRemainder">Lo que realmente te queda</span></span>
+      </div>
+    </header>
+
+    <div class="seg" role="group" id="customerTypeGroup" aria-label="Tipo de cliente">
+      <button type="button" id="b1" aria-pressed="true">Profesionista</button>
+      <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label for="ing" id="labelIncome">Ingresos del mes</label>
+        <input id="ing" type="number" inputmode="decimal" value="0">
+      </div>
+      <div>
+        <label for="cos" id="labelCosts">Costos y gastos</label>
+        <input id="cos" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <div class="full">
+        <label id="labelDebts">Clientes con pagos vencidos</label>
+        <div id="debts"></div>
+        <button type="button" class="add" id="addD">+ Agregar cliente</button>
+        <span class="hint" id="dtot" style="display:none"></span>
+      </div>
+
+      <div class="full">
+        <label for="top" id="labelTopClient">Lo que te pagó tu mejor cliente este mes ($)</label>
+        <input id="top" type="number" inputmode="decimal" value="0">
+        <span class="hint" id="topHint">Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.</span>
+      </div>
+
+      <div>
+        <label for="ing3" id="labelIncome3">Ingresos de los últimos 3 meses ($)</label>
+        <input id="ing3" type="number" inputmode="decimal" value="0">
+      </div>
+      <div>
+        <label for="top3" id="labelTopClient3">Tu mejor cliente en esos 3 meses ($)</label>
+        <input id="top3" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <span class="hint full" id="threeMonthHint" style="margin-top:-8px">Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.</span>
+
+      <div>
+        <label for="hf" id="labelBilledHours">Horas facturadas</label>
+        <input id="hf" type="number" inputmode="decimal" value="0">
+      </div>
+      <div>
+        <label for="hd" id="labelAvailableHours">Horas disponibles</label>
+        <input id="hd" type="number" inputmode="decimal" value="0">
+      </div>
+    </div>
+
+    <button class="cta" id="go" type="button">Ver mi diagnóstico</button>
+    <div class="err" id="err" role="alert"></div>
+
+    <section id="res" aria-live="polite" hidden>
+      <div class="hero" id="hero"></div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;font-weight:800">
+          <span id="healthTitle">Salud financiera</span>
+          <span id="hs">0%</span>
+        </div>
+        <div class="meter">
+          <i id="hf2" class="ok" style="width:0"></i>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="generalResultTitle">Resultado general</h3>
+        <div class="cbox" id="cbox"></div>
+        <div class="leg">
+          <span><b id="legendMargin">Margen</b> <span id="legendNet">neto</span></span>
+          <span><b id="legendReceivables">Cartera</b> <span id="legendOverdue">vencida</span></span>
+          <span><b id="legendDependency">Dependencia</b></span>
+        </div>
+      </div>
+
+      <div id="kpis"></div>
+      <h2 id="solutionsTitle">Soluciones sugeridas</h2>
+      <div id="sols"></div>
+
+      <h2 id="plansTitle">Tu plan recomendado</h2>
+      <div class="plans" id="plans"></div>
+
+      <p class="mut" id="priceNote" style="text-align:center;margin:12px 0 32px">Precios de referencia en USD al mes.</p>
+
+      <div class="card" style="text-align:center;padding:24px">
+        <h3 id="contactTitle">¿Lo revisamos juntos?</h3>
+        <p class="mut" id="contactText">Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.</p>
+        <div class="grid" style="margin:20px 0 0;text-align:left">
+          <div>
+            <label for="nom" id="labelName">Tu nombre</label>
+            <input id="nom" autocomplete="name">
+          </div>
+          <div>
+            <label for="neg" id="labelBusiness">Tu negocio</label>
+            <input id="neg">
+          </div>
+        </div>
+        <div class="btns">
+          <a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
+          <a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+          <a class="btn" id="lMail">Enviar por correo</a>
+        </div>
+      </div>
+
+      <div class="card fb" style="padding:24px">
+        <div id="fbForm">
+          <h3 id="feedbackTitle">¿Qué tal te pareció?</h3>
+          <p class="mut" id="feedbackInstruction">Toca las estrellas que quieras, del 1 al 5.</p>
+          <div class="stars" id="stars" role="radiogroup" aria-label="Calificación"></div>
+          <div id="qs"></div>
+          <div class="q">
+            <p id="suggestionQuestion">¿Qué te gustaría que agregáramos? (opcional)</p>
+            <textarea id="fbTxt" aria-label="Sugerencia"></textarea>
+          </div>
+          <div class="err" id="fbErr" role="alert">Elige al menos una calificación de estrellas.</div>
+          <button class="cta" id="fbSend" type="button" style="margin-bottom:0">Enviar opinión</button>
+        </div>
+
+        <div id="fbThanks" style="display:none">
+          <h3 id="thanksTitle">¡Gracias por tu opinión!</h3>
+          <p class="mut" id="thanksText">Si quieres, mándamela directo para que la lea.</p>
+          <div class="btns">
+            <a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <a class="btn" id="fMail">Enviar por correo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const CAL = "https://calendly.com/TU_USUARIO";
+      const WA = "521XXXXXXXXXX";
+      const MAIL = "yovier.cruz@gmail.com";
+
+      const root = document.documentElement;
+      const $ = function (id) {
+        return document.getElementById(id);
+      };
+
+      let language = getSavedLanguage();
+      let customerType = "pro";
+      let debts = [];
+      let summary = "";
+      let lastResult = null;
+      let currentErrorKeys = [];
+
+      const feedback = {
+        stars: 0,
+        real: null,
+        clear: null,
+        pay: null,
+        submitted: false
+      };
+
+      const TEXT = {
+        es: {
+          pageTitle: "¿Cuánto ganas realmente? Diagnóstico de rentabilidad",
+          metaDescription: "Escribe los números de tu último mes y descubre cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.",
+          themeToLight: "Cambiar a modo claro",
+          themeToDark: "Cambiar a modo oscuro",
+          heading: "¿Cuánto ganas realmente?",
+          intro: "Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.",
+          costs: "Costos y gastos",
+          remainder: "Lo que realmente te queda",
+          customerType: "Tipo de cliente",
+          professional: "Profesionista",
+          serviceBusiness: "Pyme de servicios",
+          income: "Ingresos del mes",
+          costsField: "Costos y gastos",
+          overdueClients: "Clientes con pagos vencidos",
+          addClient: "+ Agregar cliente",
+          clientPlaceholder: "Cliente",
+          clientNameAria: "Nombre del cliente",
+          overdueAmountAria: "Monto vencido",
+          removeClientAria: "Eliminar cliente",
+          overdueTotal: function (amount, count) {
+            return "Total vencido: $" + amount + " en " + count +
+              (count === 1 ? " cliente" : " clientes");
+          },
+          topClient: "Lo que te pagó tu mejor cliente este mes ($)",
+          topHint: "Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.",
+          income3: "Ingresos de los últimos 3 meses ($)",
+          topClient3: "Tu mejor cliente en esos 3 meses ($)",
+          threeMonthHint: "Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.",
+          billedHours: "Horas facturadas",
+          availableHours: "Horas disponibles",
+          runDiagnostic: "Ver mi diagnóstico",
+          errorIncome: "Escribe tus ingresos del mes.",
+          errorPositive: "Usa solo números positivos.",
+          errorTop: "Tu mejor cliente no puede haber pagado más que tus ingresos del mes.",
+          errorHours: "Las horas facturadas no pueden superar las disponibles.",
+          errorThreeMonthPair: "Llena los dos campos de 3 meses o déjalos en 0.",
+          errorThreeMonthTop: "En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.",
+          marginThisMonth: "Tu margen este mes",
+          marginGood: "Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.",
+          marginAverage: "Tu margen es aceptable, pero hay espacio para mejorar.",
+          marginLow: "De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.",
+          financialHealth: "Salud financiera",
+          generalResult: "Resultado general",
+          margin: "Margen",
+          net: "neto",
+          receivables: "Cartera",
+          overdue: "vencida",
+          dependency: "Dependencia",
+          kpiMargin: "Margen neto",
+          kpiMarginDescription: function (amount) {
+            return "De cada $100 que cobras, te quedan $" + amount + " después de costos y gastos";
+          },
+          kpiReceivables: "Cartera vencida",
+          kpiReceivablesDescription: function (amount, count) {
+            return "$" + amount + " por cobrar" +
+              (count ? " en " + count + (count === 1 ? " cliente" : " clientes") : "") +
+              ", sobre tus ingresos del mes";
+          },
+          kpiDependency: "Dependencia de un cliente",
+          kpiDependencyThisMonth: function (top, income) {
+            return "$" + top + " de $" + income + " este mes";
+          },
+          kpiDependencyThreeMonths: function (top, income) {
+            return "$" + top + " de $" + income + " en 3 meses";
+          },
+          kpiTime: "Uso de tu tiempo",
+          kpiTimeDescription: "Horas facturadas sobre disponibles",
+          kpiDebtors: "Clientes con pagos vencidos",
+          noName: "Sin nombre",
+          solutions: "Soluciones sugeridas",
+          solutionMarginTitle: "Análisis de rentabilidad por cliente y servicio",
+          solutionMarginText: "Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.",
+          solutionCollectionsTitle: "Seguimiento de cobranza con alertas",
+          solutionCollectionsText: "Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.",
+          solutionDependencyTitle: "Reducir dependencia de un cliente",
+          solutionDependencyText: "Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.",
+          solutionHoursProfessionalTitle: "Tablero de horas y precio por hora",
+          solutionHoursBusinessTitle: "Utilización del equipo",
+          solutionHoursText: "Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.",
+          solutionCashTitle: "Proyección de flujo de caja a 90 días",
+          solutionCashText: "Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.",
+          solutionReportTitle: "Reporte mensual automático",
+          solutionReportText: "Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.",
+          solutionCustomTitle: "Implementación a la medida",
+          solutionCustomText: "Varias alertas a la vez piden un tablero conectado a tu facturación.",
+          includedIn: "Incluido en",
+          plans: "Tu plan recomendado",
+          recommended: "recomendado",
+          priceNote: "Precios de referencia en USD al mes.",
+          planBasic: "Básico",
+          planPro: "Pro",
+          planCustom: "A la medida",
+          planBasicFeatures: [
+            "Carga de datos con plantilla",
+            "Tablero de 5 KPIs",
+            "Reporte mensual por correo"
+          ],
+          planProFeatures: [
+            "Todo lo del Básico",
+            "Rentabilidad por cliente y servicio",
+            "Alertas de cobranza y proyección a 90 días"
+          ],
+          planCustomFeatures: [
+            "Diagnóstico con el experto",
+            "Conexión a tu facturación",
+            "Tablero personalizado"
+          ],
+          planCustomPrice: "Desde $500 + $120/mes",
+          contactTitle: "¿Lo revisamos juntos?",
+          contactText: "Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.",
+          name: "Tu nombre",
+          business: "Tu negocio",
+          bookDiagnostic: "Agenda tu diagnóstico",
+          whatsapp: "Escríbeme por WhatsApp",
+          email: "Enviar por correo",
+          feedbackTitle: "¿Qué tal te pareció?",
+          feedbackInstruction: "Toca las estrellas que quieras, del 1 al 5.",
+          ratingAria: "Calificación",
+          oneStar: "estrella",
+          manyStars: "estrellas",
+          questionReal: "¿El diagnóstico refleja tu situación real?",
+          questionClear: "¿Entendiste los resultados fácilmente?",
+          questionPay: "¿Pagarías por un plan con estas soluciones?",
+          answerYes: "Sí",
+          answerNo: "No",
+          answerPartial: "Parcialmente",
+          answerVeryEasy: "Muy fácil",
+          answerEasy: "Fácil",
+          answerDifficult: "Complicado",
+          answerPossibly: "Posiblemente",
+          suggestionQuestion: "¿Qué te gustaría que agregáramos? (opcional)",
+          suggestionAria: "Sugerencia",
+          ratingRequired: "Elige al menos una calificación de estrellas.",
+          sendFeedback: "Enviar opinión",
+          thanksTitle: "¡Gracias por tu opinión!",
+          thanksText: "Si quieres, mándamela directo para que la lea.",
+          emailSubjectDiagnostic: "Diagnóstico de rentabilidad",
+          shareGreeting: "Hola, soy ",
+          shareFrom: " de ",
+          shareCompleted: ". Hice el diagnóstico: ",
+          shareReview: " Quiero agendar una revisión.",
+          feedbackSubject: "Opinión sobre el diagnóstico",
+          feedbackMessage: "Mi opinión sobre el diagnóstico: ",
+          starsSuffix: "/5 estrellas.",
+          feedbackReal: "¿Refleja mi situación? ",
+          feedbackClear: "¿Resultados claros? ",
+          feedbackPay: "¿Pagaría por un plan? ",
+          feedbackSuggestion: "Sugerencia: ",
+          noAnswer: "sin responder",
+          noSuggestion: "sin sugerencias",
+          emailNamePlaceholder: "(mi nombre)",
+          emailBusinessPlaceholder: "(mi negocio)"
+        },
+
+        en: {
+          pageTitle: "How much do you really earn? | Profitability diagnostic",
+          metaDescription: "Enter last month's numbers and discover how much you keep, how much customers owe you, and how dependent you are on one client.",
+          themeToLight: "Switch to light mode",
+          themeToDark: "Switch to dark mode",
+          heading: "How much do you really earn?",
+          intro: "Enter last month's numbers and get suggested solutions in one minute.",
+          costs: "Costs and expenses",
+          remainder: "What you actually keep",
+          customerType: "Customer type",
+          professional: "Independent professional",
+          serviceBusiness: "Service-based small business",
+          income: "Monthly income",
+          costsField: "Costs and expenses",
+          overdueClients: "Customers with overdue payments",
+          addClient: "+ Add customer",
+          clientPlaceholder: "Customer",
+          clientNameAria: "Customer name",
+          overdueAmountAria: "Overdue amount",
+          removeClientAria: "Remove customer",
+          overdueTotal: function (amount, count) {
+            return "Total overdue: $" + amount + " across " + count +
+              (count === 1 ? " customer" : " customers");
+          },
+          topClient: "Amount paid by your largest client this month ($)",
+          topHint: "This amount is divided by your total income. If it exceeds 30%, your business is highly dependent on that client.",
+          income3: "Income over the last 3 months ($)",
+          topClient3: "Your largest client over those 3 months ($)",
+          threeMonthHint: "Optional: complete both fields to measure client concentration over 3 months. Otherwise, leave both at 0.",
+          billedHours: "Billable hours",
+          availableHours: "Available hours",
+          runDiagnostic: "View my diagnostic",
+          errorIncome: "Enter your income for the month.",
+          errorPositive: "Use positive numbers only.",
+          errorTop: "Your largest client cannot have paid more than your total income for the month.",
+          errorHours: "Billable hours cannot exceed available hours.",
+          errorThreeMonthPair: "Complete both 3-month fields or leave both at 0.",
+          errorThreeMonthTop: "Over 3 months, your largest client cannot have paid more than your total income.",
+          marginThisMonth: "Your margin this month",
+          marginGood: "Your business has a healthy margin. Protect it and plan for slower months.",
+          marginAverage: "Your margin is acceptable, but there is room to improve.",
+          marginLow: "For every $100 you collect, very little remains. Reduce costs, raise prices, or remove unprofitable services.",
+          financialHealth: "Financial health",
+          generalResult: "Overall result",
+          margin: "Margin",
+          net: "net",
+          receivables: "Receivables",
+          overdue: "overdue",
+          dependency: "Client concentration",
+          kpiMargin: "Net margin",
+          kpiMarginDescription: function (amount) {
+            return "For every $100 you collect, you keep $" + amount + " after costs and expenses";
+          },
+          kpiReceivables: "Overdue receivables",
+          kpiReceivablesDescription: function (amount, count) {
+            return "$" + amount + " outstanding" +
+              (count ? " across " + count + (count === 1 ? " customer" : " customers") : "") +
+              ", compared with your monthly income";
+          },
+          kpiDependency: "Largest-client concentration",
+          kpiDependencyThisMonth: function (top, income) {
+            return "$" + top + " of $" + income + " this month";
+          },
+          kpiDependencyThreeMonths: function (top, income) {
+            return "$" + top + " of $" + income + " over 3 months";
+          },
+          kpiTime: "Time utilization",
+          kpiTimeDescription: "Billable hours compared with available hours",
+          kpiDebtors: "Customers with overdue payments",
+          noName: "Unnamed",
+          solutions: "Suggested solutions",
+          solutionMarginTitle: "Profitability analysis by customer and service",
+          solutionMarginText: "Your margin is low. Identify which customers and services are unprofitable, then adjust your prices.",
+          solutionCollectionsTitle: "Collections tracking and alerts",
+          solutionCollectionsText: "Too much cash is tied up in overdue invoices. Get automated alerts and payment reminders.",
+          solutionDependencyTitle: "Reduce dependence on one client",
+          solutionDependencyText: "If your largest client leaves, you could lose nearly half your income. Track your pipeline and diversify.",
+          solutionHoursProfessionalTitle: "Hours and hourly-rate dashboard",
+          solutionHoursBusinessTitle: "Team utilization",
+          solutionHoursText: "You are not making full use of your available time. Calculate your effective hourly rate and identify where time is lost.",
+          solutionCashTitle: "90-day cash flow forecast",
+          solutionCashText: "Your numbers look healthy. The next step is to anticipate slower months and plan for growth.",
+          solutionReportTitle: "Automated monthly report",
+          solutionReportText: "Receive a monthly summary of your key metrics without building the report manually.",
+          solutionCustomTitle: "Customized implementation",
+          solutionCustomText: "Several simultaneous alerts may call for a dashboard connected to your billing system.",
+          includedIn: "Included in",
+          plans: "Your recommended plan",
+          recommended: "recommended",
+          priceNote: "Reference prices in USD per month.",
+          planBasic: "Basic",
+          planPro: "Pro",
+          planCustom: "Custom",
+          planBasicFeatures: [
+            "Template-based data upload",
+            "Dashboard with 5 KPIs",
+            "Monthly email report"
+          ],
+          planProFeatures: [
+            "Everything in Basic",
+            "Profitability by customer and service",
+            "Collections alerts and 90-day forecast"
+          ],
+          planCustomFeatures: [
+            "Expert-led diagnostic",
+            "Connection to your billing system",
+            "Custom dashboard"
+          ],
+          planCustomPrice: "From $500 + $120/month",
+          contactTitle: "Shall we review it together?",
+          contactText: "Schedule a 45-minute diagnostic. Your results will be included in the message.",
+          name: "Your name",
+          business: "Your business",
+          bookDiagnostic: "Schedule your diagnostic",
+          whatsapp: "Message me on WhatsApp",
+          email: "Send by email",
+          feedbackTitle: "How was your experience?",
+          feedbackInstruction: "Select a star rating from 1 to 5.",
+          ratingAria: "Rating",
+          oneStar: "star",
+          manyStars: "stars",
+          questionReal: "Does the diagnostic reflect your actual situation?",
+          questionClear: "Were the results easy to understand?",
+          questionPay: "Would you pay for a plan with these solutions?",
+          answerYes: "Yes",
+          answerNo: "No",
+          answerPartial: "Partly",
+          answerVeryEasy: "Very easy",
+          answerEasy: "Easy",
+          answerDifficult: "Difficult",
+          answerPossibly: "Possibly",
+          suggestionQuestion: "What would you like us to add? (optional)",
+          suggestionAria: "Suggestion",
+          ratingRequired: "Please select at least one star.",
+          sendFeedback: "Submit feedback",
+          thanksTitle: "Thank you for your feedback!",
+          thanksText: "You can also send it directly so I can read it.",
+          emailSubjectDiagnostic: "Profitability diagnostic",
+          shareGreeting: "Hello, my name is ",
+          shareFrom: " from ",
+          shareCompleted: ". I completed the diagnostic: ",
+          shareReview: " I would like to schedule a review.",
+          feedbackSubject: "Feedback on the diagnostic",
+          feedbackMessage: "My feedback on the diagnostic: ",
+          starsSuffix: "/5 stars.",
+          feedbackReal: "Does it reflect my situation? ",
+          feedbackClear: "Were the results clear? ",
+          feedbackPay: "Would I pay for a plan? ",
+          feedbackSuggestion: "Suggestion: ",
+          noAnswer: "not answered",
+          noSuggestion: "no suggestions",
+          emailNamePlaceholder: "(my name)",
+          emailBusinessPlaceholder: "(my business)"
+        }
+      };
+
+      const PLAN_RANK = {
+        basico: 1,
+        pro: 2,
+        medida: 3
+      };
+
+      function getSavedLanguage() {
+        try {
+          const saved = localStorage.getItem("lang");
+          if (saved === "es" || saved === "en") return saved;
+        } catch (error) {
+          // Fall back to the browser language.
+        }
+
+        return (navigator.language || "").toLowerCase().startsWith("en")
+          ? "en"
+          : "es";
+      }
+
+      function t(key) {
+        return TEXT[language][key];
+      }
+
+      function formatNumber(value) {
+        return Number(value).toLocaleString(
+          language === "en" ? "en-US" : "es-MX"
+        );
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function setCustomerType(type) {
+        customerType = type;
+        $("b1").setAttribute("aria-pressed", type === "pro");
+        $("b2").setAttribute("aria-pressed", type === "pyme");
+      }
+
+      $("b1").addEventListener("click", function () {
+        setCustomerType("pro");
+      });
+
+      $("b2").addEventListener("click", function () {
+        setCustomerType("pyme");
+      });
+
+      function pct(a, b) {
+        return b > 0 ? (a / b) * 100 : 0;
+      }
+
+      function cls(value, goodThreshold, badThreshold, inverse) {
+        if (inverse) {
+          return value <= goodThreshold
+            ? "ok"
+            : value >= badThreshold
+              ? "bad"
+              : "warn";
+        }
+
+        return value >= goodThreshold
+          ? "ok"
+          : value <= badThreshold
+            ? "bad"
+            : "warn";
+      }
+
+      function totalDebts() {
+        let total = 0;
+        let count = 0;
+
+        debts.forEach(function (debt) {
+          if (debt.amount > 0) {
+            total += debt.amount;
+            count += 1;
+          }
+        });
+
+        $("dtot").textContent = t("overdueTotal")(
+          formatNumber(total),
+          count
+        );
+
+        $("dtot").style.display = total > 0 ? "block" : "none";
+
+        return [total, count];
+      }
+
+      function renderDebts() {
+        $("debts").innerHTML = debts.map(function (debt, index) {
+          return `
+            <div class="drow">
+              <input
+                aria-label="${t("clientNameAria")}"
+                data-i="${index}"
+                data-k="n"
+                value="${escapeHtml(debt.name)}"
+                placeholder="${t("clientPlaceholder")}"
+              >
+              <input
+                aria-label="${t("overdueAmountAria")}"
+                data-i="${index}"
+                data-k="m"
+                type="number"
+                value="${debt.amount}"
+                inputmode="decimal"
+              >
+              <button
+                aria-label="${t("removeClientAria")}"
+                data-del="${index}"
+                type="button"
+              >✕</button>
+            </div>
+          `;
+        }).join("");
+
+        totalDebts();
+      }
+
+      $("debts").addEventListener("input", function (event) {
+        const index = event.target.getAttribute("data-i");
+        const key = event.target.getAttribute("data-k");
+
+        if (index === null) return;
+
+        if (key === "m") {
+          debts[index].amount = Number(event.target.value) || 0;
+        } else {
+          debts[index].name = event.target.value;
+        }
+
+        totalDebts();
+      });
+
+      $("debts").addEventListener("click", function (event) {
+        const deleteIndex = event.target.getAttribute("data-del");
+
+        if (deleteIndex !== null) {
+          debts.splice(Number(deleteIndex), 1);
+          renderDebts();
+        }
+      });
+
+      $("addD").addEventListener("click", function () {
+        debts.push({
+          name: "",
+          amount: 0
+        });
+
+        renderDebts();
+      });
+
+      function buildDiagnosticSummary(result) {
+        if (!result) return "";
+
+        const typeName = customerType === "pro"
+          ? t("professional")
+          : t("serviceBusiness");
+
+        return typeName +
+          " | " + t("margin") + " " + result.margin.toFixed(0) + "%" +
+          ", " + t("receivables") + " " + result.receivables.toFixed(0) + "%" +
+          ", " + t("dependency") + " " + result.concentration.toFixed(0) + "%" +
+          ", " + t("kpiTime") + " " + result.timeUse.toFixed(0) + "%";
+      }
+
+      function updateContactLinks() {
+        const name = $("nom").value || t("emailNamePlaceholder");
+        const business = $("neg").value || t("emailBusinessPlaceholder");
+
+        const message = t("shareGreeting") + name +
+          t("shareFrom") + business +
+          t("shareCompleted") + summary +
+          t("shareReview");
+
+        $("lCal").href = CAL;
+
+        $("lWa").href =
+          "https://wa.me/" + WA + "?text=" +
+          encodeURIComponent(message);
+
+        $("lMail").href =
+          "mailto:" + MAIL +
+          "?subject=" + encodeURIComponent(t("emailSubjectDiagnostic")) +
+          "&body=" + encodeURIComponent(message);
+      }
+
+      $("nom").addEventListener("input", updateContactLinks);
+      $("neg").addEventListener("input", updateContactLinks);
+
+      function getFeedbackQuestions() {
+        return [
+          {
+            key: "real",
+            question: t("questionReal"),
+            choices: [
+              t("answerYes"),
+              t("answerNo"),
+              t("answerPartial")
+            ]
+          },
+          {
+            key: "clear",
+            question: t("questionClear"),
+            choices: [
+              t("answerVeryEasy"),
+              t("answerEasy"),
+              t("answerDifficult")
+            ]
+          },
+          {
+            key: "pay",
+            question: t("questionPay"),
+            choices: [
+              t("answerYes"),
+              t("answerNo"),
+              t("answerPossibly")
+            ]
+          }
+        ];
+      }
+
+      function renderFeedbackQuestions() {
+        $("stars").setAttribute("aria-label", t("ratingAria"));
+
+        $("stars").innerHTML = [1, 2, 3, 4, 5]
+          .map(function (number) {
+            const starWord = number === 1
+              ? t("oneStar")
+              : t("manyStars");
+
+            const selected = number <= feedback.stars;
+
+            return `
+              <button
+                type="button"
+                class="star${selected ? " on" : ""}"
+                role="radio"
+                aria-checked="${selected}"
+                aria-label="${number} ${starWord}"
+                data-s="${number}"
+              >★</button>
+            `;
+          })
+          .join("");
+
+        $("qs").innerHTML = getFeedbackQuestions()
+          .map(function (question) {
+            const selectedIndex = feedback[question.key];
+
+            return `
+              <div class="q">
+                <p>${question.question}</p>
+                <div class="chips" data-q="${question.key}">
+                  ${question.choices.map(function (choice, index) {
+                    const pressed = selectedIndex === index;
+                    return `
+                      <button
+                        type="button"
+                        class="chip"
+                        aria-pressed="${pressed}"
+                        data-choice="${index}"
+                      >${choice}</button>
+                    `;
+                  }).join("")}
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      $("stars").addEventListener("click", function (event) {
+        const selected = event.target.getAttribute("data-s");
+        if (!selected) return;
+
+        feedback.stars = Number(selected);
+        renderFeedbackQuestions();
+        $("fbErr").style.display = "none";
+      });
+
+      $("qs").addEventListener("click", function (event) {
+        const chip = event.target.closest(".chip");
+        if (!chip) return;
+
+        const group = chip.closest(".chips");
+        const key = group.getAttribute("data-q");
+
+        feedback[key] = Number(chip.getAttribute("data-choice"));
+        renderFeedbackQuestions();
+      });
+
+      function selectedFeedbackAnswer(key) {
+        const questions = getFeedbackQuestions();
+        const question = questions.find(function (item) {
+          return item.key === key;
+        });
+
+        if (!question || feedback[key] === null) {
+          return t("noAnswer");
+        }
+
+        return question.choices[feedback[key]];
+      }
+
+      function updateFeedbackLinks() {
+        const suggestion = $("fbTxt").value.trim() || t("noSuggestion");
+
+        const message =
+          t("feedbackMessage") +
+          feedback.stars + t("starsSuffix") + " " +
+          t("feedbackReal") + selectedFeedbackAnswer("real") + ". " +
+          t("feedbackClear") + selectedFeedbackAnswer("clear") + ". " +
+          t("feedbackPay") + selectedFeedbackAnswer("pay") + ". " +
+          t("feedbackSuggestion") + suggestion;
+
+        $("fWa").href =
+          "https://wa.me/" + WA + "?text=" +
+          encodeURIComponent(message);
+
+        $("fMail").href =
+          "mailto:" + MAIL +
+          "?subject=" + encodeURIComponent(t("feedbackSubject")) +
+          "&body=" + encodeURIComponent(message);
+      }
+
+      $("fbSend").addEventListener("click", function () {
+        if (!feedback.stars) {
+          $("fbErr").style.display = "block";
+          return;
+        }
+
+        updateFeedbackLinks();
+        feedback.submitted = true;
+        updateFeedbackView();
+      });
+
+      function updateFeedbackView() {
+        $("fbForm").style.display = feedback.submitted ? "none" : "block";
+        $("fbThanks").style.display = feedback.submitted ? "block" : "none";
+      }
+
+      function getPlans() {
+        return {
+          basico: {
+            name: t("planBasic"),
+            price: "$19",
+            features: t("planBasicFeatures")
+          },
+          pro: {
+            name: t("planPro"),
+            price: "$59",
+            features: t("planProFeatures")
+          },
+          medida: {
+            name: t("planCustom"),
+            price: t("planCustomPrice"),
+            features: t("planCustomFeatures")
+          }
+        };
+      }
+
+      function getRecommendations(result) {
+        const items = [];
+
+        if (result.margin < 25) {
+          items.push({
+            title: t("solutionMarginTitle"),
+            description: t("solutionMarginText"),
+            plan: "pro"
+          });
+        }
+
+        if (result.receivables >= 20) {
+          items.push({
+            title: t("solutionCollectionsTitle"),
+            description: t("solutionCollectionsText"),
+            plan: "basico"
+          });
+        }
+
+        if (result.concentration >= 40) {
+          items.push({
+            title: t("solutionDependencyTitle"),
+            description: t("solutionDependencyText"),
+            plan: "pro"
+          });
+        }
+
+        if (result.timeUse < 60) {
+          items.push({
+            title: customerType === "pro"
+              ? t("solutionHoursProfessionalTitle")
+              : t("solutionHoursBusinessTitle"),
+            description: t("solutionHoursText"),
+            plan: "pro"
+          });
+        }
+
+        if (!items.length) {
+          items.push({
+            title: t("solutionCashTitle"),
+            description: t("solutionCashText"),
+            plan: "basico"
+          });
+        }
+
+        items.push({
+          title: t("solutionReportTitle"),
+          description: t("solutionReportText"),
+          plan: "basico"
+        });
+
+        if (customerType === "pyme" && items.length >= 4) {
+          items.push({
+            title: t("solutionCustomTitle"),
+            description: t("solutionCustomText"),
+            plan: "medida"
+          });
+        }
+
+        return items;
+      }
+
+      function renderResults(result) {
+        const plans = getPlans();
+
+        const marginClass = result.marginClass;
+
+        const marginMessage = marginClass === "ok"
+          ? t("marginGood")
+          : marginClass === "warn"
+            ? t("marginAverage")
+            : t("marginLow");
+
+        $("hero").innerHTML = `
+          <span class="mut">${t("marginThisMonth")}</span>
+          <b class="${marginClass}">${result.margin.toFixed(0)}%</b>
+          <p class="mut">${marginMessage}</p>
+        `;
+
+        $("hs").textContent = Math.round(result.score) + "%";
+        $("hf2").style.width = result.score + "%";
+
+        const chartValues = [
+          [result.margin, cls(result.margin, 30, 15)],
+          [result.receivables, cls(result.receivables, 15, 30, true)],
+          [result.concentration, cls(result.concentration, 30, 50, true)]
+        ];
+
+        $("cbox").innerHTML = chartValues.map(function (item) {
+          const value = Math.max(0, Math.min(100, Math.abs(item[0])));
+
+          return `
+            <div
+              class="cb ${item[1]}"
+              style="height:${Math.max(8, value)}%"
+            >
+              <span>${Math.round(value)}%</span>
+            </div>
+          `;
+        }).join("");
+
+        const kpis = [
+          {
+            title: t("kpiMargin"),
+            value: result.margin,
+            description: t("kpiMarginDescription")(result.margin.toFixed(0)),
+            status: cls(result.margin, 30, 15)
+          },
+          {
+            title: t("kpiReceivables"),
+            value: result.receivables,
+            description: t("kpiReceivablesDescription")(
+              formatNumber(result.overdueTotal),
+              result.overdueCount
+            ),
+            status: cls(result.receivables, 15, 30, true)
+          },
+          {
+            title: t("kpiDependency"),
+            value: result.concentration,
+            description: result.usingThreeMonths
+              ? t("kpiDependencyThreeMonths")(
+                  formatNumber(result.topClient3),
+                  formatNumber(result.income3)
+                )
+              : t("kpiDependencyThisMonth")(
+                  formatNumber(result.topClient),
+                  formatNumber(result.income)
+                ),
+            status: cls(result.concentration, 30, 50, true)
+          },
+          {
+            title: t("kpiTime"),
+            value: result.timeUse,
+            description: t("kpiTimeDescription"),
+            status: cls(result.timeUse, 70, 50)
+          }
+        ];
+
+        const debtorList = debts
+          .filter(function (debt) {
+            return debt.amount > 0;
+          })
+          .sort(function (a, b) {
+            return b.amount - a.amount;
+          });
+
+        $("kpis").innerHTML = kpis.map(function (item) {
+          const barWidth = Math.max(
+            2,
+            Math.min(100, item.value)
+          );
+
+          return `
+            <div class="card kpi">
+              <b>${item.title}</b>
+              <b class="v ${item.status}">${item.value.toFixed(0)}%</b>
+              <div class="bar">
+                <i
+                  class="${item.status}"
+                  style="width:${barWidth}%"
+                ></i>
+              </div>
+              <span>${item.description}</span>
+            </div>
+          `;
+        }).join("");
+
+        if (debtorList.length) {
+          $("kpis").innerHTML += `
+            <div class="card kpi">
+              <b>${t("kpiDebtors")}</b>
+              <span>
+                ${debtorList.map(function (debt) {
+                  const name = escapeHtml(debt.name || t("noName"));
+                  return `<b>${name}</b> $${formatNumber(debt.amount)}`;
+                }).join(", ")}
+              </span>
+            </div>
+          `;
+        }
+
+        const recommendations = getRecommendations(result);
+
+        $("sols").innerHTML = recommendations.map(function (item) {
+          return `
+            <div class="card">
+              <h3>${item.title}</h3>
+              <p class="mut" style="margin-bottom:10px">
+                ${item.description}
+              </p>
+              <span class="tag">
+                ${t("includedIn")} ${plans[item.plan].name}
+              </span>
+            </div>
+          `;
+        }).join("");
+
+        let recommendedPlan = "basico";
+
+        recommendations.forEach(function (item) {
+          if (PLAN_RANK[item.plan] > PLAN_RANK[recommendedPlan]) {
+            recommendedPlan = item.plan;
+          }
+        });
+
+        if (customerType === "pro" && recommendedPlan === "medida") {
+          recommendedPlan = "pro";
+        }
+
+        $("plans").innerHTML = Object.keys(plans).map(function (key) {
+          const plan = plans[key];
+          const recommended = key === recommendedPlan;
+
+          return `
+            <div class="card plan${recommended ? " hit" : ""}">
+              <h3>
+                ${plan.name}${recommended ? " · " + t("recommended") : ""}
+              </h3>
+              <div class="pr">${plan.price}</div>
+              <ul>
+                ${plan.features.map(function (feature) {
+                  return `<li>${feature}</li>`;
+                }).join("")}
+              </ul>
+            </div>
+          `;
+        }).join("");
+
+        summary = buildDiagnosticSummary(result);
+        updateContactLinks();
+      }
+
+      function renderValidationErrors() {
+        if (!currentErrorKeys.length) {
+          $("err").style.display = "none";
+          $("err").textContent = "";
+          return;
+        }
+
+        $("err").innerHTML = currentErrorKeys
+          .map(function (key) {
+            return escapeHtml(t(key));
+          })
+          .join("<br>");
+
+        $("err").style.display = "block";
+      }
+
+      function runDiagnostic() {
+        const value = function (id) {
+          return Number($(id).value) || 0;
+        };
+
+        const income = value("ing");
+        const costs = value("cos");
+        const topClient = value("top");
+        const billedHours = value("hf");
+        const availableHours = value("hd");
+        const income3 = value("ing3");
+        const topClient3 = value("top3");
+
+        const overdue = totalDebts();
+        const overdueTotal = overdue[0];
+        const overdueCount = overdue[1];
+
+        const errors = [];
+
+        if (income <= 0) {
+          errors.push("errorIncome");
+        }
+
+        if (
+          [income, costs, topClient, billedHours, availableHours, income3, topClient3]
+            .some(function (number) {
+              return number < 0;
+            })
+        ) {
+          errors.push("errorPositive");
+        }
+
+        if (topClient > income) {
+          errors.push("errorTop");
+        }
+
+        if (billedHours > availableHours) {
+          errors.push("errorHours");
+        }
+
+        if ((income3 > 0) !== (topClient3 > 0)) {
+          errors.push("errorThreeMonthPair");
+        } else if (topClient3 > income3) {
+          errors.push("errorThreeMonthTop");
+        }
+
+        currentErrorKeys = errors;
+
+        if (errors.length) {
+          renderValidationErrors();
+          return;
+        }
+
+        renderValidationErrors();
+
+        const usingThreeMonths = income3 > 0 && topClient3 > 0;
+        const margin = pct(income - costs, income);
+        const receivables = pct(overdueTotal, income);
+
+        const concentration = usingThreeMonths
+          ? pct(topClient3, income3)
+          : pct(topClient, income);
+
+        const timeUse = pct(billedHours, availableHours);
+        const marginClass = cls(margin, 30, 15);
+
+        const score = Math.max(
+          0,
+          Math.min(
+            100,
+            100 -
+              Math.min(50, receivables) -
+              Math.min(30, concentration) +
+              Math.min(20, margin / 2) -
+              Math.min(20, 100 - timeUse) / 2
+          )
+        );
+
+        lastResult = {
+          income: income,
+          costs: costs,
+          topClient: topClient,
+          billedHours: billedHours,
+          availableHours: availableHours,
+          income3: income3,
+          topClient3: topClient3,
+          usingThreeMonths: usingThreeMonths,
+          overdueTotal: overdueTotal,
+          overdueCount: overdueCount,
+          margin: margin,
+          receivables: receivables,
+          concentration: concentration,
+          timeUse: timeUse,
+          marginClass: marginClass,
+          score: score
+        };
+
+        renderResults(lastResult);
+
+        $("res").hidden = false;
+        $("res").scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth"
+        });
+      }
+
+      $("go").addEventListener("click", runDiagnostic);
+
+      function applyLanguage(nextLanguage, persist = true) {
+        language = nextLanguage;
+
+        const text = TEXT[language];
+
+        root.lang = language;
+        document.title = text.pageTitle;
+
+        const metaDescription = document.querySelector(
+          'meta[name="description"]'
+        );
+
+        if (metaDescription) {
+          metaDescription.setAttribute(
+            "content",
+            text.metaDescription
+          );
+        }
+
+        const content = {
+          pageTitle: text.heading,
+          pageIntro: text.intro,
+          legendCosts: text.costs,
+          legendRemainder: text.remainder,
+          labelIncome: text.income,
+          labelCosts: text.costsField,
+          labelDebts: text.overdueClients,
+          addD: text.addClient,
+          labelTopClient: text.topClient,
+          topHint: text.topHint,
+          labelIncome3: text.income3,
+          labelTopClient3: text.topClient3,
+          threeMonthHint: text.threeMonthHint,
+          labelBilledHours: text.billedHours,
+          labelAvailableHours: text.availableHours,
+          go: text.runDiagnostic,
+          healthTitle: text.financialHealth,
+          generalResultTitle: text.generalResult,
+          legendMargin: text.margin,
+          legendNet: text.net,
+          legendReceivables: text.receivables,
+          legendOverdue: text.overdue,
+          legendDependency: text.dependency,
+          solutionsTitle: text.solutions,
+          plansTitle: text.plans,
+          priceNote: text.priceNote,
+          contactTitle: text.contactTitle,
+          contactText: text.contactText,
+          labelName: text.name,
+          labelBusiness: text.business,
+          lCal: text.bookDiagnostic,
+          lWa: text.whatsapp,
+          lMail: text.email,
+          feedbackTitle: text.feedbackTitle,
+          feedbackInstruction: text.feedbackInstruction,
+          suggestionQuestion: text.suggestionQuestion,
+          fbTxt: "",
+          fbErr: text.ratingRequired,
+          fbSend: text.sendFeedback,
+          thanksTitle: text.thanksTitle,
+          thanksText: text.thanksText,
+          fWa: text.whatsapp,
+          fMail: text.email
+        };
+
+        Object.entries(content).forEach(function (entry) {
+          const element = $(entry[0]);
+          if (!element) return;
+
+          if (entry[0] === "lCal" || entry[0] === "lWa" || entry[0] === "lMail" ||
+              entry[0] === "fbSend" || entry[0] === "fWa" || entry[0] === "fMail" ||
+              entry[0] === "go" || entry[0] === "addD") {
+            element.textContent = entry[1];
+          } else if (entry[0] !== "fbTxt") {
+            element.textContent = entry[1];
+          }
+        });
+
+        $("customerTypeGroup").setAttribute("aria-label", text.customerType);
+        $("b1").textContent = text.professional;
+        $("b2").textContent = text.serviceBusiness;
+
+        $("langEs").setAttribute("aria-pressed", language === "es");
+        $("langEn").setAttribute("aria-pressed", language === "en");
+
+        $("fbTxt").setAttribute("aria-label", text.suggestionAria);
+
+        if (persist) {
+          try {
+            localStorage.setItem("lang", language);
+          } catch (error) {
+            // The selected language remains active for this page session.
+          }
+        }
+
+        renderDebts();
+        renderFeedbackQuestions();
+        renderValidationErrors();
+        updateFeedbackView();
+
+        if (feedback.submitted) {
+          updateFeedbackLinks();
+        }
+
+        updateThemeButton();
+
+        if (lastResult) {
+          renderResults(lastResult);
+        }
+      }
+
+      $("langEs").addEventListener("click", function () {
+        applyLanguage("es");
+      });
+
+      $("langEn").addEventListener("click", function () {
+        applyLanguage("en");
+      });
+
+      function isDarkMode() {
+        const setting = root.getAttribute("data-theme");
+
+        if (setting) {
+          return setting === "dark";
+        }
+
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+
+      function updateThemeButton() {
+        const dark = isDarkMode();
+
+        $("tg").textContent = dark ? "☀" : "☾";
+        $("tg").setAttribute(
+          "aria-label",
+          t(dark ? "themeToLight" : "themeToDark")
+        );
+      }
+
+      $("tg").addEventListener("click", function () {
+        const nextTheme = isDarkMode() ? "light" : "dark";
+        root.setAttribute("data-theme", nextTheme);
+
+        try {
+          localStorage.setItem("tema", nextTheme);
+        } catch (error) {
+          // Theme remains active for this page session.
+        }
+
+        updateThemeButton();
+      });
+
+      const darkPreference = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+
+      if (darkPreference.addEventListener) {
+        darkPreference.addEventListener("change", updateThemeButton);
+      }
+
+      document.addEventListener("focusin", function (event) {
+        if (event.target.type === "number") {
+          event.target.select();
+        }
+      });
+
+      applyLanguage(language, false);
+      setCustomerType(customerType);
+      updateContactLinks();
+
+    })();
+  </script>
 </body>
 </html>
