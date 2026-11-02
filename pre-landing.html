@@ -520,28 +520,7 @@ h1 em {
     }
 }
 
-/* Call to action and footer */
-.go {
-    margin: 44px 0 0;
-    background: var(--gb);
-    color: #F5E6DB;
-    border-radius: 28px;
-    text-align: center;
-    padding: 44px 24px;
-}
-
-.go h2 {
-    font-size: 1.7rem;
-    letter-spacing: -.03em;
-    margin: 0 0 8px;
-}
-
-.go p {
-    margin: 0 auto 22px;
-    max-width: 50ch;
-    opacity: .85;
-}
-
+/* Footer */
 .btn {
     display: inline-block;
     padding: 15px 28px;
@@ -554,17 +533,11 @@ h1 em {
     margin: 0 6px 8px;
 }
 
-.btn.o {
-    background: none;
-    color: #F5E6DB;
-    border-color: #F5E6DB;
-}
-
 .btn:hover {
     filter: brightness(1.07);
 }
 
-/* Single hero CTA replacing the audience selector. */
+/* Single hero CTA */
 .hero-start {
     margin: 0 auto 8px;
 }
@@ -1091,14 +1064,6 @@ footer {
       <div class="street" id="stt"></div>
     </div>
 
-    <!-- Primary navigation to the product landing page -->
-    <section class="go">
-      <h2 id="gh"></h2>
-      <p id="gp"></p>
-      <a class="btn" href="landing.html" id="g1"></a>
-      <a class="btn o" href="mailto:hola@tuempresa.com" id="g2"></a>
-    </section>
-
     <footer id="ft"></footer>
   </main>
 
@@ -1116,7 +1081,7 @@ footer {
       demo: "<b>DEMO</b>QuantiQ es una app demo y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
       f: ["Hoja de ruta", "Landing", "QuantiQ"],
       h1: "QuantiQ: piso a piso hacia la <em>inteligencia financiera</em>",
-      ld: "Imagina un edificio en Wall Street, Nueva York. Cada piso es un descubrimiento: los de abajo ya están iluminados y los de arriba están en investigación. Toca boton que dice 'piso 1' en la parte superior para entrar. Luego, cuando llegues al ultimo piso haz clic en el boton que dice 'comenzar' para continuar.",
+      ld: "Imagina un edificio en Wall Street, Nueva York. Cada piso es un descubrimiento: los de abajo ya están iluminados y los de arriba están en construcción. Toca un piso para entrar.",
       s: ["logrados", "en construcción", "por descubrir"],
       c: "Para ti, cliente",
       v: "Para inversionistas",
@@ -1352,11 +1317,7 @@ footer {
     $("stt").textContent = labels.str;
     $("demo").innerHTML = labels.demo;
     $("ld").textContent = labels.ld;
-    $("gh").textContent = labels.gh;
-    $("gp").textContent = labels.gp;
-    $("g1").textContent = labels.g1;
     $("heroStart").textContent = labels.g1;
-    $("g2").textContent = labels.g2;
     $("ft").textContent = labels.ft;
 
     var fillElement = $("fill");
