@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
+
 :root{--bg:#FBFBFA;--card:#FBFBFA;--ink:#3E2119;--mut:#7B6B64;--line:#F5E6DB;--ac:#F67F1C;--ac2:#6B3F2A;--soft:#ECC9B2;--on:#FBFBFA;--ok:#2F8F5B;--wa:#D99A2B;--bad:#C0392B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#3E2119;--card:#2A1610;--ink:#F5E6DB;--mut:#CDA992;--line:#4A2C22;--ac:#F67F1C;--ac2:#F67F1C;--soft:rgba(246,127,28,.14);--on:#3E2119;--ok:#67B77A;--wa:#D99A2B;--bad:#E5322D}}
 :root[data-theme="dark"]{--bg:#3E2119;--card:#2A1610;--ink:#F5E6DB;--mut:#CDA992;--line:#4A2C22;--ac:#F67F1C;--ac2:#F67F1C;--soft:rgba(246,127,28,.14);--on:#3E2119;--ok:#67B77A;--wa:#D99A2B;--bad:#E5322D}
@@ -48,9 +49,10 @@ i.ok{background:var(--ok)}i.warn{background:var(--wa)}i.bad{background:var(--bad
 .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
 .btn{padding:12px 20px;border-radius:10px;border:1px solid var(--line);color:var(--ac);text-decoration:none;font-weight:800;font-size:.95rem}.btn.m{background:var(--ac);color:var(--on);border-color:var(--ac)}
 .cbox{display:flex;align-items:flex-end;justify-content:center;gap:16px;height:220px;border:1px solid var(--line);border-radius:14px;padding:16px 16px 34px;margin-top:14px}.cb{flex:0 0 64px;border-radius:10px 10px 0 0;position:relative}.cb span{position:absolute;bottom:-24px;left:0;right:0;text-align:center;font-size:.8rem;font-weight:800;color:var(--mut)}.cb.ok{background:var(--ok)}.cb.warn{background:var(--wa)}.cb.bad{background:var(--bad)}.leg{display:flex;justify-content:center;gap:20px;font-size:.85rem;color:var(--mut);margin-top:8px;flex-wrap:wrap}.fb{text-align:center}.stars{display:flex;gap:8px;justify-content:center;margin:18px 0}.star{width:42px;height:42px;border:1px solid var(--line);background:none;border-radius:10px;font-size:1.5rem;color:var(--mut);cursor:pointer}.star.on{background:var(--soft);border-color:var(--ac);color:var(--ac)}.q{text-align:left;border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}.q p{margin:0 0 10px;font-weight:800;font-size:.95rem}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--mut);font:inherit;cursor:pointer}.chip[aria-pressed=true]{background:var(--ac);color:var(--on);border-color:var(--ac)}textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);min-height:80px}
+
 :root{--sh:0 18px 40px rgba(42,22,16,.10);--sh2:0 6px 18px rgba(42,22,16,.08);--glow:rgba(246,127,28,.16);--g1:linear-gradient(135deg,#F67F1C,#6B3F2A)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sh:0 18px 40px rgba(29,14,9,.40);--sh2:0 6px 18px rgba(29,14,9,.30);--glow:rgba(246,127,28,.12);--g1:linear-gradient(135deg,#FF9A3D,#F67F1C)}}
-:root[data-theme="dark"]{--sh:0 18px 40px rgba(29,14,9,.40);--sh2:0 6px 18px rgba(29,14,9,.30);--glow:rgba(246,127,28,.12);--g1:linear-gradient(135deg,#FF9A3D,#F67F1C)}
+:root[data-theme="dark"]{--sh:0 18px 40px rgba(29,14,9,.40);--sh2:0 6px 18px rgba(29,14,9,.30);--glow:rgba(246,127,28,.12);--g1:linear-gradient(135deg,#FF9A3D,#F67F1F)}
 body{background:radial-gradient(900px 420px at 50% -80px,var(--glow),transparent 70%),var(--bg)}
 .ban{position:relative;overflow:hidden;padding:32px 24px 26px;border:1px solid var(--line);background:radial-gradient(520px 200px at 50% 0,var(--glow),transparent 75%),var(--card);box-shadow:var(--sh)}
 .ban::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--g1)}
@@ -76,43 +78,34 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 
 /* =========================================================
    BANNER CONTROLS
-   Only positions the controls inside the existing banner.
-   The rest of the app styles remain unchanged.
+   Same dimensions as landing.html, placed inside banner.
+   No other app design or layout is changed.
 ========================================================= */
 .banner-controls{
-  width:100%;
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  gap:12px;
-  margin:0 0 18px;
+  gap:8px;
+  margin:0 0 12px;
 }
 .language-switch{
   position:static;
   display:flex;
-  align-items:stretch;
   overflow:hidden;
-  flex:0 0 auto;
-  height:68px;
-  min-height:68px;
   border:1px solid var(--line);
   border-radius:999px;
   background:var(--card);
-  box-shadow:var(--sh2);
+  box-shadow:0 6px 18px rgba(29,14,9,.12);
 }
 .language-switch button{
-  width:65px;
-  min-width:65px;
-  height:68px;
-  min-height:68px;
-  padding:0;
+  min-height:44px;
+  padding:0 12px;
   border:0;
   background:transparent;
   color:var(--ink);
-  font-family:inherit;
-  font-size:1rem;
   font-weight:700;
-  line-height:1;
+  font-size:.8rem;
+  font-family:inherit;
   cursor:pointer;
 }
 .language-switch button[aria-pressed="true"]{
@@ -121,25 +114,27 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 }
 .tg{
   position:static;
-  flex:0 0 68px;
-  width:68px;
-  min-width:68px;
-  height:68px;
-  min-height:68px;
-  padding:0;
-  display:grid;
-  place-items:center;
+  flex:0 0 44px;
+  width:44px;
+  height:44px;
   border-radius:50%;
   border:1px solid var(--line);
   background:var(--card);
   color:var(--ink);
-  font-size:1.5rem;
-  line-height:1;
+  font-size:1.2rem;
   cursor:pointer;
+  z-index:auto;
   box-shadow:var(--sh2);
+  display:grid;
+  place-items:center;
+}
+.tg:focus-visible{
+  outline:3px solid var(--ac);
+  outline-offset:2px;
 }
 @media(max-width:360px){
-  .banner-controls{gap:10px}
+  .banner-controls{gap:8px}
+  .language-switch button{padding:0 9px}
 }
 </style>
 
