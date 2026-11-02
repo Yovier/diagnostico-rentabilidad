@@ -22,7 +22,7 @@
     :root {
       --a: #F67F1C;
       --bg: #FBFBFA;
-      --card: #FFFFFF;
+      --card: #fff;
       --ink: #3E2119;
       --mu: #7B6B64;
       --cr: #F5E6DB;
@@ -32,7 +32,7 @@
       --gb: #3E2119;
     }
 
-    /* Automatic dark mode */
+    /* Automatic dark theme */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --bg: #2A1610;
@@ -46,7 +46,7 @@
       }
     }
 
-    /* Manual dark mode */
+    /* Manual dark theme */
     :root[data-theme="dark"] {
       --bg: #2A1610;
       --card: #3E2119;
@@ -125,21 +125,37 @@
 
     /* Floor 1 button */
     .gb {
-      background: var(--a);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      min-height: 56px;
+      padding: 0 24px;
+
+      background: #F67F1C;
       color: #3E2119;
+
       border: 0;
-      border-radius: 99px;
+      border-radius: 999px;
+
+      font-family: inherit;
+      font-size: 18px;
       font-weight: 800;
-      font-size: .9rem;
-      padding: 0 18px;
-      min-height: 44px;
+
       cursor: pointer;
+
       transition: filter .2s ease, transform .2s ease;
     }
 
     .gb:hover {
-      filter: brightness(1.07);
+      filter: brightness(1.08);
       transform: translateY(-1px);
+    }
+
+    .gb:focus-visible {
+      outline: 3px solid #CDA992;
+      outline-offset: 3px;
     }
 
     /* Language selector */
@@ -444,7 +460,7 @@
       color: #3E2119;
     }
 
-    /* Floor cards */
+    /* Roadmap cards */
     .card {
       position: relative;
       grid-column: 2;
@@ -755,11 +771,6 @@
         height: 40px;
       }
 
-      .gb {
-        padding: 0 12px;
-        font-size: .82rem;
-      }
-
       .rt {
         gap: 6px;
       }
@@ -777,6 +788,12 @@
 
       .w {
         padding: 0 14px;
+      }
+
+      .gb {
+        min-height: 52px;
+        padding: 0 20px;
+        font-size: 17px;
       }
     }
 
@@ -812,7 +829,7 @@
         );
       }
     } catch (error) {
-      // The default theme remains active if storage is unavailable.
+      // The default theme remains active.
     }
   </script>
 </head>
@@ -828,7 +845,7 @@
   <nav class="top">
     <div class="ti">
 
-      <!-- RESTORED FLOOR 1 BUTTON -->
+      <!-- FLOOR 1 BUTTON -->
       <button
         class="gb"
         id="go0"
@@ -855,8 +872,7 @@
           id="tg"
           type="button"
           aria-label="Cambiar tema"
-        >
-        </button>
+        ></button>
 
       </div>
     </div>
@@ -919,7 +935,7 @@
 
       <p id="gp"></p>
 
-      <!-- Connects to the main landing page -->
+      <!-- Connects to index.html -->
       <a
         class="btn"
         href="index.html"
@@ -942,7 +958,7 @@
 
 
   <!-- =====================================================
-       10. JAVASCRIPT: CONTENT AND ROADMAP DATA
+       10. JAVASCRIPT
   ====================================================== -->
 
   <script>
@@ -1283,12 +1299,7 @@
           stroke-width="2"
         />
 
-        <circle
-          cx="32"
-          cy="7"
-          r="3"
-          fill="#F67F1C"
-        />
+        <circle cx="32" cy="7" r="3" fill="#F67F1C" />
 
         <rect
           x="17"
@@ -1367,11 +1378,7 @@
     ------------------------------------------------------ */
 
     function fill() {
-
-      // The roadmap uses the building design without a progress line.
-
       return;
-
     }
 
 
@@ -1382,12 +1389,12 @@
       document.documentElement.lang = L;
 
 
-      /* Language controls */
+      /* Language buttons */
       $("es").setAttribute("aria-pressed", L === "es");
       $("en").setAttribute("aria-pressed", L === "en");
 
 
-      /* RESTORE AND UPDATE THE FLOOR 1 BUTTON */
+      /* Floor 1 button */
       $("go0").textContent = labels.g0;
 
       $("go0").setAttribute(
@@ -1417,15 +1424,8 @@
       audienceButtons[0].textContent = labels.c;
       audienceButtons[1].textContent = labels.v;
 
-      audienceButtons[0].setAttribute(
-        "aria-pressed",
-        A === "c"
-      );
-
-      audienceButtons[1].setAttribute(
-        "aria-pressed",
-        A === "v"
-      );
+      audienceButtons[0].setAttribute("aria-pressed", A === "c");
+      audienceButtons[1].setAttribute("aria-pressed", A === "v");
 
 
       /* Generate roadmap floors */
@@ -1487,10 +1487,7 @@
                   aria-expanded="${!!isOpen}"
                 >
 
-                  <span
-                    class="pl"
-                    aria-hidden="true"
-                  >
+                  <span class="pl" aria-hidden="true">
                     ${isOpen ? "−" : "+"}
                   </span>
 
@@ -1551,12 +1548,6 @@
     ------------------------------------------------------ */
 
     $("go0").addEventListener("click", function () {
-
-      /*
-        The data array is displayed in reverse order.
-        Index 0 therefore refers to the first floor at the
-        bottom of the building.
-      */
 
       open[0] = 1;
 
@@ -1653,7 +1644,7 @@
 
       } catch (error) {
 
-        // The selected language remains active for this session.
+        // Keep the selected language for the current session.
 
       }
 
@@ -1757,7 +1748,7 @@
 
       } catch (error) {
 
-        // Theme remains active for the current session.
+        // Keep the selected theme for the current session.
 
       }
 
