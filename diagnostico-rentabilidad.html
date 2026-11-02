@@ -75,65 +75,71 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 @media(max-width:420px){.grid{grid-template-columns:1fr}.cbox{gap:8px}}
 
 /* =========================================================
-   BANNER CONTROLS: LANGUAGE + THEME
+   BANNER CONTROLS
+   Only positions the controls inside the existing banner.
+   The rest of the app styles remain unchanged.
 ========================================================= */
-.ban{
-  min-height:290px;
-  padding:22px 28px 34px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
 .banner-controls{
   width:100%;
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  gap:10px;
-  margin:0 0 24px;
+  gap:12px;
+  margin:0 0 18px;
 }
 .language-switch{
   position:static;
   display:flex;
+  align-items:stretch;
   overflow:hidden;
+  flex:0 0 auto;
+  height:68px;
+  min-height:68px;
   border:1px solid var(--line);
   border-radius:999px;
   background:var(--card);
   box-shadow:var(--sh2);
 }
 .language-switch button{
-  min-height:44px;
-  padding:0 13px;
+  width:65px;
+  min-width:65px;
+  height:68px;
+  min-height:68px;
+  padding:0;
   border:0;
   background:transparent;
   color:var(--ink);
-  font-weight:700;
-  font-size:.8rem;
   font-family:inherit;
+  font-size:1rem;
+  font-weight:700;
+  line-height:1;
   cursor:pointer;
 }
 .language-switch button[aria-pressed="true"]{
   background:var(--ac);
   color:var(--on);
 }
-@media(max-width:520px){
-  .ban{
-    min-height:300px;
-    padding:18px 18px 28px;
-  }
-  .banner-controls{
-    margin-bottom:22px;
-  }
-  .ban h1{
-    font-size:clamp(1.85rem,8vw,2.4rem);
-  }
-  .language-switch button{
-    padding:0 11px;
-  }
+.tg{
+  position:static;
+  flex:0 0 68px;
+  width:68px;
+  min-width:68px;
+  height:68px;
+  min-height:68px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--ink);
+  font-size:1.5rem;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:var(--sh2);
 }
 @media(max-width:360px){
-  .ban{padding-left:14px;padding-right:14px}
-  .banner-controls{gap:8px}
+  .banner-controls{gap:10px}
 }
 </style>
 
@@ -358,6 +364,7 @@ try {
     </section>
   </main>
 
+
   <!-- =====================================================
        BILINGUAL DIAGNOSTIC LOGIC
   ====================================================== -->
@@ -395,6 +402,7 @@ try {
         pay: null,
         submitted: false
       };
+
 
       /* -----------------------------------------------------
          2. TRANSLATIONS
@@ -742,6 +750,7 @@ try {
         }
       };
 
+
       /* -----------------------------------------------------
          3. PLAN CATALOG AND RECOMMENDATION RANKING
       ------------------------------------------------------ */
@@ -751,6 +760,7 @@ try {
         pro: 2,
         medida: 3
       };
+
 
       /* -----------------------------------------------------
          4. LANGUAGE AND NUMBER HELPERS
@@ -795,6 +805,7 @@ try {
         }
       }
 
+
       /* -----------------------------------------------------
          5. CUSTOMER TYPE
       ------------------------------------------------------ */
@@ -813,6 +824,7 @@ try {
       $("b2").addEventListener("click", function () {
         setCustomerType("pyme");
       });
+
 
       /* -----------------------------------------------------
          6. FINANCIAL CALCULATION HELPERS
@@ -837,6 +849,7 @@ try {
             ? "bad"
             : "warn";
       }
+
 
       /* -----------------------------------------------------
          7. OVERDUE CUSTOMER ROWS
@@ -929,6 +942,7 @@ try {
         renderDebts();
       });
 
+
       /* -----------------------------------------------------
          8. DYNAMIC CONTACT LINKS
       ------------------------------------------------------ */
@@ -970,6 +984,7 @@ try {
 
       $("nom").addEventListener("input", updateContactLinks);
       $("neg").addEventListener("input", updateContactLinks);
+
 
       /* -----------------------------------------------------
          9. FEEDBACK QUESTIONS
@@ -1131,6 +1146,7 @@ try {
         $("fbThanks").style.display = feedback.submitted ? "block" : "none";
       }
 
+
       /* -----------------------------------------------------
          10. RECOMMENDATION CATALOG
       ------------------------------------------------------ */
@@ -1217,6 +1233,7 @@ try {
         return items;
       }
 
+
       /* -----------------------------------------------------
          11. RENDER FINANCIAL RESULTS
       ------------------------------------------------------ */
@@ -1259,6 +1276,7 @@ try {
             </div>
           `;
         }).join("");
+
 
         /* KPI cards */
         const kpis = [
@@ -1344,6 +1362,7 @@ try {
           `;
         }
 
+
         /* Suggested solutions */
         const recommendations = getRecommendations(result);
 
@@ -1360,6 +1379,7 @@ try {
             </div>
           `;
         }).join("");
+
 
         /* Recommended plan */
         let recommendedPlan = "basico";
@@ -1395,10 +1415,12 @@ try {
           `;
         }).join("");
 
+
         /* Localized summary for booking, WhatsApp and email */
         summary = buildDiagnosticSummary(result);
         updateContactLinks();
       }
+
 
       /* -----------------------------------------------------
          12. VALIDATION MESSAGES
@@ -1419,6 +1441,7 @@ try {
 
         $("err").style.display = "block";
       }
+
 
       /* -----------------------------------------------------
          13. RUN THE DIAGNOSTIC
@@ -1534,6 +1557,7 @@ try {
       }
 
       $("go").addEventListener("click", runDiagnostic);
+
 
       /* -----------------------------------------------------
          13. LANGUAGE SWITCHING
@@ -1658,6 +1682,7 @@ try {
         applyLanguage("en");
       });
 
+
       /* -----------------------------------------------------
          14. THEME MANAGEMENT
       ------------------------------------------------------ */
@@ -1703,6 +1728,7 @@ try {
       if (darkPreference.addEventListener) {
         darkPreference.addEventListener("change", updateThemeButton);
       }
+
 
       /* -----------------------------------------------------
          15. INITIALIZATION
