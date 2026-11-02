@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
   <title>QuantiQ | Hoja de ruta</title>
 
   <!-- Google Font -->
@@ -12,15 +13,16 @@
     rel="stylesheet"
   >
 
-  <!-- =======================================================
-       1. STYLES
-  ======================================================== -->
+  <!-- =====================================================
+       1. STYLES AND THEME CONFIGURATION
+  ====================================================== -->
+
   <style>
-    /* Theme tokens */
+    /* Theme variables */
     :root {
       --a: #F67F1C;
       --bg: #FBFBFA;
-      --card: #fff;
+      --card: #FFFFFF;
       --ink: #3E2119;
       --mu: #7B6B64;
       --cr: #F5E6DB;
@@ -30,7 +32,7 @@
       --gb: #3E2119;
     }
 
-    /* Automatic dark theme */
+    /* Automatic dark mode */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --bg: #2A1610;
@@ -44,7 +46,7 @@
       }
     }
 
-    /* Manual dark theme */
+    /* Manual dark mode */
     :root[data-theme="dark"] {
       --bg: #2A1610;
       --card: #3E2119;
@@ -68,6 +70,7 @@
 
     html {
       scroll-padding-top: 90px;
+      scroll-behavior: smooth;
     }
 
     body {
@@ -89,9 +92,10 @@
       outline-offset: 2px;
     }
 
-    /* =======================================================
+
+    /* =====================================================
        2. NAVIGATION
-    ======================================================== */
+    ====================================================== */
 
     .top {
       position: sticky;
@@ -119,6 +123,26 @@
       flex: none;
     }
 
+    /* Floor 1 button */
+    .gb {
+      background: var(--a);
+      color: #3E2119;
+      border: 0;
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: .9rem;
+      padding: 0 18px;
+      min-height: 44px;
+      cursor: pointer;
+      transition: filter .2s ease, transform .2s ease;
+    }
+
+    .gb:hover {
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+    }
+
+    /* Language selector */
     .lang {
       display: flex;
       border: 1px solid var(--te);
@@ -142,6 +166,7 @@
       color: #3E2119;
     }
 
+    /* Theme button */
     .tg {
       width: 44px;
       height: 44px;
@@ -159,9 +184,10 @@
       color: #3E2119;
     }
 
-    /* =======================================================
-       3. PAGE LAYOUT AND HERO
-    ======================================================== */
+
+    /* =====================================================
+       3. MAIN LAYOUT AND HERO
+    ====================================================== */
 
     .w {
       max-width: 960px;
@@ -203,6 +229,7 @@
       margin: 0 auto 20px;
     }
 
+    /* Demo notice */
     .demo {
       display: inline-block;
       max-width: 58ch;
@@ -250,17 +277,18 @@
       color: #3E2119;
     }
 
-    /* =======================================================
-       4. ROADMAP AND BUILDING
-    ======================================================== */
+
+    /* =====================================================
+       4. BUILDING AND ROADMAP
+    ====================================================== */
 
     .bld {
       position: relative;
       max-width: 760px;
       margin: 40px auto 0;
-      padding-top: 0;
     }
 
+    /* Building roof */
     .crown {
       display: flex;
       flex-direction: column;
@@ -328,6 +356,7 @@
       }
     }
 
+    /* Roadmap list */
     .map {
       list-style: none;
       margin: 0;
@@ -335,7 +364,6 @@
       position: relative;
       border: 0;
       background: none;
-      border-radius: 0;
     }
 
     .map li {
@@ -346,6 +374,7 @@
       margin: 0 auto;
       padding: 24px 14px 22px;
       position: relative;
+
       background-color: #3E2119;
       background-image: linear-gradient(
         90deg,
@@ -353,6 +382,7 @@
         transparent 8px calc(100% - 8px),
         rgba(205, 169, 146, .2) calc(100% - 8px)
       );
+
       border-left: 3px solid var(--te);
       border-right: 3px solid var(--te);
       border-bottom: 5px solid var(--te);
@@ -370,10 +400,23 @@
       padding-top: 52px;
     }
 
+    /* Current roadmap floor animation */
     .map li.cur {
       animation: fl 1.8s ease-in-out infinite;
     }
 
+    @keyframes fl {
+      0%,
+      100% {
+        background-color: #6B3F2A;
+      }
+
+      50% {
+        background-color: #3E2119;
+      }
+    }
+
+    /* Floor indicators */
     .node {
       grid-column: 1;
       grid-row: 1;
@@ -401,7 +444,7 @@
       color: #3E2119;
     }
 
-    /* Roadmap cards */
+    /* Floor cards */
     .card {
       position: relative;
       grid-column: 2;
@@ -421,6 +464,19 @@
       animation: fc 1.8s ease-in-out infinite;
     }
 
+    @keyframes fc {
+      0%,
+      100% {
+        border-color: #F5E6DB;
+        box-shadow: 0 0 26px rgba(245, 230, 219, .65);
+      }
+
+      50% {
+        border-color: #7B6B64;
+        box-shadow: none;
+      }
+    }
+
     .next .card {
       border: 6px solid #7B6B64;
       background-color: #5A3A2E;
@@ -428,6 +484,7 @@
       box-shadow: none;
     }
 
+    /* Clickable floor headings */
     .hd {
       all: unset;
       display: block;
@@ -447,6 +504,7 @@
       padding-right: 72px;
     }
 
+    /* Floor status */
     .st {
       display: inline-block;
       font-weight: 800;
@@ -519,6 +577,7 @@
       line-height: 1;
     }
 
+    /* Expanded floor details */
     .dt {
       padding: 0 20px 18px;
     }
@@ -550,9 +609,10 @@
       display: none;
     }
 
-    /* =======================================================
+
+    /* =====================================================
        5. ROBOT ILLUSTRATION AND ANIMATIONS
-    ======================================================== */
+    ====================================================== */
 
     .bot {
       position: absolute;
@@ -569,7 +629,8 @@
     }
 
     @keyframes dig {
-      0%, 100% {
+      0%,
+      100% {
         transform: rotate(-8deg);
       }
 
@@ -590,7 +651,8 @@
     }
 
     @keyframes pop {
-      0%, 48% {
+      0%,
+      48% {
         opacity: 0;
         transform: translate(0, 0);
       }
@@ -605,31 +667,10 @@
       }
     }
 
-    @keyframes fl {
-      0%, 100% {
-        background-color: #6B3F2A;
-      }
 
-      50% {
-        background-color: #3E2119;
-      }
-    }
-
-    @keyframes fc {
-      0%, 100% {
-        border-color: #F5E6DB;
-        box-shadow: 0 0 26px rgba(245, 230, 219, .65);
-      }
-
-      50% {
-        border-color: #7B6B64;
-        box-shadow: none;
-      }
-    }
-
-    /* =======================================================
-       6. CALL TO ACTION AND FOOTER
-    ======================================================== */
+    /* =====================================================
+       6. STREET, CALL TO ACTION AND FOOTER
+    ====================================================== */
 
     .street {
       position: relative;
@@ -695,9 +736,10 @@
       padding: 28px 0 36px;
     }
 
-    /* =======================================================
+
+    /* =====================================================
        7. RESPONSIVE DESIGN AND ACCESSIBILITY
-    ======================================================== */
+    ====================================================== */
 
     @media (max-width: 480px) {
       .map li {
@@ -711,6 +753,11 @@
       .node {
         width: 40px;
         height: 40px;
+      }
+
+      .gb {
+        padding: 0 12px;
+        font-size: .82rem;
       }
 
       .rt {
@@ -749,35 +796,51 @@
     }
   </style>
 
-  <!-- Restore the saved color theme before first paint -->
+
+  <!-- =====================================================
+       8. RESTORE SAVED THEME
+  ====================================================== -->
+
   <script>
     try {
       var savedTheme = localStorage.getItem("tema");
 
       if (savedTheme) {
-        document.documentElement.setAttribute("data-theme", savedTheme);
+        document.documentElement.setAttribute(
+          "data-theme",
+          savedTheme
+        );
       }
     } catch (error) {
-      // Use the default color theme when local storage is unavailable.
+      // The default theme remains active if storage is unavailable.
     }
   </script>
 </head>
 
-<body>
-  <!-- =======================================================
-       8. PAGE STRUCTURE
-  ======================================================== -->
 
-  <!-- Navigation: language and theme controls only -->
-  <div class="top">
+<body>
+
+  <!-- =====================================================
+       9. PAGE STRUCTURE
+  ====================================================== -->
+
+  <!-- Navigation bar -->
+  <nav class="top">
     <div class="ti">
+
+      <!-- RESTORED FLOOR 1 BUTTON -->
       <button
         class="gb"
         id="go0"
         type="button"
-      ></button>
+        aria-label="Ir al primer piso"
+      >
+        ↓ Piso 1
+      </button>
 
+      <!-- Language and theme controls -->
       <div class="rt">
+
         <div
           class="lang"
           role="group"
@@ -792,18 +855,27 @@
           id="tg"
           type="button"
           aria-label="Cambiar tema"
-        ></button>
+        >
+        </button>
+
       </div>
     </div>
-  </div>
+  </nav>
+
 
   <main class="w">
-    <!-- Introduction -->
+
+    <!-- Hero section -->
     <header class="hero">
-      <p class="tag">🏙️ QUANTIQ · WALL STREET · NYC</p>
+
+      <p class="tag">
+        🏙️ QUANTIQ · WALL STREET · NYC
+      </p>
 
       <h1 id="h1"></h1>
+
       <p class="lead" id="ld"></p>
+
       <p class="demo" id="demo"></p>
 
       <!-- Audience selector -->
@@ -815,10 +887,16 @@
         <button data-a="c" aria-pressed="true"></button>
         <button data-a="v" aria-pressed="false"></button>
       </div>
+
     </header>
 
-    <!-- Interactive building and roadmap floors -->
-    <div class="bld">
+
+    <!-- Interactive building -->
+    <section
+      class="bld"
+      aria-label="QuantiQ roadmap"
+    >
+
       <div class="crown" aria-hidden="true">
         <i class="m"></i>
         <i class="t3"></i>
@@ -826,16 +904,22 @@
         <i class="t1"></i>
       </div>
 
+      <!-- Roadmap floors are rendered here -->
       <ol class="map" id="map"></ol>
 
       <div class="street" id="stt"></div>
-    </div>
 
-    <!-- Primary navigation to the product landing page -->
+    </section>
+
+
+    <!-- Final call to action -->
     <section class="go">
+
       <h2 id="gh"></h2>
+
       <p id="gp"></p>
 
+      <!-- Connects to the main landing page -->
       <a
         class="btn"
         href="index.html"
@@ -847,93 +931,124 @@
         href="mailto:hola@tuempresa.com"
         id="g2"
       ></a>
+
     </section>
 
+
+    <!-- Footer -->
     <footer id="ft"></footer>
+
   </main>
 
 
-  <!-- =======================================================
-       9. INTERACTIVE ROADMAP JAVASCRIPT
-  ======================================================== -->
+  <!-- =====================================================
+       10. JAVASCRIPT: CONTENT AND ROADMAP DATA
+  ====================================================== -->
 
   <script>
-    /* ---------------------------------------------------------
-       9.1. LANGUAGE CONTENT
-    --------------------------------------------------------- */
+
+    /* -----------------------------------------------------
+       10.1. LANGUAGE CONTENT
+    ------------------------------------------------------ */
 
     var T = {
+
       es: {
         g0: "↓ Piso 1",
         g0a: "Ir al primer piso",
+
         fl: "PISO",
         str: "WALL STREET · NUEVA YORK",
+
         demo: "<b>DEMO</b>QuantiQ es una app demo y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
-        f: ["Hoja de ruta", "Landing", "QuantiQ"],
+
         h1: "QuantiQ: piso a piso hacia la <em>inteligencia financiera</em>",
+
         ld: "Imagina un edificio en Wall Street, Nueva York. Cada piso es un descubrimiento: los de abajo ya están iluminados y los de arriba están en construcción. Toca un piso para entrar.",
-        s: ["logrados", "en construcción", "por descubrir"],
+
         c: "Para ti, cliente",
         v: "Para inversionistas",
+
         done: "Logrado",
         cur: "Por descubrir",
         next: "Por descubrir",
+
         here: "TÚ ESTÁS AQUÍ",
         d: "DESCUBRIMIENTO",
+
         gh: "Ya puedes entrar a los pisos iluminados",
+
         gp: "Sigue el recorrido: conoce el producto en la landing y prueba la versión demo de QuantiQ, aún en desarrollo.",
+
         g1: "Comenzar",
         g2: "Hablar con nosotros",
+
         ft: "© 2026 QuantiQ · Versión demo en proceso",
+
         lab: {
           c: "Lo que descubres",
           v: "Por qué importa"
         }
       },
 
+
       en: {
         g0: "↓ Floor 1",
         g0a: "Go to the first floor",
+
         fl: "FLOOR",
         str: "WALL STREET · NEW YORK",
+
         demo: "<b>DEMO</b>QuantiQ is a demo app and is still in development: its features, stages and dates may change.",
-        f: ["Roadmap", "Landing", "QuantiQ"],
+
         h1: "QuantiQ: floor by floor to <em>financial intelligence</em>",
+
         ld: "Picture a building on Wall Street, New York. Each floor is a discovery: the lower ones are already lit and the upper ones are under construction. Tap a floor to step inside.",
-        s: ["achieved", "under construction", "to be discovered"],
+
         c: "For you, client",
         v: "For investors",
+
         done: "Achieved",
         cur: "To be discovered",
         next: "To be discovered",
+
         here: "YOU ARE HERE",
         d: "DISCOVERY",
+
         gh: "You can already walk into the lit floors",
+
         gp: "Follow the journey: meet the product on the landing page and try the QuantiQ demo, still in development.",
+
         g1: "Get Started",
         g2: "Talk to us",
+
         ft: "© 2026 QuantiQ · Demo version in progress",
+
         lab: {
           c: "What you uncover",
           v: "Why it matters"
         }
       }
+
     };
 
 
-    /* ---------------------------------------------------------
-       9.2. ROADMAP DATA
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.2. ROADMAP DATA
+    ------------------------------------------------------ */
 
     var D = [
+
       {
         k: "done",
+
         es: [
           "Sabe dónde estás.",
           "Margen, ingresos y costos en un minuto.",
           "Margen, ingresos y costos en un minuto: sabes cuánto te queda realmente de lo que cobras.",
           "Producto funcionando hoy: la base de toda la propuesta de valor."
         ],
+
         en: [
           "Know where you stand.",
           "Margin, income and costs in one minute.",
@@ -942,14 +1057,17 @@
         ]
       },
 
+
       {
         k: "done",
+
         es: [
           "Encuentra tus fugas de dinero.",
           "Cartera vencida, un solo cliente, tu tiempo.",
           "Detectas pagos atrasados, dependencia de un solo cliente y horas que no facturas.",
           "Cuatro indicadores ya calculados: datos que habilitan recomendaciones."
         ],
+
         en: [
           "Find your money leaks.",
           "Overdue payments, one client, your time.",
@@ -958,14 +1076,17 @@
         ]
       },
 
+
       {
         k: "cur",
+
         es: [
           "Entiende tu deuda.",
           "Qué debes, a quién y cuánto pesa.",
           "Ves qué debes, a quién y cuánto pesa en tu flujo. Lo afinamos con negocios reales.",
           "Etapa de validación: aquí se generan los datos de tracción."
         ],
+
         en: [
           "Understand your debt.",
           "What you owe, to whom, and its weight.",
@@ -974,14 +1095,17 @@
         ]
       },
 
+
       {
         k: "next",
+
         es: [
           "Revela tu potencial de ahorro.",
           "Dónde recortar o cobrar mejor.",
           "Recomendaciones concretas para recortar costos o cobrar mejor.",
           "Pasa de diagnóstico a acción: base para planes de pago."
         ],
+
         en: [
           "Reveal your saving potential.",
           "Where to cut costs or collect better.",
@@ -990,14 +1114,17 @@
         ]
       },
 
+
       {
         k: "next",
+
         es: [
           "Mira tus futuros posibles.",
           "Escenarios antes de decidir.",
           "Simulas qué pasa si pierdes a tu mejor cliente o subes tus precios.",
           "Capa de mayor valor: simulación y seguimiento mensual con uso recurrente."
         ],
+
         en: [
           "See your possible futures.",
           "Scenarios before you decide.",
@@ -1006,14 +1133,17 @@
         ]
       },
 
+
       {
         k: "next",
+
         es: [
           "Conoce tu inteligencia financiera.",
           "Todo conectado, siempre al día.",
           "Tu historial, alertas y guía continua, conectados a tus herramientas contables.",
           "Visión de escala: integraciones, alianzas y expansión regional."
         ],
+
         en: [
           "Meet your financial intelligence.",
           "Everything connected, always up to date.",
@@ -1021,54 +1151,80 @@
           "Scale vision: integrations, partnerships and regional expansion."
         ]
       }
+
     ];
 
 
-    /* ---------------------------------------------------------
-       9.3. PAGE STATE
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.3. PAGE STATE
+    ------------------------------------------------------ */
 
     var L = "es";
     var A = "c";
-    var open = { 2: 1 };
+
+    var open = {
+      2: 1
+    };
 
     var $ = function (id) {
       return document.getElementById(id);
     };
 
-    /* Restore saved language */
+
+    /* Restore preferred language */
     try {
+
       var savedLanguage = localStorage.getItem("lang");
 
       if (savedLanguage) {
         L = savedLanguage;
-      } else if ((navigator.language || "").slice(0, 2) === "en") {
+
+      } else if (
+        (navigator.language || "").slice(0, 2) === "en"
+      ) {
         L = "en";
       }
+
     } catch (error) {
+
       // Spanish remains the default language.
+
     }
 
 
-    /* ---------------------------------------------------------
-       9.4. UTILITY FUNCTIONS
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.4. UTILITY FUNCTIONS
+    ------------------------------------------------------ */
 
     function escapeHtml(value) {
+
       return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/"/g, "&quot;");
+
     }
 
 
-    /* ---------------------------------------------------------
-       9.5. ROBOT ILLUSTRATION
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.5. ROBOT ILLUSTRATION
+    ------------------------------------------------------ */
 
     var BOT = `
-      <svg class="bot" viewBox="0 0 64 64" aria-hidden="true">
-        <ellipse cx="32" cy="60" rx="27" ry="4" fill="#CDA992" />
+
+      <svg
+        class="bot"
+        viewBox="0 0 64 64"
+        aria-hidden="true"
+      >
+
+        <ellipse
+          cx="32"
+          cy="60"
+          rx="27"
+          ry="4"
+          fill="#CDA992"
+        />
 
         <rect
           x="46"
@@ -1086,9 +1242,32 @@
           stroke-width="1.5"
         />
 
-        <rect x="24" y="50" width="6" height="9" rx="3" fill="#3E2119" />
-        <rect x="34" y="50" width="6" height="9" rx="3" fill="#3E2119" />
-        <rect x="22" y="34" width="20" height="19" rx="6" fill="#CDA992" />
+        <rect
+          x="24"
+          y="50"
+          width="6"
+          height="9"
+          rx="3"
+          fill="#3E2119"
+        />
+
+        <rect
+          x="34"
+          y="50"
+          width="6"
+          height="9"
+          rx="3"
+          fill="#3E2119"
+        />
+
+        <rect
+          x="22"
+          y="34"
+          width="20"
+          height="19"
+          rx="6"
+          fill="#CDA992"
+        />
 
         <path
           d="M30 36h4l1 4-3 9-3-9z"
@@ -1104,9 +1283,31 @@
           stroke-width="2"
         />
 
-        <circle cx="32" cy="7" r="3" fill="#F67F1C" />
-        <rect x="17" y="14" width="30" height="23" rx="11" fill="#F67F1C" />
-        <rect x="21" y="18" width="22" height="14" rx="7" fill="#FBFBFA" />
+        <circle
+          cx="32"
+          cy="7"
+          r="3"
+          fill="#F67F1C"
+        />
+
+        <rect
+          x="17"
+          y="14"
+          width="30"
+          height="23"
+          rx="11"
+          fill="#F67F1C"
+        />
+
+        <rect
+          x="21"
+          y="18"
+          width="22"
+          height="14"
+          rx="7"
+          fill="#FBFBFA"
+        />
+
         <circle cx="28" cy="24" r="2.4" fill="#3E2119" />
         <circle cx="36" cy="24" r="2.4" fill="#3E2119" />
 
@@ -1122,7 +1323,15 @@
         <circle cx="40" cy="28" r="1.6" fill="#ECC9B2" />
 
         <g class="arm">
-          <rect x="38" y="36" width="10" height="5" rx="2.5" fill="#CDA992" />
+
+          <rect
+            x="38"
+            y="36"
+            width="10"
+            height="5"
+            rx="2.5"
+            fill="#CDA992"
+          />
 
           <line
             x1="46"
@@ -1142,46 +1351,65 @@
             stroke="#3E2119"
             stroke-width="2"
           />
+
         </g>
 
         <circle class="pa" cx="58" cy="17" r="1.8" fill="#F67F1C" />
         <circle class="pa pb" cx="52" cy="19" r="1.4" fill="#ECC9B2" />
+
       </svg>
+
     `;
 
 
-    /* ---------------------------------------------------------
-       9.6. ROADMAP RENDERING
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.6. ROADMAP RENDERING
+    ------------------------------------------------------ */
 
     function fill() {
-      // The visual progress line is not displayed in this design.
+
+      // The roadmap uses the building design without a progress line.
+
       return;
+
     }
 
+
     function paint() {
+
       var labels = T[L];
 
       document.documentElement.lang = L;
 
-      /* Language buttons */
+
+      /* Language controls */
       $("es").setAttribute("aria-pressed", L === "es");
       $("en").setAttribute("aria-pressed", L === "en");
 
-      /* Hero content */
-      $("h1").innerHTML = labels.h1;
-      $("go0").textContent = labels.g0;
-      $("go0").setAttribute("aria-label", labels.g0a);
-      $("stt").textContent = labels.str;
-      $("demo").innerHTML = labels.demo;
-      $("ld").textContent = labels.ld;
 
-      /* Call-to-action content */
+      /* RESTORE AND UPDATE THE FLOOR 1 BUTTON */
+      $("go0").textContent = labels.g0;
+
+      $("go0").setAttribute(
+        "aria-label",
+        labels.g0a
+      );
+
+
+      /* Hero section */
+      $("h1").innerHTML = labels.h1;
+      $("ld").textContent = labels.ld;
+      $("demo").innerHTML = labels.demo;
+      $("stt").textContent = labels.str;
+
+
+      /* Call to action */
       $("gh").textContent = labels.gh;
       $("gp").textContent = labels.gp;
       $("g1").textContent = labels.g1;
       $("g2").textContent = labels.g2;
       $("ft").textContent = labels.ft;
+
 
       /* Audience selector */
       var audienceButtons = $("aud").children;
@@ -1189,17 +1417,30 @@
       audienceButtons[0].textContent = labels.c;
       audienceButtons[1].textContent = labels.v;
 
-      audienceButtons[0].setAttribute("aria-pressed", A === "c");
-      audienceButtons[1].setAttribute("aria-pressed", A === "v");
+      audienceButtons[0].setAttribute(
+        "aria-pressed",
+        A === "c"
+      );
+
+      audienceButtons[1].setAttribute(
+        "aria-pressed",
+        A === "v"
+      );
+
 
       /* Generate roadmap floors */
       $("map").innerHTML = D.map(function (floor, index) {
+
         return [floor, index];
+
       })
         .reverse()
+
         .map(function (item) {
+
           var floor = item[0];
           var index = item[1];
+
           var text = floor[L];
           var isOpen = open[index];
 
@@ -1213,22 +1454,31 @@
             100 - 3 * Math.max(0, index - 1)
           );
 
-          var nodeLabel = floor.k === "done" ? "✓" : index + 1;
+          var nodeLabel = floor.k === "done"
+            ? "✓"
+            : index + 1;
 
           var currentMarker = floor.k === "cur"
             ? `<span class="here">${labels.here}</span>`
             : "";
 
+
           return `
+
             <li
               class="${floor.k}"
               style="--w:${width}; --m:${mobileWidth};"
             >
-              <div class="node" aria-hidden="true">
+
+              <div
+                class="node"
+                aria-hidden="true"
+              >
                 ${nodeLabel}
               </div>
 
               <div class="card">
+
                 ${floor.k === "done" ? BOT : ""}
 
                 <button
@@ -1236,7 +1486,11 @@
                   data-i="${index}"
                   aria-expanded="${!!isOpen}"
                 >
-                  <span class="pl" aria-hidden="true">
+
+                  <span
+                    class="pl"
+                    aria-hidden="true"
+                  >
                     ${isOpen ? "−" : "+"}
                   </span>
 
@@ -1257,70 +1511,92 @@
                   <span class="ds">
                     ${escapeHtml(text[1])}
                   </span>
+
                 </button>
 
                 <div class="dt"${isOpen ? "" : " hidden"}>
+
                   <div>
                     <b>${labels.lab[A]}</b>
-                    ${escapeHtml(A === "c" ? text[2] : text[3])}
+
+                    ${escapeHtml(
+                      A === "c"
+                        ? text[2]
+                        : text[3]
+                    )}
+
                   </div>
+
                 </div>
+
               </div>
+
             </li>
+
           `;
+
         })
+
         .join("");
+
 
       fill();
       updateThemeButton();
+
     }
 
 
-    /* ---------------------------------------------------------
-       9.7. THEME MANAGEMENT
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.7. FLOOR 1 BUTTON FUNCTIONALITY
+    ------------------------------------------------------ */
 
-    function isDarkMode() {
-      var theme = document.documentElement.getAttribute("data-theme");
+    $("go0").addEventListener("click", function () {
 
-      var darkPreference = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+      /*
+        The data array is displayed in reverse order.
+        Index 0 therefore refers to the first floor at the
+        bottom of the building.
+      */
+
+      open[0] = 1;
+
+      paint();
+
+      var firstFloorButton = document.querySelector(
+        '.hd[data-i="0"]'
       );
 
-      return theme
-        ? theme === "dark"
-        : darkPreference.matches;
-    }
+      if (firstFloorButton) {
 
-    function updateThemeButton() {
-      var button = $("tg");
-      var dark = isDarkMode();
+        var reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
 
-      button.textContent = dark ? "\u2600" : "\u263e";
+        firstFloorButton.scrollIntoView({
 
-      button.setAttribute(
-        "aria-label",
-        L === "en"
-          ? (dark ? "Switch to day mode" : "Switch to night mode")
-          : (dark ? "Cambiar a modo día" : "Cambiar a modo noche")
-      );
-    }
+          behavior: reduceMotion
+            ? "auto"
+            : "smooth",
 
-    function saveLanguage() {
-      try {
-        localStorage.setItem("lang", L);
-      } catch (error) {
-        // Language remains active for the current page session.
+          block: "center"
+
+        });
+
+        firstFloorButton.focus({
+          preventScroll: true
+        });
+
       }
-    }
+
+    });
 
 
-    /* ---------------------------------------------------------
-       9.8. EVENT LISTENERS
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.8. ROADMAP INTERACTIONS
+    ------------------------------------------------------ */
 
-    /* Expand and collapse roadmap floors */
     $("map").addEventListener("click", function (event) {
+
       var floorButton = event.target.closest(".hd");
 
       if (!floorButton) {
@@ -1342,64 +1618,127 @@
       if (updatedButton) {
         updatedButton.focus();
       }
+
     });
 
 
-    /* Switch between client and investor information */
+    /* -----------------------------------------------------
+       10.9. AUDIENCE SELECTOR
+    ------------------------------------------------------ */
+
     $("aud").addEventListener("click", function (event) {
+
       var button = event.target.closest("button");
 
       if (button) {
+
         A = button.dataset.a;
+
         paint();
+
       }
+
     });
 
 
-    /* Scroll to the first roadmap floor */
-    $("go0").onclick = function () {
-      open[0] = 1;
+    /* -----------------------------------------------------
+       10.10. LANGUAGE MANAGEMENT
+    ------------------------------------------------------ */
+
+    function saveLanguage() {
+
+      try {
+
+        localStorage.setItem("lang", L);
+
+      } catch (error) {
+
+        // The selected language remains active for this session.
+
+      }
+
+    }
+
+
+    $("es").addEventListener("click", function () {
+
+      L = "es";
+
+      saveLanguage();
       paint();
 
-      var firstFloorButton = document.querySelector(
-        '.hd[data-i="0"]'
+    });
+
+
+    $("en").addEventListener("click", function () {
+
+      L = "en";
+
+      saveLanguage();
+      paint();
+
+    });
+
+
+    /* -----------------------------------------------------
+       10.11. THEME MANAGEMENT
+    ------------------------------------------------------ */
+
+    function isDarkMode() {
+
+      var theme = document.documentElement.getAttribute(
+        "data-theme"
       );
 
-      if (firstFloorButton) {
-        var reduceMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches;
+      var darkPreference = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
 
-        firstFloorButton.scrollIntoView({
-          behavior: reduceMotion ? "auto" : "smooth",
-          block: "center"
-        });
+      return theme
+        ? theme === "dark"
+        : darkPreference.matches;
 
-        firstFloorButton.focus({
-          preventScroll: true
-        });
-      }
-    };
+    }
 
 
-    /* Spanish language */
-    $("es").onclick = function () {
-      L = "es";
-      saveLanguage();
-      paint();
-    };
+    function updateThemeButton() {
+
+      var button = $("tg");
+      var dark = isDarkMode();
+
+      button.textContent = dark
+        ? "\u2600"
+        : "\u263e";
+
+      button.setAttribute(
+        "aria-label",
+
+        L === "en"
+
+          ? (
+              dark
+                ? "Switch to day mode"
+                : "Switch to night mode"
+            )
+
+          : (
+              dark
+                ? "Cambiar a modo día"
+                : "Cambiar a modo noche"
+            )
+
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        dark
+      );
+
+    }
 
 
-    /* English language */
-    $("en").onclick = function () {
-      L = "en";
-      saveLanguage();
-      paint();
-    };
+    $("tg").addEventListener("click", function () {
 
-
-    /* Light and dark theme toggle */
-    $("tg").onclick = function () {
       var nextTheme = isDarkMode()
         ? "light"
         : "dark";
@@ -1410,36 +1749,54 @@
       );
 
       try {
-        localStorage.setItem("tema", nextTheme);
+
+        localStorage.setItem(
+          "tema",
+          nextTheme
+        );
+
       } catch (error) {
-        // Theme remains active for the current page session.
+
+        // Theme remains active for the current session.
+
       }
 
       updateThemeButton();
-    };
+
+    });
 
 
-    /* Follow system theme preference changes */
+    /* Follow system theme preference */
     var colorScheme = window.matchMedia(
       "(prefers-color-scheme: dark)"
     );
 
     if (colorScheme.addEventListener) {
+
       colorScheme.addEventListener(
         "change",
         updateThemeButton
       );
+
     }
+
+
+    /* -----------------------------------------------------
+       10.12. RESPONSIVE EVENT LISTENERS
+    ------------------------------------------------------ */
 
     window.addEventListener("resize", fill);
 
 
-    /* ---------------------------------------------------------
-       9.9. INITIAL PAGE RENDER
-    --------------------------------------------------------- */
+    /* -----------------------------------------------------
+       10.13. INITIAL PAGE RENDER
+    ------------------------------------------------------ */
 
     paint();
+
     window.setTimeout(fill, 300);
+
   </script>
+
 </body>
 </html>
