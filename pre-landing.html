@@ -6,15 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>QuantiQ | Hoja de ruta</title>
 
-  <!-- Google Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Page styles -->
   <style>
-/* Theme tokens and global styles */
 :root {
     --a: #F67F1C;
     --bg: #FBFBFA;
@@ -284,7 +281,6 @@ h1 em {
     position: relative;
 }
 
-/* Building illustration refinements and responsive overrides */
 .map::before,.fill {
     content: "";
     position: absolute;
@@ -520,7 +516,7 @@ h1 em {
     }
 }
 
-/* Footer */
+/* Buttons */
 .btn {
     display: inline-block;
     padding: 15px 28px;
@@ -537,9 +533,13 @@ h1 em {
     filter: brightness(1.07);
 }
 
-/* Single hero CTA */
+/* Main call to action */
 .hero-start {
     margin: 0 auto 8px;
+    max-width: min(100%, 420px);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
 }
 
 footer {
@@ -646,7 +646,7 @@ footer {
     }
 }
 
-/* Floor 1 button — styled to match the supplied reference */
+/* Floor 1 button */
 .gb {
     display: inline-flex;
     align-items: center;
@@ -1004,22 +1004,21 @@ footer {
         width: calc(var(--m,100)*1%);
     }
 }
-
   </style>
 
-  <!-- Restore the saved theme before first paint -->
+  <!-- Restore saved theme before first paint -->
   <script>
-  // Restore the saved color theme before the page is rendered.
   try {
     var savedTheme = localStorage.getItem("tema");
     if (savedTheme) {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
   } catch (error) {
-    // Use the default color theme when local storage is unavailable.
+    // Use default theme if local storage is unavailable.
   }
-</script>
+  </script>
 </head>
+
 <body>
   <!-- Sticky navigation and display controls -->
   <div class="top">
@@ -1045,7 +1044,9 @@ footer {
       <p class="lead" id="ld"></p>
       <p class="demo" id="demo"></p>
 
-      <a class="btn hero-start" href="landing.html" id="heroStart">Comenzar</a>
+      <a class="btn hero-start" href="landing.html" id="heroStart">
+        Comenzar
+      </a>
     </header>
 
     <!-- Interactive building and roadmap floors -->
@@ -1067,7 +1068,7 @@ footer {
     <footer id="ft"></footer>
   </main>
 
-  <!-- Interactive, read-only roadmap behavior -->
+  <!-- Interactive roadmap behavior -->
   <script>
   /* ---------------------------------------------------------
      1. Language content
@@ -1092,7 +1093,7 @@ footer {
       d: "DESCUBRIMIENTO",
       gh: "Ya puedes entrar a los pisos iluminados",
       gp: "Sigue el recorrido: conoce el producto en la landing y prueba la versión demo de QuantiQ, aún en desarrollo.",
-      g1: "Comenzar",
+      g1: "Descubre cómo funciona y cómo usarla",
       g2: "Hablar con nosotros",
       ft: "© 2026 QuantiQ · Versión demo en proceso",
       lab: {
@@ -1100,6 +1101,7 @@ footer {
         v: "Por qué importa"
       }
     },
+
     en: {
       g0: "↓ Floor 1",
       g0a: "Go to the first floor",
@@ -1119,7 +1121,7 @@ footer {
       d: "DISCOVERY",
       gh: "You can already walk into the lit floors",
       gp: "Follow the journey: meet the product on the landing page and try the QuantiQ demo, still in development.",
-      g1: "Get Started",
+      g1: "Discover how it works and how to use it",
       g2: "Talk to us",
       ft: "© 2026 QuantiQ · Demo version in progress",
       lab: {
@@ -1231,6 +1233,7 @@ footer {
   var L = "es";
   var A = "c";
   var open = { 2: 1 };
+
   var $ = function (id) {
     return document.getElementById(id);
   };
@@ -1238,7 +1241,7 @@ footer {
   try {
     var savedLanguage = localStorage.getItem("lang");
 
-    if (savedLanguage) {
+    if (savedLanguage === "es" || savedLanguage === "en") {
       L = savedLanguage;
     } else if ((navigator.language || "").slice(0, 2) === "en") {
       L = "en";
@@ -1317,7 +1320,10 @@ footer {
     $("stt").textContent = labels.str;
     $("demo").innerHTML = labels.demo;
     $("ld").textContent = labels.ld;
+
+    /* Update the CTA label using the selected language. */
     $("heroStart").textContent = labels.g1;
+
     $("ft").textContent = labels.ft;
 
     var fillElement = $("fill");
@@ -1334,6 +1340,7 @@ footer {
         var width = Math.max(52, 100 - 8 * Math.max(0, index - 1));
         var mobileWidth = Math.max(80, 100 - 3 * Math.max(0, index - 1));
         var nodeLabel = floor.k === "done" ? "✓" : index + 1;
+
         var currentMarker = floor.k === "cur"
           ? `<span class="here">${labels.here}</span>`
           : "";
@@ -1372,6 +1379,7 @@ footer {
       .join("");
 
     $("map").insertBefore(fillElement, $("map").firstChild);
+
     fill();
     updateThemeButton();
   }
@@ -1388,6 +1396,7 @@ footer {
     var dark = isDarkMode();
 
     button.textContent = dark ? "\u2600" : "\u263e";
+
     button.setAttribute(
       "aria-label",
       L === "en"
@@ -1415,6 +1424,7 @@ footer {
     }
 
     var floorIndex = floorButton.dataset.i;
+
     open[floorIndex] = open[floorIndex] ? 0 : 1;
     paint();
 
@@ -1432,13 +1442,17 @@ footer {
     paint();
 
     var firstFloorButton = document.querySelector('.hd[data-i="0"]');
+
     if (firstFloorButton) {
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
 
       firstFloorButton.scrollIntoView({
         behavior: reduceMotion ? "auto" : "smooth",
         block: "center"
       });
+
       firstFloorButton.focus({ preventScroll: true });
     }
   };
@@ -1457,6 +1471,7 @@ footer {
 
   $("tg").onclick = function () {
     var nextTheme = isDarkMode() ? "light" : "dark";
+
     document.documentElement.setAttribute("data-theme", nextTheme);
 
     try {
@@ -1469,6 +1484,7 @@ footer {
   };
 
   var colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
   if (colorScheme.addEventListener) {
     colorScheme.addEventListener("change", updateThemeButton);
   }
@@ -1480,6 +1496,6 @@ footer {
   --------------------------------------------------------- */
   paint();
   window.setTimeout(fill, 300);
-</script>
+  </script>
 </body>
 </html>
