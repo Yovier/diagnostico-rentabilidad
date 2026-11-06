@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prueba del teléfono | QuantiQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2a1610;--card:#4a2c22;--line:#6b4639;--ink:#fbfbfa;--mut:#d8c2b6;--ac:#f67f1c;--on:#2a1610;--ok:#67b77a;--bad:#e5322d;--wa:#d99a2b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;padding:max(20px,env(safe-area-inset-top)) 16px max(32px,env(safe-area-inset-bottom))}
+main{max-width:560px;margin:0 auto}
+h1{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px}
+p{margin:0 0 12px;color:var(--mut)}
+.t{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.t h2{font-size:1rem;margin:0 0 4px}
+.t p{font-size:.9rem;margin:0 0 10px}
+.r{font-weight:800;font-size:.95rem;margin:10px 0 0;min-height:1.4em;overflow-wrap:anywhere}#r5{white-space:pre-line}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.wa{color:var(--wa)}
+button{font:inherit;font-weight:800;padding:12px 18px;border:0;border-radius:10px;background:var(--ac);color:var(--on);cursor:pointer}
+button:disabled{opacity:.5}
+button.ghost{background:none;border:1px dashed var(--ac);color:var(--ac)}
+input[type=text]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin-top:8px}
+#rows{margin-top:6px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Prueba de tu teléfono</h1>
+  <p>Toca cada botón y mira el resultado. Si algo sale en rojo, dime cuál fue.</p>
+
+  <div class="t">
+    <h2>1. ¿Se ejecuta el código?</h2>
+    <p>Esta es la prueba más importante.</p>
+    <div class="r bad" id="r1">NO funciona: este teléfono no está ejecutando el código de la página.</div>
+  </div>
+
+  <div class="t">
+    <h2>2. Un botón sencillo</h2>
+    <p>Toca el botón varias veces. El número debe subir.</p>
+    <button type="button" id="b2">Tócame</button>
+    <div class="r" id="r2">Toques: 0</div>
+  </div>
+
+  <div class="t">
+    <h2>3. Agregar cliente</h2>
+    <p>Igual que el botón de la app.</p>
+    <button type="button" class="ghost" id="b3">+ Agregar cliente</button>
+    <div id="rows"></div>
+    <div class="r" id="r3"></div>
+  </div>
+
+  <div class="t">
+    <h2>4. Cámara y fotos</h2>
+    <p>Elige o toma una foto. Debe mostrar su nombre y tamaño.</p>
+    <button type="button" id="b4">Escanear recibo</button>
+    <input type="file" id="f4" accept="image/*" hidden>
+    <div class="r" id="r4"></div>
+  </div>
+
+  <div class="t">
+    <h2>5. Internet y lector de texto</h2>
+    <p>Revisa que el teléfono pueda descargar las tres partes del lector. Necesita conexión.</p>
+    <button type="button" id="b5">Revisar conexión</button>
+    <div class="r" id="r5"></div>
+  </div>
+
+  <div class="t">
+    <h2>6. Lectura real de un recibo</h2>
+    <p>Dibuja un recibo de prueba y lo lee. La primera vez puede tardar. Debe encontrar 44.60.</p>
+    <button type="button" id="b6">Probar lectura</button>
+    <div class="r" id="r6"></div>
+  </div>
+
+  <div class="t">
+    <h2>7. Memoria del navegador</h2>
+    <p>Guarda tus datos de cobro en el teléfono.</p>
+    <button type="button" id="b7">Probar memoria</button>
+    <div class="r" id="r7"></div>
+  </div>
+
+  <div class="t">
+    <h2>8. Ventana nueva</h2>
+    <p>La usa la factura en PDF. Si no se abre, permite ventanas emergentes.</p>
+    <button type="button" id="b8">Abrir ventana</button>
+    <div class="r" id="r8"></div>
+  </div>
+
+  <div class="t">
+    <h2>9. Cómo abriste esta página</h2>
+    <div class="r" id="r9">No se puede saber sin el código.</div>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  function $(id) { return document.getElementById(id); }
+
+  function show(id, text, kind) {
+    var box = $(id);
+    box.textContent = text;
+    box.className = "r " + (kind || "");
+  }
+
+  /* 1 */
+  show("r1", "Funciona: el código se está ejecutando.", "ok");
+
+  /* 2 */
+  var taps = 0;
+  $("b2").addEventListener("click", function () {
+    taps += 1;
+    show("r2", "Toques: " + taps, "ok");
+  });
+
+  /* 3 */
+  var clients = 0;
+  $("b3").addEventListener("click", function () {
+    clients += 1;
+    var input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Cliente " + clients;
+    $("rows").appendChild(input);
+    show("r3", "Clientes agregados: " + clients, "ok");
+  });
+
+  /* 4 */
+  $("b4").addEventListener("click", function () {
+    $("f4").click();
+  });
+  $("f4").addEventListener("change", function (event) {
+    var file = event.target.files && event.target.files[0];
+    if (!file) { show("r4", "No se eligió ninguna foto.", "wa"); return; }
+    show("r4", "Funciona: " + file.name + " (" + Math.round(file.size / 1024) + " KB)", "ok");
+  });
+
+  /* 5 and 6: check the same two complete CDN configurations used by the app. */
+  var PROVIDERS = [
+    {
+      name: "jsDelivr",
+      script: "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
+      workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",
+      corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1",
+      langPath: "https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng@1.0.0/4.0.0_best_int"
+    },
+    {
+      name: "UNPKG",
+      script: "https://unpkg.com/tesseract.js@5.1.1/dist/tesseract.min.js",
+      workerPath: "https://unpkg.com/tesseract.js@5.1.1/dist/worker.min.js",
+      corePath: "https://unpkg.com/tesseract.js-core@5.1.1",
+      langPath: "https://unpkg.com/@tesseract.js-data/eng@1.0.0/4.0.0_best_int"
+    }
+  ];
+
+  // GET checks the same kind of request the browser makes when loading a resource.
+  // The body is cancelled immediately after the response headers arrive.
+  async function checkResource(url) {
+    var controller = new AbortController();
+    var timeout = window.setTimeout(function () {
+      controller.abort();
+    }, 15000);
+
+    try {
+      var response = await fetch(url, {
+        method: "GET",
+        mode: "cors",
+        cache: "no-store",
+        signal: controller.signal
+      });
+
+      var result = {
+        ok: response.ok,
+        status: response.status,
+        detail: response.ok ? "HTTP " + response.status : "HTTP " + response.status
+      };
+
+      if (response.body && response.body.cancel) {
+        try { await response.body.cancel(); } catch (ignored) {}
+      }
+
+      return result;
+    } catch (error) {
+      return {
+        ok: false,
+        status: 0,
+        detail: String((error && error.message) || error || "Network error").slice(0, 70)
+      };
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  $("b5").addEventListener("click", async function () {
+    var button = $("b5");
+    button.disabled = true;
+    show("r5", "Revisando las descargas desde el teléfono…", "wa");
+
+    try {
+      var reports = await Promise.all(PROVIDERS.map(async function (provider) {
+        var checks = [
+          ["Programa", provider.script],
+          ["Worker", provider.workerPath],
+          ["Motor SIMD", provider.corePath + "/tesseract-core-simd-lstm.wasm.js"],
+          ["Motor estándar", provider.corePath + "/tesseract-core-lstm.wasm.js"],
+          ["Idioma", provider.langPath + "/eng.traineddata.gz"]
+        ];
+
+        var results = await Promise.all(checks.map(function (item) {
+          return checkResource(item[1]);
+        }));
+
+        var allOk = results.every(function (result) {
+          return result.ok;
+        });
+
+        var detail = results.map(function (result, index) {
+          return checks[index][0] + ": " +
+            (result.ok ? "OK" : "FALLA (" + result.detail + ")");
+        }).join(" · ");
+
+        return {
+          name: provider.name,
+          allOk: allOk,
+          detail: provider.name + " — " + detail
+        };
+      }));
+
+      var summary = reports.map(function (report) {
+        return report.detail;
+      }).join("\n");
+
+      var anyProviderWorks = reports.some(function (report) {
+        return report.allOk;
+      });
+
+      show(
+        "r5",
+        summary + "\n\n" + (
+          anyProviderWorks
+            ? "Hay al menos una fuente con todos los recursos accesibles. Continúa con la prueba 6."
+            : "Ninguna fuente pudo descargar todos los recursos. Prueba otra conexión Wi-Fi o datos móviles."
+        ),
+        anyProviderWorks ? "ok" : "bad"
+      );
+    } catch (error) {
+      show(
+        "r5",
+        "No se pudo completar la revisión. Detalle: " +
+          String((error && error.message) || error || "").slice(0, 100),
+        "bad"
+      );
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  var selectedProvider = null;
+  var libraryPromise = null;
+  var workerPromise = null;
+  var worker = null;
+
+  function loadScript(source) {
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement("script");
+      var settled = false;
+
+      function finish(error) {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeout);
+        script.onload = null;
+        script.onerror = null;
+
+        if (error) {
+          script.remove();
+          reject(error);
+        } else if (window.Tesseract) {
+          resolve(window.Tesseract);
+        } else {
+          script.remove();
+          reject(new Error("El programa se descargó, pero Tesseract no está disponible."));
+        }
+      }
+
+      var timeout = window.setTimeout(function () {
+        finish(new Error("Tiempo agotado al descargar " + source.split("/")[2]));
+      }, 18000);
+
+      script.async = true;
+      script.src = source;
+      script.onload = function () { finish(); };
+      script.onerror = function () {
+        finish(new Error("No se pudo descargar desde " + source.split("/")[2]));
+      };
+
+      document.head.appendChild(script);
+    });
+  }
+
+  async function loadTesseract() {
+    if (window.Tesseract) return window.Tesseract;
+    if (libraryPromise) return libraryPromise;
+
+    libraryPromise = (async function () {
+      var errors = [];
+
+      for (var i = 0; i < PROVIDERS.length; i += 1) {
+        var provider = PROVIDERS[i];
+
+        try {
+          await loadScript(provider.script);
+          selectedProvider = provider;
+          return window.Tesseract;
+        } catch (error) {
+          errors.push(
+            provider.name + ": " +
+            String((error && error.message) || error).slice(0, 90)
+          );
+        }
+      }
+
+      throw new Error(errors.join(" | "));
+    })().catch(function (error) {
+      libraryPromise = null;
+      throw error;
+    });
+
+    return libraryPromise;
+  }
+
+  async function getWorker(onProgress) {
+    if (worker) return worker;
+    if (workerPromise) return workerPromise;
+
+    workerPromise = (async function () {
+      var Tess = await loadTesseract();
+      var preferred = selectedProvider || PROVIDERS[0];
+      var order = [preferred].concat(PROVIDERS.filter(function (p) {
+        return p !== preferred;
+      }));
+      var errors = [];
+
+      for (var i = 0; i < order.length; i += 1) {
+        var provider = order[i];
+
+        try {
+          if (onProgress) {
+            onProgress("Probando worker, motor e idioma desde " + provider.name + "…");
+          }
+
+          worker = await Tess.createWorker("eng", 1, {
+            workerPath: provider.workerPath,
+            corePath: provider.corePath,
+            langPath: provider.langPath,
+            cacheMethod: "write",
+            gzip: true,
+            logger: function (message) {
+              if (!onProgress) return;
+
+              var percent = Math.round((message.progress || 0) * 100);
+
+              if (message.status === "recognizing text") {
+                onProgress("Leyendo recibo… " + percent + "%");
+              } else if (/loading tesseract core/i.test(message.status)) {
+                onProgress("Descargando motor… " + percent + "%");
+              } else if (/loading language traineddata/i.test(message.status)) {
+                onProgress("Descargando datos de idioma… " + percent + "%");
+              } else if (/initializing/i.test(message.status)) {
+                onProgress("Iniciando lector… " + percent + "%");
+              }
+            }
+          });
+
+          selectedProvider = provider;
+          return worker;
+        } catch (error) {
+          errors.push(
+            provider.name + ": " +
+            String((error && error.message) || error).slice(0, 100)
+          );
+          worker = null;
+        }
+      }
+
+      throw new Error(errors.join(" | ") || "No se pudo iniciar el motor OCR.");
+    })().catch(function (error) {
+      workerPromise = null;
+      throw error;
+    });
+
+    return workerPromise;
+  }
+
+  $("b6").addEventListener("click", async function () {
+    var button = $("b6");
+    button.disabled = true;
+    show("r6", "Preparando el recibo de prueba. La primera vez descarga aproximadamente 7 MB…", "wa");
+
+    var canvas = document.createElement("canvas");
+    canvas.width = 900;
+    canvas.height = 440;
+
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#000000";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 48px Arial, sans-serif";
+    ctx.fillText("FERRETERIA LA ESQUINA", 36, 80);
+
+    ctx.font = "40px Arial, sans-serif";
+    ctx.fillText("Tornillos 12.50", 36, 165);
+    ctx.fillText("SUBTOTAL 41.20", 36, 235);
+    ctx.fillText("TAX 3.40", 36, 305);
+
+    ctx.font = "bold 54px Arial, sans-serif";
+    ctx.fillText("TOTAL $44.60", 36, 390);
+
+    try {
+      var activeWorker = await getWorker(function (message) {
+        show("r6", message, "wa");
+      });
+
+      var result = await activeWorker.recognize(canvas);
+      var text = (result.data.text || "").replace(/\s+/g, " ").trim();
+      var normalizedText = text.replace(/,/g, ".");
+
+      if (/44\.60/.test(normalizedText)) {
+        show(
+          "r6",
+          "LECTURA CORRECTA: encontró $44.60. Fuente utilizada: " +
+            (selectedProvider ? selectedProvider.name : "no identificada") + ".",
+          "ok"
+        );
+      } else {
+        show(
+          "r6",
+          "El motor sí leyó la imagen, pero no encontró $44.60. Texto reconocido: " +
+            (text.slice(0, 180) || "(sin texto)") +
+            ". Fuente: " + (selectedProvider ? selectedProvider.name : "no identificada") + ".",
+          "wa"
+        );
+      }
+    } catch (error) {
+      if (worker) {
+        try { await worker.terminate(); } catch (ignored) {}
+      }
+      worker = null;
+      workerPromise = null;
+
+      show(
+        "r6",
+        "FALLÓ la prueba de lectura. Detalle: " +
+          String((error && error.message) || error || "").slice(0, 180),
+        "bad"
+      );
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  /* 7 */
+  $("b7").addEventListener("click", function () {
+    try {
+      localStorage.setItem("quantiq-prueba", "ok");
+      var value = localStorage.getItem("quantiq-prueba");
+      localStorage.removeItem("quantiq-prueba");
+      if (value === "ok") { show("r7", "Funciona: el teléfono guarda datos.", "ok"); }
+      else { show("r7", "Falló: no devolvió el dato guardado.", "bad"); }
+    } catch (error) {
+      show("r7", "Falló: el navegador no permite guardar datos aquí.", "bad");
+    }
+  });
+
+  /* 8 */
+  $("b8").addEventListener("click", function () {
+    var win = window.open("", "_blank");
+    if (!win) {
+      show("r8", "Falló: el navegador bloqueó la ventana nueva.", "bad");
+      return;
+    }
+    win.document.open();
+    win.document.write("<p style=\"font-family:sans-serif;padding:24px\">Funciona. Puedes cerrar esta ventana.</p>");
+    win.document.close();
+    show("r8", "Funciona: se abrió la ventana.", "ok");
+  });
+
+  /* 9 */
+  var protocol = location.protocol;
+  if (protocol === "https:") {
+    show("r9", "Dirección web segura (https): es la mejor forma de usar la app.", "ok");
+  } else if (protocol === "file:") {
+    show("r9", "Archivo local (file:). Algunas funciones pueden fallar. Es mejor publicar la app en una dirección web.", "wa");
+  } else {
+    show("r9", "Abierta como " + protocol, "wa");
+  }
+})();
+</script>
+</body>
+</html>
