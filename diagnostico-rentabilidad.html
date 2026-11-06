@@ -7,9 +7,9 @@
 <title>¿Cuánto ganas realmente? Diagnóstico de rentabilidad</title>
 <meta name="description" content="Calcula tu margen, cartera vencida, concentración de clientes y uso de tiempo.">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-
+ 
 <style>
-
+ 
 :root{--bg:#FBFBFA;--card:#FBFBFA;--ink:#3E2119;--mut:#7B6B64;--line:#F5E6DB;--ac:#F67F1C;--ac2:#6B3F2A;--soft:#ECC9B2;--on:#FBFBFA;--ok:#2F8F5B;--wa:#D99A2B;--bad:#C0392B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#3E2119;--card:#2A1610;--ink:#F5E6DB;--mut:#CDA992;--line:#4A2C22;--ac:#F67F1C;--ac2:#F67F1C;--soft:rgba(246,127,28,.14);--on:#3E2119;--ok:#67B77A;--wa:#D99A2B;--bad:#E5322D}}
 :root[data-theme="dark"]{--bg:#3E2119;--card:#2A1610;--ink:#F5E6DB;--mut:#CDA992;--line:#4A2C22;--ac:#F67F1C;--ac2:#F67F1C;--soft:rgba(246,127,28,.14);--on:#3E2119;--ok:#67B77A;--wa:#D99A2B;--bad:#E5322D}
@@ -49,7 +49,7 @@ i.ok{background:var(--ok)}i.warn{background:var(--wa)}i.bad{background:var(--bad
 .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
 .btn{padding:12px 20px;border-radius:10px;border:1px solid var(--line);color:var(--ac);text-decoration:none;font-weight:800;font-size:.95rem}.btn.m{background:var(--ac);color:var(--on);border-color:var(--ac)}
 .cbox{display:flex;align-items:flex-end;justify-content:center;gap:16px;height:220px;border:1px solid var(--line);border-radius:14px;padding:16px 16px 34px;margin-top:14px}.cb{flex:0 0 64px;border-radius:10px 10px 0 0;position:relative}.cb span{position:absolute;bottom:-24px;left:0;right:0;text-align:center;font-size:.8rem;font-weight:800;color:var(--mut)}.cb.ok{background:var(--ok)}.cb.warn{background:var(--wa)}.cb.bad{background:var(--bad)}.leg{display:flex;justify-content:center;gap:20px;font-size:.85rem;color:var(--mut);margin-top:8px;flex-wrap:wrap}.fb{text-align:center}.stars{display:flex;gap:8px;justify-content:center;margin:18px 0}.star{width:42px;height:42px;border:1px solid var(--line);background:none;border-radius:10px;font-size:1.5rem;color:var(--mut);cursor:pointer}.star.on{background:var(--soft);border-color:var(--ac);color:var(--ac)}.q{text-align:left;border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}.q p{margin:0 0 10px;font-weight:800;font-size:.95rem}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--mut);font:inherit;cursor:pointer}.chip[aria-pressed=true]{background:var(--ac);color:var(--on);border-color:var(--ac)}textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);min-height:80px}
-
+ 
 :root{--sh:0 18px 40px rgba(42,22,16,.10);--sh2:0 6px 18px rgba(42,22,16,.08);--glow:rgba(246,127,28,.16);--g1:linear-gradient(135deg,#F67F1C,#6B3F2A)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sh:0 18px 40px rgba(29,14,9,.40);--sh2:0 6px 18px rgba(29,14,9,.30);--glow:rgba(246,127,28,.12);--g1:linear-gradient(135deg,#FF9A3D,#F67F1C)}}
 :root[data-theme="dark"]{--sh:0 18px 40px rgba(29,14,9,.40);--sh2:0 6px 18px rgba(29,14,9,.30);--glow:rgba(246,127,28,.12);--g1:linear-gradient(135deg,#FF9A3D,#F67F1F)}
@@ -75,7 +75,7 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
 @media (prefers-reduced-motion:no-preference){.cta,.btn{transition:transform .2s,box-shadow .2s}.cta:hover,.btn.m:hover{transform:translateY(-2px)}.meter i,.bar i{transition:width .4s}}
 .tg{position:static;flex:0 0 44px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:var(--sh2);display:grid;place-items:center}.tg:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 @media(max-width:420px){.grid{grid-template-columns:1fr}.cbox{gap:8px}}
-
+ 
 /* =========================================================
    BANNER CONTROLS
    Same dimensions as landing.html, placed inside banner.
@@ -136,8 +136,50 @@ i.ok{background:linear-gradient(90deg,#F7A13B,var(--ok))}i.warn{background:linea
   .banner-controls{gap:8px}
   .language-switch button{padding:0 9px}
 }
+ 
+/* =========================================================
+   FREE INTEGRATIONS: receipt scanner, collections, invoice
+   Uses only the existing palette variables.
+========================================================= */
+button.btn{background:var(--card);font:inherit;font-weight:800;font-size:.95rem;cursor:pointer}
+.scan .add{width:100%;padding:14px;font-weight:800}
+.scan #scanStatus{min-height:1.2em}
+#scanReview{margin-top:12px}
+.rowf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.scan .btns{margin-top:14px}
+.tip{font-size:.92rem;margin:12px 0 0;color:var(--ink)}
+.note{font-size:.85rem;color:var(--wa);margin:8px 0 0;font-weight:600}
+details summary{cursor:pointer;font-weight:800}
+details summary:focus-visible{outline:3px solid var(--ac);outline-offset:3px;border-radius:6px}
+.rem{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.rem:first-child{border-top:0;padding-top:0;margin-top:0}
+.remtop{display:flex;justify-content:space-between;gap:8px;font-weight:800}
+.remact{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px;align-items:center}
+#remList{margin-top:12px}
+.remact .btn{text-align:center}
+@media(max-width:420px){.rowf{grid-template-columns:1fr}.remact{grid-template-columns:1fr}}
+ 
+/* What-if simulator and hourly rate: same palette variables */
+label.chk{display:flex;align-items:center;gap:12px;margin:0;text-transform:none;letter-spacing:0;font-size:1rem;font-weight:800;color:var(--ink);cursor:pointer}
+label.sl{text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:600;color:var(--ink);margin:0 0 8px}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:22px;height:22px;flex:0 0 22px;padding:0;border:2px solid var(--mut);border-radius:6px;background:var(--card)}
+input[type=checkbox]:checked{background:var(--ac);border-color:var(--ac)}
+input[type=checkbox]:checked::after{content:"";width:6px;height:11px;border:solid var(--on);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+input[type=range]{padding:0;border:0;background:none;accent-color:var(--ac);height:28px;cursor:pointer}
+input[type=range]:focus,input[type=checkbox]:focus{box-shadow:none}
+input[type=range]:focus-visible,input[type=checkbox]:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+input:disabled{opacity:.45;cursor:not-allowed}
+.ctl{margin-top:18px}
+.sim{margin-top:20px}
+.vrow{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.vrow .mut{font-size:.95rem}
+.vrow b{min-width:3.5rem;text-align:right}
+.vrow2{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.vrow2:first-child{border-top:0}
+.vrow2 .v{font-weight:800;font-size:1.2rem}
+.tip + .tip{margin-top:8px}
 </style>
-
+ 
 <script>
 try {
   var savedTheme = localStorage.getItem("tema");
@@ -149,7 +191,7 @@ try {
 }
 </script>
 </head>
-
+ 
 <body>
   <main>
     <!-- Diagnostic introduction -->
@@ -159,7 +201,7 @@ try {
           <button id="langEs" type="button" aria-pressed="true">ES</button>
           <button id="langEn" type="button" aria-pressed="false">EN</button>
         </div>
-
+ 
         <button
           class="tg"
           id="tg"
@@ -167,48 +209,70 @@ try {
           aria-label="Cambiar entre modo claro y oscuro"
         ></button>
       </div>
-
+ 
       <h1 id="pageTitle">¿Cuánto ganas realmente?</h1>
       <p id="pageIntro">
         Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.
       </p>
-
+ 
       <div class="sbar" aria-hidden="true">
         <i class="c"></i>
         <i class="g"></i>
       </div>
-
+ 
       <div class="leg" style="margin-top:0">
         <span><u class="c"></u><span id="legendCosts">Costos y gastos</span></span>
         <span><u class="g"></u><span id="legendRemainder">Lo que realmente te queda</span></span>
       </div>
     </header>
-
-    <!-- Customer type selector -->
-    <div class="seg" role="group" id="customerTypeGroup" aria-label="Tipo de cliente">
-      <button type="button" id="b1" aria-pressed="true">Profesionista</button>
-      <button type="button" id="b2" aria-pressed="false">Pyme de servicios</button>
-    </div>
-
+ 
     <!-- Financial input fields -->
     <div class="grid">
       <div>
         <label for="ing" id="labelIncome">Ingresos del mes</label>
         <input id="ing" type="number" inputmode="decimal" value="0">
       </div>
-
+ 
       <div>
         <label for="cos" id="labelCosts">Costos y gastos</label>
         <input id="cos" type="number" inputmode="decimal" value="0">
       </div>
-
+ 
+      <div class="full scan">
+        <label id="labelScan" data-i18n="scanTitle">Escanear un recibo</label>
+        <button type="button" class="add" id="scanBtn" data-i18n="scanButton">Escanear recibo</button>
+        <input id="scanFile" type="file" accept="image/*" hidden>
+        <span class="hint" data-i18n="scanPrivacy">La foto se lee en tu teléfono y no se sube a ningún servidor.</span>
+        <span class="hint" id="scanStatus" role="status" aria-live="polite"></span>
+ 
+        <div class="card" id="scanReview" hidden>
+          <p class="mut" style="margin-bottom:12px" data-i18n="scanReviewHint">Revisa los datos antes de sumarlos.</p>
+          <div class="rowf">
+            <div>
+              <label for="scanVendor" data-i18n="scanVendor">Proveedor</label>
+              <input id="scanVendor" autocomplete="off">
+            </div>
+            <div>
+              <label for="scanAmt" data-i18n="scanAmount">Monto ($)</label>
+              <input id="scanAmt" type="number" inputmode="decimal" step="0.01" min="0">
+            </div>
+          </div>
+          <p class="note" id="scanNote" hidden></p>
+          <p class="tip" id="scanTip" aria-live="polite"></p>
+          <div class="btns">
+            <button type="button" class="btn m" id="scanAdd" data-i18n="scanAdd">Sumar a mis costos</button>
+            <button type="button" class="btn" id="scanDiscard" data-i18n="scanDiscard">Descartar</button>
+          </div>
+        </div>
+      </div>
+ 
       <div class="full">
         <label id="labelDebts">Clientes con pagos vencidos</label>
         <div id="debts"></div>
         <button type="button" class="add" id="addD">+ Agregar cliente</button>
         <span class="hint" id="dtot" style="display:none"></span>
       </div>
-
+ 
       <div class="full">
         <label for="top" id="labelTopClient">Lo que te pagó tu mejor cliente este mes ($)</label>
         <input id="top" type="number" inputmode="decimal" value="0">
@@ -216,39 +280,39 @@ try {
           Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.
         </span>
       </div>
-
+ 
       <div>
         <label for="ing3" id="labelIncome3">Ingresos de los últimos 3 meses ($)</label>
         <input id="ing3" type="number" inputmode="decimal" value="0">
       </div>
-
+ 
       <div>
         <label for="top3" id="labelTopClient3">Tu mejor cliente en esos 3 meses ($)</label>
         <input id="top3" type="number" inputmode="decimal" value="0">
       </div>
-
+ 
       <span class="hint full" id="threeMonthHint" style="margin-top:-8px">
         Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.
       </span>
-
+ 
       <div>
         <label for="hf" id="labelBilledHours">Horas facturadas</label>
         <input id="hf" type="number" inputmode="decimal" value="0">
       </div>
-
+ 
       <div>
         <label for="hd" id="labelAvailableHours">Horas disponibles</label>
         <input id="hd" type="number" inputmode="decimal" value="0">
       </div>
     </div>
-
+ 
     <button class="cta" id="go" type="button">Ver mi diagnóstico</button>
     <div class="err" id="err" role="alert"></div>
-
+ 
     <!-- Results -->
     <section id="res" aria-live="polite" hidden>
       <div class="hero" id="hero"></div>
-
+ 
       <div class="card">
         <div style="display:flex;justify-content:space-between;font-weight:800">
           <span id="healthTitle">Salud financiera</span>
@@ -258,56 +322,169 @@ try {
           <i id="hf2" class="ok" style="width:0"></i>
         </div>
       </div>
-
+ 
       <div class="card">
         <h3 id="generalResultTitle">Resultado general</h3>
         <div class="cbox" id="cbox"></div>
-
+ 
         <div class="leg">
           <span><b id="legendMargin">Margen</b> <span id="legendNet">neto</span></span>
           <span><b id="legendReceivables">Cartera</b> <span id="legendOverdue">vencida</span></span>
           <span><b id="legendDependency">Dependencia</b></span>
         </div>
       </div>
-
+ 
       <div id="kpis"></div>
-
+ 
+      <h2 id="simTitle" data-i18n="simTitle">¿Y si…?</h2>
+ 
+      <div class="card">
+        <p class="mut" data-i18n="simIntro">Mueve los controles y mira cómo cambian tus números de este mes.</p>
+ 
+        <div class="ctl">
+          <label class="chk" for="simLose">
+            <input type="checkbox" id="simLose">
+            <span data-i18n="simLose">Pierdo a mi mejor cliente</span>
+          </label>
+          <span class="hint" id="simLoseHint"></span>
+        </div>
+ 
+        <div class="ctl">
+          <label class="sl" for="simRaise">
+            <span data-i18n="simRaise">Subo mis precios</span>: <b id="simRaiseVal">10%</b>
+          </label>
+          <input type="range" id="simRaise" min="0" max="30" step="1" value="10">
+        </div>
+ 
+        <div class="ctl">
+          <label class="sl" for="simCollect">
+            <span data-i18n="simCollect">Cobro lo vencido</span>: <b id="simCollectVal">100%</b>
+          </label>
+          <input type="range" id="simCollect" min="0" max="100" step="10" value="100">
+          <span class="hint" id="simCollectHint"></span>
+        </div>
+ 
+        <div class="sim" id="simRows"></div>
+        <p class="tip" id="simSummary" aria-live="polite"></p>
+        <span class="hint" data-i18n="simAssume">Supone que tus costos y tus demás clientes se mantienen igual. Es un estimado, no una predicción.</span>
+      </div>
+ 
+      <h2 id="rateTitle" data-i18n="rateTitle">Tu tarifa real por hora</h2>
+ 
+      <div class="card">
+        <div id="rateOut"></div>
+ 
+        <div id="rateGoalBox">
+          <div class="ctl">
+            <label for="rateGoal" data-i18n="rateGoalLabel">Cuánto quieres ganar al mes, después de costos ($)</label>
+            <input id="rateGoal" type="number" inputmode="decimal" min="0" placeholder="0">
+          </div>
+          <div id="rateGoalOut" aria-live="polite" style="margin-top:8px"></div>
+          <span class="hint" data-i18n="rateAssume">Supone que tus costos no cambian.</span>
+        </div>
+      </div>
+ 
+      <h2 id="collectTitle" data-i18n="collectTitle">Cobra lo que te deben</h2>
+ 
+      <div class="card">
+        <details id="payDetails">
+          <summary data-i18n="payTitle">Cómo te pagan</summary>
+          <p class="mut" style="margin:10px 0 14px" data-i18n="payHint">Estos datos se guardan solo en este dispositivo y se agregan a tus recordatorios y facturas.</p>
+          <div class="grid" style="margin-bottom:0">
+            <div class="full">
+              <label for="payName" data-i18n="payName">Tu nombre o negocio</label>
+              <input id="payName" autocomplete="organization">
+            </div>
+            <div>
+              <label for="payZelle" data-i18n="payZelle">Zelle (correo o teléfono)</label>
+              <input id="payZelle" autocomplete="off">
+            </div>
+            <div>
+              <label for="payCash" data-i18n="payCash">Cash App ($usuario)</label>
+              <input id="payCash" autocomplete="off">
+            </div>
+            <div>
+              <label for="payVenmo" data-i18n="payVenmo">Venmo (@usuario)</label>
+              <input id="payVenmo" autocomplete="off">
+            </div>
+            <div>
+              <label for="payPaypal" data-i18n="payPaypal">PayPal.me (usuario)</label>
+              <input id="payPaypal" autocomplete="off">
+            </div>
+            <div class="full">
+              <label for="payStripe" data-i18n="payStripe">Enlace de pago con tarjeta (Stripe u otro)</label>
+              <input id="payStripe" type="url" inputmode="url" autocomplete="off" placeholder="https://">
+            </div>
+          </div>
+        </details>
+      </div>
+ 
+      <div class="card">
+        <h3 data-i18n="remTitle">Recordatorios de cobro</h3>
+        <div id="remList"></div>
+      </div>
+ 
+      <div class="card">
+        <h3 data-i18n="invTitle">Crear una factura</h3>
+        <div class="grid" style="margin:14px 0 0">
+          <div>
+            <label for="invClient" data-i18n="invClient">Cliente</label>
+            <input id="invClient" autocomplete="off">
+          </div>
+          <div>
+            <label for="invAmount" data-i18n="invAmount">Monto ($)</label>
+            <input id="invAmount" type="number" inputmode="decimal" step="0.01" min="0" value="0">
+          </div>
+          <div class="full">
+            <label for="invConcept" data-i18n="invConcept">Concepto</label>
+            <input id="invConcept" autocomplete="off">
+          </div>
+          <div class="full">
+            <label for="invDue" data-i18n="invDue">Fecha de pago</label>
+            <input id="invDue" type="date">
+          </div>
+        </div>
+        <div class="err" id="invErr" role="alert"></div>
+        <button class="cta" id="invGo" type="button" style="margin:4px auto 0" data-i18n="invCreate">Crear factura (PDF)</button>
+        <span class="hint" style="text-align:center" data-i18n="invHint">Se abre una vista para imprimir o guardar como PDF.</span>
+      </div>
+ 
       <h2 id="solutionsTitle">Soluciones sugeridas</h2>
       <div id="sols"></div>
-
+ 
       <h2 id="plansTitle">Tu plan recomendado</h2>
       <div class="plans" id="plans"></div>
-
+ 
       <p class="mut" id="priceNote" style="text-align:center;margin:12px 0 32px">
         Precios de referencia en USD al mes.
       </p>
-
+ 
       <!-- Contact and consultation -->
       <div class="card" style="text-align:center;padding:24px">
         <h3 id="contactTitle">¿Lo revisamos juntos?</h3>
         <p class="mut" id="contactText">
           Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.
         </p>
-
+ 
         <div class="grid" style="margin:20px 0 0;text-align:left">
           <div>
             <label for="nom" id="labelName">Tu nombre</label>
             <input id="nom" autocomplete="name">
           </div>
-
+ 
           <div>
             <label for="neg" id="labelBusiness">Tu negocio</label>
             <input id="neg">
           </div>
         </div>
-
+ 
         <div class="btns">
           <a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
           <a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
           <a class="btn" id="lMail">Enviar por correo</a>
         </div>
       </div>
-
+ 
       <!-- Feedback -->
       <div class="card fb" style="padding:24px">
         <div id="fbForm">
@@ -315,25 +492,25 @@ try {
           <p class="mut" id="feedbackInstruction">
             Toca las estrellas que quieras, del 1 al 5.
           </p>
-
+ 
           <div
             class="stars"
             id="stars"
             role="radiogroup"
             aria-label="Calificación"
           ></div>
-
+ 
           <div id="qs"></div>
-
+ 
           <div class="q">
             <p id="suggestionQuestion">¿Qué te gustaría que agregáramos? (opcional)</p>
             <textarea id="fbTxt" aria-label="Sugerencia"></textarea>
           </div>
-
+ 
           <div class="err" id="fbErr" role="alert">
             Elige al menos una calificación de estrellas.
           </div>
-
+ 
           <button
             class="cta"
             id="fbSend"
@@ -343,13 +520,13 @@ try {
             Enviar opinión
           </button>
         </div>
-
+ 
         <div id="fbThanks" style="display:none">
           <h3 id="thanksTitle">¡Gracias por tu opinión!</h3>
           <p class="mut" id="thanksText">
             Si quieres, mándamela directo para que la lea.
           </p>
-
+ 
           <div class="btns">
             <a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
             <a class="btn" id="fMail">Enviar por correo</a>
@@ -358,38 +535,38 @@ try {
       </div>
     </section>
   </main>
-
-
+ 
+ 
   <!-- =====================================================
        BILINGUAL DIAGNOSTIC LOGIC
   ====================================================== -->
-
+ 
   <script>
     (function () {
       "use strict";
-
+ 
       /* -----------------------------------------------------
          1. CONFIGURATION AND SHARED STATE
       ------------------------------------------------------ */
-
+ 
       const CAL = "https://calendly.com/TU_USUARIO";
       const WA = "521XXXXXXXXXX";
       const MAIL = "yovier.cruz@gmail.com";
-
+ 
       const root = document.documentElement;
       const themeButton = document.getElementById("tg");
-
+ 
       const $ = function (id) {
         return document.getElementById(id);
       };
-
+ 
       let language = getSavedLanguage();
       let customerType = "pro";
       let debts = [];
       let summary = "";
       let lastResult = null;
       let currentErrorKeys = [];
-
+ 
       const feedback = {
         stars: 0,
         real: null,
@@ -397,29 +574,29 @@ try {
         pay: null,
         submitted: false
       };
-
-
+ 
+ 
       /* -----------------------------------------------------
          2. TRANSLATIONS
       ------------------------------------------------------ */
-
+ 
       const TEXT = {
         es: {
           pageTitle: "¿Cuánto ganas realmente? Diagnóstico de rentabilidad",
           metaDescription: "Escribe los números de tu último mes y descubre cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.",
-
+ 
           themeToLight: "Cambiar a modo claro",
           themeToDark: "Cambiar a modo oscuro",
-
+ 
           heading: "¿Cuánto ganas realmente?",
           intro: "Escribe los números del último mes y recibe tus soluciones sugeridas en un minuto.",
           costs: "Costos y gastos",
           remainder: "Lo que realmente te queda",
-
+ 
           customerType: "Tipo de cliente",
           professional: "Profesionista",
           serviceBusiness: "Pyme de servicios",
-
+ 
           income: "Ingresos del mes",
           costsField: "Costos y gastos",
           overdueClients: "Clientes con pagos vencidos",
@@ -432,7 +609,7 @@ try {
             return "Total vencido: $" + amount + " en " + count +
               (count === 1 ? " cliente" : " clientes");
           },
-
+ 
           topClient: "Lo que te pagó tu mejor cliente este mes ($)",
           topHint: "Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.",
           income3: "Ingresos de los últimos 3 meses ($)",
@@ -440,7 +617,7 @@ try {
           threeMonthHint: "Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.",
           billedHours: "Horas facturadas",
           availableHours: "Horas disponibles",
-
+ 
           runDiagnostic: "Ver mi diagnóstico",
           errorIncome: "Escribe tus ingresos del mes.",
           errorPositive: "Usa solo números positivos.",
@@ -448,12 +625,12 @@ try {
           errorHours: "Las horas facturadas no pueden superar las disponibles.",
           errorThreeMonthPair: "Llena los dos campos de 3 meses o déjalos en 0.",
           errorThreeMonthTop: "En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.",
-
+ 
           marginThisMonth: "Tu margen este mes",
           marginGood: "Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.",
           marginAverage: "Tu margen es aceptable, pero hay espacio para mejorar.",
           marginLow: "De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.",
-
+ 
           financialHealth: "Salud financiera",
           generalResult: "Resultado general",
           margin: "Margen",
@@ -461,7 +638,7 @@ try {
           receivables: "Cartera",
           overdue: "vencida",
           dependency: "Dependencia",
-
+ 
           kpiMargin: "Margen neto",
           kpiMarginDescription: function (amount) {
             return "De cada $100 que cobras, te quedan $" + amount + " después de costos y gastos";
@@ -483,7 +660,7 @@ try {
           kpiTimeDescription: "Horas facturadas sobre disponibles",
           kpiDebtors: "Clientes con pagos vencidos",
           noName: "Sin nombre",
-
+ 
           solutions: "Soluciones sugeridas",
           solutionMarginTitle: "Análisis de rentabilidad por cliente y servicio",
           solutionMarginText: "Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.",
@@ -501,11 +678,11 @@ try {
           solutionCustomTitle: "Implementación a la medida",
           solutionCustomText: "Varias alertas a la vez piden un tablero conectado a tu facturación.",
           includedIn: "Incluido en",
-
+ 
           plans: "Tu plan recomendado",
           recommended: "recomendado",
           priceNote: "Precios de referencia en USD al mes.",
-
+ 
           planBasic: "Básico",
           planPro: "Pro",
           planCustom: "A la medida",
@@ -525,7 +702,7 @@ try {
             "Tablero personalizado"
           ],
           planCustomPrice: "Desde $500 + $120/mes",
-
+ 
           contactTitle: "¿Lo revisamos juntos?",
           contactText: "Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.",
           name: "Tu nombre",
@@ -533,7 +710,7 @@ try {
           bookDiagnostic: "Agenda tu diagnóstico",
           whatsapp: "Escríbeme por WhatsApp",
           email: "Enviar por correo",
-
+ 
           feedbackTitle: "¿Qué tal te pareció?",
           feedbackInstruction: "Toca las estrellas que quieras, del 1 al 5.",
           ratingAria: "Calificación",
@@ -555,7 +732,134 @@ try {
           sendFeedback: "Enviar opinión",
           thanksTitle: "¡Gracias por tu opinión!",
           thanksText: "Si quieres, mándamela directo para que la lea.",
-
+ 
+          scanTitle: "Escanear un recibo",
+          scanButton: "Escanear recibo",
+          scanPrivacy: "La foto se lee en tu teléfono y no se sube a ningún servidor.",
+          scanPreparing: "Preparando el lector (la primera vez tarda unos segundos)…",
+          scanReading: "Leyendo el recibo…",
+          scanError: "No se pudo leer el recibo. Revisa tu conexión o escribe el monto a mano.",
+          scanReviewHint: "Revisa los datos antes de sumarlos.",
+          scanVendor: "Proveedor",
+          scanAmount: "Monto ($)",
+          scanAdd: "Sumar a mis costos",
+          scanDiscard: "Descartar",
+          scanNoAmount: "No encontramos el monto. Escríbelo tú.",
+          scanCheckAmount: "No vimos una línea de total. Confirma que este monto sea el correcto.",
+          scanAdded: function (amount) {
+            return "Se sumaron $" + amount + " a tus costos. Toca «Ver mi diagnóstico» para actualizar.";
+          },
+          scanTipNoIncome: "Escribe tus ingresos del mes para ver cómo cambia tu margen.",
+          scanTipLoss: "Con este recibo tus costos superan tus ingresos del mes.",
+          scanTipMargin: function (before, after) {
+            return "Con este recibo, tu margen baja de " + before + "% a " + after + "%.";
+          },
+          scanTipRaise: function (raise) {
+            return " Para recuperarlo, tendrías que subir tus precios cerca de " + raise + "%.";
+          },
+ 
+          collectTitle: "Cobra lo que te deben",
+          payTitle: "Cómo te pagan",
+          payHint: "Estos datos se guardan solo en este dispositivo y se agregan a tus recordatorios y facturas.",
+          payName: "Tu nombre o negocio",
+          payZelle: "Zelle (correo o teléfono)",
+          payCash: "Cash App ($usuario)",
+          payVenmo: "Venmo (@usuario)",
+          payPaypal: "PayPal.me (usuario)",
+          payStripe: "Enlace de pago con tarjeta (Stripe u otro)",
+          payCardLabel: "Tarjeta",
+          remTitle: "Recordatorios de cobro",
+          remNone: "Cuando agregues clientes con pagos vencidos, aquí podrás enviarles un recordatorio por WhatsApp.",
+          remPhone: "Teléfono (opcional)",
+          remSend: "Recordar por WhatsApp",
+          remPhoneHint: "Sin teléfono, WhatsApp te deja elegir el contacto. Tú revisas y envías el mensaje.",
+          remMessage: function (name, amount, pay, from) {
+            return (name ? "Hola " + name + ", " : "Hola, ") +
+              "te escribo para recordarte tu pago pendiente de $" + amount + "." +
+              (pay.length ? " Puedes pagar con " + pay.join(", ") + "." : "") +
+              " Gracias." + (from ? " " + from : "");
+          },
+ 
+          simTitle: "¿Y si…?",
+          simIntro: "Mueve los controles y mira cómo cambian tus números de este mes.",
+          simLose: "Pierdo a mi mejor cliente",
+          simLoseNeed: "Escribe lo que te pagó tu mejor cliente para usar esta opción.",
+          simLoseInfo: function (amount) {
+            return "Se irían " + amount + " de tus ingresos del mes.";
+          },
+          simRaise: "Subo mis precios",
+          simCollect: "Cobro lo vencido",
+          simCollectNeed: "No tienes pagos vencidos registrados.",
+          simCollectInfo: function (amount) {
+            return "Entrarían " + amount + " a tu bolsillo.";
+          },
+          simRowIncome: "Ingreso del mes",
+          simRowProfit: "Ganancia del mes",
+          simRowMargin: "Margen",
+          simRowReceivables: "Cartera vencida",
+          simSummary: function (marginBefore, marginAfter, profitBefore, profitAfter) {
+            return "Con estos cambios, tu margen pasaría de " + marginBefore + "% a " + marginAfter +
+              "% y tu ganancia del mes de " + profitBefore + " a " + profitAfter + ".";
+          },
+          simSummaryNoIncome: "Sin ese cliente no te quedarían ingresos este mes.",
+          simSummaryNoChange: "Mueve un control para ver el efecto.",
+          simAssume: "Supone que tus costos y tus demás clientes se mantienen igual. Es un estimado, no una predicción.",
+ 
+          rateTitle: "Tu tarifa real por hora",
+          rateNeedHours: "Escribe tus horas facturadas y disponibles, y vuelve a ver tu diagnóstico para calcular tu tarifa.",
+          rateCharged: "Cobras por hora facturada",
+          rateKept: "Te queda por hora de tu tiempo",
+          rateBreakeven: "Tarifa de equilibrio",
+          rateBreakevenHint: "Por debajo de esta tarifa pierdes dinero con tus horas actuales.",
+          rateSummaryGain: function (charged, kept) {
+            return "Cobras " + charged + " por cada hora facturada, pero después de costos y horas sin facturar te quedan " +
+              kept + " por cada hora de tu tiempo.";
+          },
+          rateSummaryLoss: function (charged, lost) {
+            return "Cobras " + charged + " por cada hora facturada, pero tus costos y tus horas sin facturar hacen que pierdas " +
+              lost + " por cada hora de tu tiempo.";
+          },
+          rateGoalLabel: "Cuánto quieres ganar al mes, después de costos ($)",
+          rateGoalEmpty: "Escribe tu meta para ver qué tarifa necesitas.",
+          rateGoalReached: function (profit) {
+            return "Con tus números actuales ya ganas " + profit + " al mes. Tu meta ya está cubierta.";
+          },
+          rateGoalRate: function (goal, rate, percent) {
+            return "Para ganar " + goal + " al mes con tus horas actuales, tu tarifa debería ser " + rate +
+              " por hora (" + percent + "% más que hoy).";
+          },
+          rateGoalHours: function (hours, available) {
+            return "O mantén tu tarifa y factura " + hours + " horas al mes (tienes " + available + " disponibles).";
+          },
+          rateGoalHoursNo: function (floor) {
+            return "Aunque factures todas tus horas disponibles con tu tarifa actual, no llegas a tu meta. " +
+              "Si las facturaras todas, tu tarifa mínima sería " + floor + " por hora.";
+          },
+          rateAssume: "Supone que tus costos no cambian.",
+ 
+          invTitle: "Crear una factura",
+          invClient: "Cliente",
+          invAmount: "Monto ($)",
+          invConcept: "Concepto",
+          invDue: "Fecha de pago",
+          invCreate: "Crear factura (PDF)",
+          invHint: "Se abre una vista para imprimir o guardar como PDF.",
+          invErrClient: "Escribe el nombre del cliente.",
+          invErrConcept: "Escribe el concepto de la factura.",
+          invErrAmount: "Escribe un monto mayor a 0.",
+          invPopup: "Tu navegador bloqueó la ventana. Permite ventanas emergentes e inténtalo otra vez.",
+          invDocTitle: "Factura",
+          invDocNumber: "No.",
+          invDocDate: "Fecha",
+          invDocDue: "Vence",
+          invDocFrom: "De",
+          invDocBillTo: "Para",
+          invDocDescription: "Descripción",
+          invDocTotal: "Total",
+          invDocHowToPay: "Cómo pagar",
+          invDocNoPay: "Pregunta por las opciones de pago.",
+          invDocPrint: "Imprimir o guardar como PDF",
+          invDocThanks: "Gracias por tu pago.",
           emailSubjectDiagnostic: "Diagnóstico de rentabilidad",
           shareGreeting: "Hola, soy ",
           shareFrom: " de ",
@@ -573,23 +877,23 @@ try {
           emailNamePlaceholder: "(mi nombre)",
           emailBusinessPlaceholder: "(mi negocio)"
         },
-
+ 
         en: {
           pageTitle: "How much do you really earn? | Profitability diagnostic",
           metaDescription: "Enter last month's numbers and discover how much you keep, how much customers owe you, and how dependent you are on one client.",
-
+ 
           themeToLight: "Switch to light mode",
           themeToDark: "Switch to dark mode",
-
+ 
           heading: "How much do you really earn?",
           intro: "Enter last month's numbers and get suggested solutions in one minute.",
           costs: "Costs and expenses",
           remainder: "What you actually keep",
-
+ 
           customerType: "Customer type",
           professional: "Independent professional",
           serviceBusiness: "Service-based small business",
-
+ 
           income: "Monthly income",
           costsField: "Costs and expenses",
           overdueClients: "Customers with overdue payments",
@@ -602,7 +906,7 @@ try {
             return "Total overdue: $" + amount + " across " + count +
               (count === 1 ? " customer" : " customers");
           },
-
+ 
           topClient: "Amount paid by your largest client this month ($)",
           topHint: "This amount is divided by your total income. If it exceeds 30%, your business is highly dependent on that client.",
           income3: "Income over the last 3 months ($)",
@@ -610,7 +914,7 @@ try {
           threeMonthHint: "Optional: complete both fields to measure client concentration over 3 months. Otherwise, leave both at 0.",
           billedHours: "Billable hours",
           availableHours: "Available hours",
-
+ 
           runDiagnostic: "View my diagnostic",
           errorIncome: "Enter your income for the month.",
           errorPositive: "Use positive numbers only.",
@@ -618,12 +922,12 @@ try {
           errorHours: "Billable hours cannot exceed available hours.",
           errorThreeMonthPair: "Complete both 3-month fields or leave both at 0.",
           errorThreeMonthTop: "Over 3 months, your largest client cannot have paid more than your total income.",
-
+ 
           marginThisMonth: "Your margin this month",
           marginGood: "Your business has a healthy margin. Protect it and plan for slower months.",
           marginAverage: "Your margin is acceptable, but there is room to improve.",
           marginLow: "For every $100 you collect, very little remains. Reduce costs, raise prices, or remove unprofitable services.",
-
+ 
           financialHealth: "Financial health",
           generalResult: "Overall result",
           margin: "Margin",
@@ -631,7 +935,7 @@ try {
           receivables: "Receivables",
           overdue: "overdue",
           dependency: "Client concentration",
-
+ 
           kpiMargin: "Net margin",
           kpiMarginDescription: function (amount) {
             return "For every $100 you collect, you keep $" + amount + " after costs and expenses";
@@ -653,7 +957,7 @@ try {
           kpiTimeDescription: "Billable hours compared with available hours",
           kpiDebtors: "Customers with overdue payments",
           noName: "Unnamed",
-
+ 
           solutions: "Suggested solutions",
           solutionMarginTitle: "Profitability analysis by customer and service",
           solutionMarginText: "Your margin is low. Identify which customers and services are unprofitable, then adjust your prices.",
@@ -671,11 +975,11 @@ try {
           solutionCustomTitle: "Customized implementation",
           solutionCustomText: "Several simultaneous alerts may call for a dashboard connected to your billing system.",
           includedIn: "Included in",
-
+ 
           plans: "Your recommended plan",
           recommended: "recommended",
           priceNote: "Reference prices in USD per month.",
-
+ 
           planBasic: "Basic",
           planPro: "Pro",
           planCustom: "Custom",
@@ -695,7 +999,7 @@ try {
             "Custom dashboard"
           ],
           planCustomPrice: "From $500 + $120/month",
-
+ 
           contactTitle: "Shall we review it together?",
           contactText: "Schedule a 45-minute diagnostic. Your results will be included in the message.",
           name: "Your name",
@@ -703,7 +1007,7 @@ try {
           bookDiagnostic: "Schedule your diagnostic",
           whatsapp: "Message me on WhatsApp",
           email: "Send by email",
-
+ 
           feedbackTitle: "How was your experience?",
           feedbackInstruction: "Select a star rating from 1 to 5.",
           ratingAria: "Rating",
@@ -725,7 +1029,134 @@ try {
           sendFeedback: "Submit feedback",
           thanksTitle: "Thank you for your feedback!",
           thanksText: "You can also send it directly so I can read it.",
-
+ 
+          scanTitle: "Scan a receipt",
+          scanButton: "Scan receipt",
+          scanPrivacy: "The photo is read on your phone and is not uploaded to any server.",
+          scanPreparing: "Preparing the reader (the first time takes a few seconds)…",
+          scanReading: "Reading the receipt…",
+          scanError: "Could not read the receipt. Check your connection or type the amount by hand.",
+          scanReviewHint: "Check the details before adding them.",
+          scanVendor: "Vendor",
+          scanAmount: "Amount ($)",
+          scanAdd: "Add to my costs",
+          scanDiscard: "Discard",
+          scanNoAmount: "We could not find the amount. Type it in.",
+          scanCheckAmount: "We did not see a total line. Confirm this amount is correct.",
+          scanAdded: function (amount) {
+            return "$" + amount + " added to your costs. Tap “View my diagnostic” to update.";
+          },
+          scanTipNoIncome: "Enter your monthly income to see how your margin changes.",
+          scanTipLoss: "With this receipt, your costs exceed your income for the month.",
+          scanTipMargin: function (before, after) {
+            return "With this receipt, your margin drops from " + before + "% to " + after + "%.";
+          },
+          scanTipRaise: function (raise) {
+            return " To recover it, you would need to raise your prices by about " + raise + "%.";
+          },
+ 
+          collectTitle: "Collect what you are owed",
+          payTitle: "How you get paid",
+          payHint: "This information is saved only on this device and added to your reminders and invoices.",
+          payName: "Your name or business",
+          payZelle: "Zelle (email or phone)",
+          payCash: "Cash App ($username)",
+          payVenmo: "Venmo (@username)",
+          payPaypal: "PayPal.me (username)",
+          payStripe: "Card payment link (Stripe or other)",
+          payCardLabel: "Card",
+          remTitle: "Payment reminders",
+          remNone: "When you add customers with overdue payments, you can send them a WhatsApp reminder here.",
+          remPhone: "Phone (optional)",
+          remSend: "Remind on WhatsApp",
+          remPhoneHint: "Without a phone number, WhatsApp lets you pick the contact. You review and send the message.",
+          remMessage: function (name, amount, pay, from) {
+            return (name ? "Hi " + name + ", " : "Hi, ") +
+              "this is a reminder about your pending payment of $" + amount + "." +
+              (pay.length ? " You can pay with " + pay.join(", ") + "." : "") +
+              " Thank you." + (from ? " " + from : "");
+          },
+ 
+          simTitle: "What if…?",
+          simIntro: "Move the controls and see how this month's numbers change.",
+          simLose: "I lose my biggest client",
+          simLoseNeed: "Enter what your biggest client paid you to use this option.",
+          simLoseInfo: function (amount) {
+            return amount + " of this month's income would go away.";
+          },
+          simRaise: "I raise my prices",
+          simCollect: "I collect what is overdue",
+          simCollectNeed: "You have no overdue payments recorded.",
+          simCollectInfo: function (amount) {
+            return amount + " would land in your pocket.";
+          },
+          simRowIncome: "Monthly income",
+          simRowProfit: "Monthly profit",
+          simRowMargin: "Margin",
+          simRowReceivables: "Overdue receivables",
+          simSummary: function (marginBefore, marginAfter, profitBefore, profitAfter) {
+            return "With these changes, your margin would go from " + marginBefore + "% to " + marginAfter +
+              "% and your monthly profit from " + profitBefore + " to " + profitAfter + ".";
+          },
+          simSummaryNoIncome: "Without that client you would have no income this month.",
+          simSummaryNoChange: "Move a control to see the effect.",
+          simAssume: "Assumes your costs and your other clients stay the same. It is an estimate, not a prediction.",
+ 
+          rateTitle: "Your real hourly rate",
+          rateNeedHours: "Enter your billable and available hours, then view your diagnostic again to calculate your rate.",
+          rateCharged: "You charge per billable hour",
+          rateKept: "You keep per hour of your time",
+          rateBreakeven: "Break-even rate",
+          rateBreakevenHint: "Below this rate you lose money with your current hours.",
+          rateSummaryGain: function (charged, kept) {
+            return "You charge " + charged + " per billable hour, but after costs and unbilled hours you keep " +
+              kept + " for every hour of your time.";
+          },
+          rateSummaryLoss: function (charged, lost) {
+            return "You charge " + charged + " per billable hour, but your costs and unbilled hours mean you lose " +
+              lost + " for every hour of your time.";
+          },
+          rateGoalLabel: "How much do you want to earn per month, after costs ($)",
+          rateGoalEmpty: "Enter your goal to see the rate you need.",
+          rateGoalReached: function (profit) {
+            return "With your current numbers you already earn " + profit + " a month. Your goal is covered.";
+          },
+          rateGoalRate: function (goal, rate, percent) {
+            return "To earn " + goal + " a month with your current hours, your rate should be " + rate +
+              " per hour (" + percent + "% more than today).";
+          },
+          rateGoalHours: function (hours, available) {
+            return "Or keep your rate and bill " + hours + " hours a month (you have " + available + " available).";
+          },
+          rateGoalHoursNo: function (floor) {
+            return "Even billing all your available hours at your current rate, you would not reach your goal. " +
+              "If you billed them all, your minimum rate would be " + floor + " per hour.";
+          },
+          rateAssume: "Assumes your costs do not change.",
+ 
+          invTitle: "Create an invoice",
+          invClient: "Customer",
+          invAmount: "Amount ($)",
+          invConcept: "Description",
+          invDue: "Due date",
+          invCreate: "Create invoice (PDF)",
+          invHint: "Opens a view you can print or save as a PDF.",
+          invErrClient: "Enter the customer name.",
+          invErrConcept: "Enter a description for the invoice.",
+          invErrAmount: "Enter an amount greater than 0.",
+          invPopup: "Your browser blocked the window. Allow pop-ups and try again.",
+          invDocTitle: "Invoice",
+          invDocNumber: "No.",
+          invDocDate: "Date",
+          invDocDue: "Due",
+          invDocFrom: "From",
+          invDocBillTo: "Bill to",
+          invDocDescription: "Description",
+          invDocTotal: "Total",
+          invDocHowToPay: "How to pay",
+          invDocNoPay: "Ask about payment options.",
+          invDocPrint: "Print or save as PDF",
+          invDocThanks: "Thank you for your payment.",
           emailSubjectDiagnostic: "Profitability diagnostic",
           shareGreeting: "Hello, my name is ",
           shareFrom: " from ",
@@ -744,23 +1175,23 @@ try {
           emailBusinessPlaceholder: "(my business)"
         }
       };
-
-
+ 
+ 
       /* -----------------------------------------------------
          3. PLAN CATALOG AND RECOMMENDATION RANKING
       ------------------------------------------------------ */
-
+ 
       const PLAN_RANK = {
         basico: 1,
         pro: 2,
         medida: 3
       };
-
-
+ 
+ 
       /* -----------------------------------------------------
          4. LANGUAGE AND NUMBER HELPERS
       ------------------------------------------------------ */
-
+ 
       function getSavedLanguage() {
         try {
           const saved = localStorage.getItem("lang");
@@ -768,22 +1199,22 @@ try {
         } catch (error) {
           // Fall back to the browser language.
         }
-
+ 
         return (navigator.language || "").toLowerCase().startsWith("en")
           ? "en"
           : "es";
       }
-
+ 
       function t(key) {
         return TEXT[language][key];
       }
-
+ 
       function formatNumber(value) {
         return Number(value).toLocaleString(
           language === "en" ? "en-US" : "es-MX"
         );
       }
-
+ 
       function escapeHtml(value) {
         return String(value)
           .replace(/&/g, "&amp;")
@@ -791,7 +1222,7 @@ try {
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;");
       }
-
+ 
       function saveLanguage() {
         try {
           localStorage.setItem("lang", language);
@@ -799,36 +1230,16 @@ try {
           // Language remains active for the current page session.
         }
       }
-
-
-      /* -----------------------------------------------------
-         5. CUSTOMER TYPE
-      ------------------------------------------------------ */
-
-      function setCustomerType(type) {
-        customerType = type;
-
-        $("b1").setAttribute("aria-pressed", type === "pro");
-        $("b2").setAttribute("aria-pressed", type === "pyme");
-      }
-
-      $("b1").addEventListener("click", function () {
-        setCustomerType("pro");
-      });
-
-      $("b2").addEventListener("click", function () {
-        setCustomerType("pyme");
-      });
-
-
+ 
+ 
       /* -----------------------------------------------------
          6. FINANCIAL CALCULATION HELPERS
       ------------------------------------------------------ */
-
+ 
       function pct(a, b) {
         return b > 0 ? (a / b) * 100 : 0;
       }
-
+ 
       function cls(value, goodThreshold, badThreshold, inverse) {
         if (inverse) {
           return value <= goodThreshold
@@ -837,40 +1248,40 @@ try {
               ? "bad"
               : "warn";
         }
-
+ 
         return value >= goodThreshold
           ? "ok"
           : value <= badThreshold
             ? "bad"
             : "warn";
       }
-
-
+ 
+ 
       /* -----------------------------------------------------
          7. OVERDUE CUSTOMER ROWS
       ------------------------------------------------------ */
-
+ 
       function totalDebts() {
         let total = 0;
         let count = 0;
-
+ 
         debts.forEach(function (debt) {
           if (debt.amount > 0) {
             total += debt.amount;
             count += 1;
           }
         });
-
+ 
         $("dtot").textContent = t("overdueTotal")(
           formatNumber(total),
           count
         );
-
+ 
         $("dtot").style.display = total > 0 ? "block" : "none";
-
+ 
         return [total, count];
       }
-
+ 
       function renderDebts() {
         $("debts").innerHTML = debts.map(function (debt, index) {
           return `
@@ -882,7 +1293,7 @@ try {
                 value="${escapeHtml(debt.name)}"
                 placeholder="${t("clientPlaceholder")}"
               >
-
+ 
               <input
                 aria-label="${t("overdueAmountAria")}"
                 data-i="${index}"
@@ -891,7 +1302,7 @@ try {
                 value="${debt.amount}"
                 inputmode="decimal"
               >
-
+ 
               <button
                 aria-label="${t("removeClientAria")}"
                 data-del="${index}"
@@ -900,91 +1311,89 @@ try {
             </div>
           `;
         }).join("");
-
+ 
         totalDebts();
       }
-
+ 
       $("debts").addEventListener("input", function (event) {
         const index = event.target.getAttribute("data-i");
         const key = event.target.getAttribute("data-k");
-
+ 
         if (index === null) return;
-
+ 
         if (key === "m") {
           debts[index].amount = Number(event.target.value) || 0;
         } else {
           debts[index].name = event.target.value;
         }
-
+ 
         totalDebts();
       });
-
+ 
       $("debts").addEventListener("click", function (event) {
         const deleteIndex = event.target.getAttribute("data-del");
-
+ 
         if (deleteIndex !== null) {
           debts.splice(Number(deleteIndex), 1);
           renderDebts();
         }
       });
-
+ 
       $("addD").addEventListener("click", function () {
         debts.push({
           name: "",
           amount: 0
         });
-
+ 
         renderDebts();
       });
-
-
+ 
+ 
       /* -----------------------------------------------------
          8. DYNAMIC CONTACT LINKS
       ------------------------------------------------------ */
-
+ 
       function buildDiagnosticSummary(result) {
         if (!result) return "";
-
-        const typeName = customerType === "pro"
-          ? t("professional")
-          : t("serviceBusiness");
-
+ 
+        const typeName = t("professional");
+ 
         return typeName +
           " | " + t("margin") + " " + result.margin.toFixed(0) + "%" +
           ", " + t("receivables") + " " + result.receivables.toFixed(0) + "%" +
           ", " + t("dependency") + " " + result.concentration.toFixed(0) + "%" +
           ", " + t("kpiTime") + " " + result.timeUse.toFixed(0) + "%";
       }
-
+ 
       function updateContactLinks() {
         const name = $("nom").value || t("emailNamePlaceholder");
         const business = $("neg").value || t("emailBusinessPlaceholder");
-
+ 
         const message = t("shareGreeting") + name +
           t("shareFrom") + business +
           t("shareCompleted") + summary +
           t("shareReview");
-
+ 
         $("lCal").href = CAL;
-
+ 
         $("lWa").href =
           "https://wa.me/" + WA + "?text=" +
           encodeURIComponent(message);
-
+ 
         $("lMail").href =
           "mailto:" + MAIL +
           "?subject=" + encodeURIComponent(t("emailSubjectDiagnostic")) +
           "&body=" + encodeURIComponent(message);
       }
-
+ 
       $("nom").addEventListener("input", updateContactLinks);
       $("neg").addEventListener("input", updateContactLinks);
-
-
+ 
+ 
       /* -----------------------------------------------------
          9. FEEDBACK QUESTIONS
       ------------------------------------------------------ */
-
+ 
       function getFeedbackQuestions() {
         return [
           {
@@ -1016,18 +1425,18 @@ try {
           }
         ];
       }
-
+ 
       function renderFeedbackQuestions() {
         $("stars").setAttribute("aria-label", t("ratingAria"));
-
+ 
         $("stars").innerHTML = [1, 2, 3, 4, 5]
           .map(function (number) {
             const starWord = number === 1
               ? t("oneStar")
               : t("manyStars");
-
+ 
             const selected = number <= feedback.stars;
-
+ 
             return `
               <button
                 type="button"
@@ -1040,19 +1449,19 @@ try {
             `;
           })
           .join("");
-
+ 
         $("qs").innerHTML = getFeedbackQuestions()
           .map(function (question) {
             const selectedIndex = feedback[question.key];
-
+ 
             return `
               <div class="q">
                 <p>${question.question}</p>
-
+ 
                 <div class="chips" data-q="${question.key}">
                   ${question.choices.map(function (choice, index) {
                     const pressed = selectedIndex === index;
-
+ 
                     return `
                       <button
                         type="button"
@@ -1068,45 +1477,45 @@ try {
           })
           .join("");
       }
-
+ 
       $("stars").addEventListener("click", function (event) {
         const selected = event.target.getAttribute("data-s");
         if (!selected) return;
-
+ 
         feedback.stars = Number(selected);
-
+ 
         renderFeedbackQuestions();
         $("fbErr").style.display = "none";
       });
-
+ 
       $("qs").addEventListener("click", function (event) {
         const chip = event.target.closest(".chip");
         if (!chip) return;
-
+ 
         const group = chip.closest(".chips");
         const key = group.getAttribute("data-q");
-
+ 
         feedback[key] = Number(chip.getAttribute("data-choice"));
-
+ 
         renderFeedbackQuestions();
       });
-
+ 
       function selectedFeedbackAnswer(key) {
         const questions = getFeedbackQuestions();
         const question = questions.find(function (item) {
           return item.key === key;
         });
-
+ 
         if (!question || feedback[key] === null) {
           return t("noAnswer");
         }
-
+ 
         return question.choices[feedback[key]];
       }
-
+ 
       function updateFeedbackLinks() {
         const suggestion = $("fbTxt").value.trim() || t("noSuggestion");
-
+ 
         const message =
           t("feedbackMessage") +
           feedback.stars + t("starsSuffix") + " " +
@@ -1114,38 +1523,38 @@ try {
           t("feedbackClear") + selectedFeedbackAnswer("clear") + ". " +
           t("feedbackPay") + selectedFeedbackAnswer("pay") + ". " +
           t("feedbackSuggestion") + suggestion;
-
+ 
         $("fWa").href =
           "https://wa.me/" + WA + "?text=" +
           encodeURIComponent(message);
-
+ 
         $("fMail").href =
           "mailto:" + MAIL +
           "?subject=" + encodeURIComponent(t("feedbackSubject")) +
           "&body=" + encodeURIComponent(message);
       }
-
+ 
       $("fbSend").addEventListener("click", function () {
         if (!feedback.stars) {
           $("fbErr").style.display = "block";
           return;
         }
-
+ 
         updateFeedbackLinks();
         feedback.submitted = true;
         updateFeedbackView();
       });
-
+ 
       function updateFeedbackView() {
         $("fbForm").style.display = feedback.submitted ? "none" : "block";
         $("fbThanks").style.display = feedback.submitted ? "block" : "none";
       }
-
-
+ 
+ 
       /* -----------------------------------------------------
          10. RECOMMENDATION CATALOG
       ------------------------------------------------------ */
-
+ 
       function getPlans() {
         return {
           basico: {
@@ -1165,10 +1574,10 @@ try {
           }
         };
       }
-
+ 
       function getRecommendations(result) {
         const items = [];
-
+ 
         if (result.margin < 25) {
           items.push({
             title: t("solutionMarginTitle"),
@@ -1176,7 +1585,7 @@ try {
             plan: "pro"
           });
         }
-
+ 
         if (result.receivables >= 20) {
           items.push({
             title: t("solutionCollectionsTitle"),
@@ -1184,7 +1593,7 @@ try {
             plan: "basico"
           });
         }
-
+ 
         if (result.concentration >= 40) {
           items.push({
             title: t("solutionDependencyTitle"),
@@ -1192,17 +1601,15 @@ try {
             plan: "pro"
           });
         }
-
+ 
         if (result.timeUse < 60) {
           items.push({
-            title: customerType === "pro"
-              ? t("solutionHoursProfessionalTitle")
-              : t("solutionHoursBusinessTitle"),
+            title: t("solutionHoursProfessionalTitle"),
             description: t("solutionHoursText"),
             plan: "pro"
           });
         }
-
+ 
         if (!items.length) {
           items.push({
             title: t("solutionCashTitle"),
@@ -1210,58 +1617,50 @@ try {
             plan: "basico"
           });
         }
-
+ 
         items.push({
           title: t("solutionReportTitle"),
           description: t("solutionReportText"),
           plan: "basico"
         });
-
-        if (customerType === "pyme" && items.length >= 4) {
-          items.push({
-            title: t("solutionCustomTitle"),
-            description: t("solutionCustomText"),
-            plan: "medida"
-          });
-        }
-
+ 
         return items;
       }
-
-
+ 
+ 
       /* -----------------------------------------------------
          11. RENDER FINANCIAL RESULTS
       ------------------------------------------------------ */
-
+ 
       function renderResults(result) {
         const plans = getPlans();
-
+ 
         const marginClass = result.marginClass;
-
+ 
         const marginMessage = marginClass === "ok"
           ? t("marginGood")
           : marginClass === "warn"
             ? t("marginAverage")
             : t("marginLow");
-
+ 
         $("hero").innerHTML = `
           <span class="mut">${t("marginThisMonth")}</span>
           <b class="${marginClass}">${result.margin.toFixed(0)}%</b>
           <p class="mut">${marginMessage}</p>
         `;
-
+ 
         $("hs").textContent = Math.round(result.score) + "%";
         $("hf2").style.width = result.score + "%";
-
+ 
         const chartValues = [
           [result.margin, cls(result.margin, 30, 15)],
           [result.receivables, cls(result.receivables, 15, 30, true)],
           [result.concentration, cls(result.concentration, 30, 50, true)]
         ];
-
+ 
         $("cbox").innerHTML = chartValues.map(function (item) {
           const value = Math.max(0, Math.min(100, Math.abs(item[0])));
-
+ 
           return `
             <div
               class="cb ${item[1]}"
@@ -1271,8 +1670,8 @@ try {
             </div>
           `;
         }).join("");
-
-
+ 
+ 
         /* KPI cards */
         const kpis = [
           {
@@ -1311,7 +1710,7 @@ try {
             status: cls(result.timeUse, 70, 50)
           }
         ];
-
+ 
         const debtorList = debts
           .filter(function (debt) {
             return debt.amount > 0;
@@ -1319,30 +1718,30 @@ try {
           .sort(function (a, b) {
             return b.amount - a.amount;
           });
-
+ 
         $("kpis").innerHTML = kpis.map(function (item) {
           const barWidth = Math.max(
             2,
             Math.min(100, item.value)
           );
-
+ 
           return `
             <div class="card kpi">
               <b>${item.title}</b>
               <b class="v ${item.status}">${item.value.toFixed(0)}%</b>
-
+ 
               <div class="bar">
                 <i
                   class="${item.status}"
                   style="width:${barWidth}%"
                 ></i>
               </div>
-
+ 
               <span>${item.description}</span>
             </div>
           `;
         }).join("");
-
+ 
         if (debtorList.length) {
           $("kpis").innerHTML += `
             <div class="card kpi">
@@ -1356,11 +1755,11 @@ try {
             </div>
           `;
         }
-
-
+ 
+ 
         /* Suggested solutions */
         const recommendations = getRecommendations(result);
-
+ 
         $("sols").innerHTML = recommendations.map(function (item) {
           return `
             <div class="card">
@@ -1374,33 +1773,29 @@ try {
             </div>
           `;
         }).join("");
-
-
+ 
+ 
         /* Recommended plan */
         let recommendedPlan = "basico";
-
+ 
         recommendations.forEach(function (item) {
           if (PLAN_RANK[item.plan] > PLAN_RANK[recommendedPlan]) {
             recommendedPlan = item.plan;
           }
         });
-
-        if (customerType === "pro" && recommendedPlan === "medida") {
-          recommendedPlan = "pro";
-        }
-
+ 
         $("plans").innerHTML = Object.keys(plans).map(function (key) {
           const plan = plans[key];
           const recommended = key === recommendedPlan;
-
+ 
           return `
             <div class="card plan${recommended ? " hit" : ""}">
               <h3>
                 ${plan.name}${recommended ? " · " + t("recommended") : ""}
               </h3>
-
+ 
               <div class="pr">${plan.price}</div>
-
+ 
               <ul>
                 ${plan.features.map(function (feature) {
                   return `<li>${feature}</li>`;
@@ -1409,44 +1804,47 @@ try {
             </div>
           `;
         }).join("");
-
-
+ 
+ 
         /* Localized summary for booking, WhatsApp and email */
         summary = buildDiagnosticSummary(result);
         updateContactLinks();
+        renderCollect();
+        updateSimulator();
+        updateRate();
       }
-
-
+ 
+ 
       /* -----------------------------------------------------
          12. VALIDATION MESSAGES
       ------------------------------------------------------ */
-
+ 
       function renderValidationErrors() {
         if (!currentErrorKeys.length) {
           $("err").style.display = "none";
           $("err").textContent = "";
           return;
         }
-
+ 
         $("err").innerHTML = currentErrorKeys
           .map(function (key) {
             return escapeHtml(t(key));
           })
           .join("<br>");
-
+ 
         $("err").style.display = "block";
       }
-
-
+ 
+ 
       /* -----------------------------------------------------
          13. RUN THE DIAGNOSTIC
       ------------------------------------------------------ */
-
+ 
       function runDiagnostic() {
         const value = function (id) {
           return Number($(id).value) || 0;
         };
-
+ 
         const income = value("ing");
         const costs = value("cos");
         const topClient = value("top");
@@ -1454,17 +1852,17 @@ try {
         const availableHours = value("hd");
         const income3 = value("ing3");
         const topClient3 = value("top3");
-
+ 
         const overdue = totalDebts();
         const overdueTotal = overdue[0];
         const overdueCount = overdue[1];
-
+ 
         const errors = [];
-
+ 
         if (income <= 0) {
           errors.push("errorIncome");
         }
-
+ 
         if (
           [income, costs, topClient, billedHours, availableHours, income3, topClient3]
             .some(function (number) {
@@ -1473,43 +1871,43 @@ try {
         ) {
           errors.push("errorPositive");
         }
-
+ 
         if (topClient > income) {
           errors.push("errorTop");
         }
-
+ 
         if (billedHours > availableHours) {
           errors.push("errorHours");
         }
-
+ 
         if ((income3 > 0) !== (topClient3 > 0)) {
           errors.push("errorThreeMonthPair");
         } else if (topClient3 > income3) {
           errors.push("errorThreeMonthTop");
         }
-
+ 
         currentErrorKeys = errors;
-
+ 
         if (errors.length) {
           renderValidationErrors();
           return;
         }
-
+ 
         renderValidationErrors();
-
+ 
         const usingThreeMonths = income3 > 0 && topClient3 > 0;
-
+ 
         const margin = pct(income - costs, income);
         const receivables = pct(overdueTotal, income);
-
+ 
         const concentration = usingThreeMonths
           ? pct(topClient3, income3)
           : pct(topClient, income);
-
+ 
         const timeUse = pct(billedHours, availableHours);
-
+ 
         const marginClass = cls(margin, 30, 15);
-
+ 
         const score = Math.max(
           0,
           Math.min(
@@ -1521,7 +1919,7 @@ try {
               Math.min(20, 100 - timeUse) / 2
           )
         );
-
+ 
         lastResult = {
           income: income,
           costs: costs,
@@ -1540,9 +1938,9 @@ try {
           marginClass: marginClass,
           score: score
         };
-
+ 
         renderResults(lastResult);
-
+ 
         $("res").hidden = false;
         $("res").scrollIntoView({
           behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -1550,33 +1948,33 @@ try {
             : "smooth"
         });
       }
-
+ 
       $("go").addEventListener("click", runDiagnostic);
-
-
+ 
+ 
       /* -----------------------------------------------------
          13. LANGUAGE SWITCHING
       ------------------------------------------------------ */
-
+ 
       function applyLanguage(nextLanguage, persist = true) {
         language = nextLanguage;
-
+ 
         const text = TEXT[language];
-
+ 
         root.lang = language;
         document.title = text.pageTitle;
-
+ 
         const metaDescription = document.querySelector(
           'meta[name="description"]'
         );
-
+ 
         if (metaDescription) {
           metaDescription.setAttribute(
             "content",
             text.metaDescription
           );
         }
-
+ 
         const content = {
           pageTitle: text.heading,
           pageIntro: text.intro,
@@ -1622,11 +2020,11 @@ try {
           fWa: text.whatsapp,
           fMail: text.email
         };
-
+ 
         Object.entries(content).forEach(function (entry) {
           const element = $(entry[0]);
           if (!element) return;
-
+ 
           if (entry[0] === "lCal" || entry[0] === "lWa" || entry[0] === "lMail" ||
               entry[0] === "fbSend" || entry[0] === "fWa" || entry[0] === "fMail" ||
               entry[0] === "go" || entry[0] === "addD") {
@@ -1635,16 +2033,12 @@ try {
             element.textContent = entry[1];
           }
         });
-
-        $("customerTypeGroup").setAttribute("aria-label", text.customerType);
-        $("b1").textContent = text.professional;
-        $("b2").textContent = text.serviceBusiness;
-
+ 
         $("langEs").setAttribute("aria-pressed", language === "es");
         $("langEn").setAttribute("aria-pressed", language === "en");
-
+ 
         $("fbTxt").setAttribute("aria-label", text.suggestionAria);
-
+ 
         if (persist) {
           try {
             localStorage.setItem("lang", language);
@@ -1652,94 +2046,897 @@ try {
             // The selected language remains active for this page session.
           }
         }
-
+ 
+        applyStaticI18n();
         renderDebts();
         renderFeedbackQuestions();
         renderValidationErrors();
+        updateScanTip();
         updateFeedbackView();
-
+ 
         if (feedback.submitted) {
           updateFeedbackLinks();
         }
-
+ 
         updateThemeButton();
-
+ 
         if (lastResult) {
           renderResults(lastResult);
         }
       }
-
+ 
       $("langEs").addEventListener("click", function () {
         applyLanguage("es");
       });
-
+ 
       $("langEn").addEventListener("click", function () {
         applyLanguage("en");
       });
-
-
+ 
+ 
       /* -----------------------------------------------------
          14. THEME MANAGEMENT
       ------------------------------------------------------ */
-
+ 
       function isDarkMode() {
         const setting = root.getAttribute("data-theme");
-
+ 
         if (setting) {
           return setting === "dark";
         }
-
+ 
         return window.matchMedia("(prefers-color-scheme: dark)").matches;
       }
-
+ 
       function updateThemeButton() {
         const dark = isDarkMode();
-
+ 
         $("tg").textContent = dark ? "☀" : "☾";
         $("tg").setAttribute(
           "aria-label",
           t(dark ? "themeToLight" : "themeToDark")
         );
       }
-
+ 
       $("tg").addEventListener("click", function () {
         const nextTheme = isDarkMode() ? "light" : "dark";
-
+ 
         root.setAttribute("data-theme", nextTheme);
-
+ 
         try {
           localStorage.setItem("tema", nextTheme);
         } catch (error) {
           // Theme remains active for this page session.
         }
-
+ 
         updateThemeButton();
       });
-
+ 
       const darkPreference = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
-
+ 
       if (darkPreference.addEventListener) {
         darkPreference.addEventListener("change", updateThemeButton);
       }
-
-
+ 
+ 
+      /* -----------------------------------------------------
+         14b. FREE INTEGRATIONS
+         Receipt scanner (on-device OCR), WhatsApp reminders
+         (wa.me links) and printable invoice.
+      ------------------------------------------------------ */
+ 
+      const TESSERACT_SRC =
+        "https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js";
+      const PAY_KEY = "cobro";
+      const PAY_FIELDS = ["payName", "payZelle", "payCash", "payVenmo", "payPaypal", "payStripe"];
+ 
+      let tesseractPromise = null;
+      let scanBusy = false;
+      let remDebts = [];
+ 
+      function applyStaticI18n() {
+        document.querySelectorAll("[data-i18n]").forEach(function (element) {
+          element.textContent = t(element.getAttribute("data-i18n"));
+        });
+      }
+ 
+      function fmt2(value) {
+        return Number(value).toLocaleString(
+          language === "en" ? "en-US" : "es-MX",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+      }
+ 
+      /* ---- Receipt parsing (pure function) ---- */
+      function parseReceipt(text) {
+        const lines = String(text || "")
+          .split(/\r?\n/)
+          .map(function (line) {
+            return line.trim();
+          })
+          .filter(Boolean);
+ 
+        const amountPattern = /\$?\s*(\d{1,3}(?:,\d{3})+|\d+)[.,](\d{2})(?!\d)/g;
+ 
+        const readAmounts = function (line) {
+          const found = [];
+          let match;
+ 
+          amountPattern.lastIndex = 0;
+ 
+          while ((match = amountPattern.exec(line)) !== null) {
+            const value = Number(match[1].replace(/,/g, "") + "." + match[2]);
+            if (value > 0 && value < 100000) found.push(value);
+          }
+ 
+          return found;
+        };
+ 
+        const totalWords = /\b(grand\s*total|total\s*due|amount\s*due|balance\s*due|total|importe|a\s*pagar)\b/i;
+        const skipWords = /sub\s*-?\s*total|tax|impuesto|tip|propina|savings|discount|descuento/i;
+        const paidWords = /cash|change|tender|efectivo|cambio|received|recibido/i;
+ 
+        let amount = null;
+        let method = null;
+ 
+        for (let i = 0; i < lines.length; i += 1) {
+          if (!totalWords.test(lines[i]) || skipWords.test(lines[i])) continue;
+ 
+          let amounts = readAmounts(lines[i]);
+ 
+          if (!amounts.length && !/\d/.test(lines[i]) && lines[i + 1] && !skipWords.test(lines[i + 1])) {
+            amounts = readAmounts(lines[i + 1]);
+          }
+ 
+          if (amounts.length) {
+            amount = amounts[amounts.length - 1];
+            method = "total";
+          }
+        }
+ 
+        if (amount === null) {
+          let largest = 0;
+ 
+          lines.forEach(function (line) {
+            if (paidWords.test(line)) return;
+ 
+            readAmounts(line).forEach(function (value) {
+              if (value > largest) largest = value;
+            });
+          });
+ 
+          if (largest > 0) {
+            amount = largest;
+            method = "max";
+          }
+        }
+ 
+        let vendor = "";
+ 
+        for (let i = 0; i < Math.min(lines.length, 6); i += 1) {
+          const letters = (lines[i].match(/[A-Za-zÁÉÍÓÚÑáéíóúñ]/g) || []).length;
+ 
+          if (letters >= 3 && letters >= lines[i].length / 2 && lines[i].length <= 40) {
+            vendor = lines[i].replace(/\s{2,}/g, " ");
+            break;
+          }
+        }
+ 
+        return { amount: amount, vendor: vendor, method: method };
+      }
+ 
+ 
+      /* ---- Receipt scanner ---- */
+ 
+      function loadTesseract() {
+        if (window.Tesseract) return Promise.resolve(window.Tesseract);
+        if (tesseractPromise) return tesseractPromise;
+ 
+        tesseractPromise = new Promise(function (resolve, reject) {
+          const script = document.createElement("script");
+          script.src = TESSERACT_SRC;
+          script.onload = function () {
+            if (window.Tesseract) resolve(window.Tesseract);
+            else reject(new Error("Tesseract missing"));
+          };
+          script.onerror = function () {
+            tesseractPromise = null;
+            reject(new Error("Tesseract failed to load"));
+          };
+          document.head.appendChild(script);
+        });
+ 
+        return tesseractPromise;
+      }
+ 
+      function prepareImage(file) {
+        return new Promise(function (resolve, reject) {
+          const url = URL.createObjectURL(file);
+          const image = new Image();
+ 
+          image.onload = function () {
+            const longest = Math.max(image.width, image.height);
+            const scale = Math.min(1, 2000 / longest);
+            const width = Math.max(1, Math.round(image.width * scale));
+            const height = Math.max(1, Math.round(image.height * scale));
+ 
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+ 
+            const context = canvas.getContext("2d", { willReadFrequently: true });
+            context.drawImage(image, 0, 0, width, height);
+ 
+            const frame = context.getImageData(0, 0, width, height);
+            const pixels = frame.data;
+ 
+            for (let i = 0; i < pixels.length; i += 4) {
+              const gray = 0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2];
+              const boosted = Math.max(0, Math.min(255, (gray - 128) * 1.4 + 128));
+              pixels[i] = pixels[i + 1] = pixels[i + 2] = boosted;
+            }
+ 
+            context.putImageData(frame, 0, 0);
+            URL.revokeObjectURL(url);
+            resolve(canvas);
+          };
+ 
+          image.onerror = function () {
+            URL.revokeObjectURL(url);
+            reject(new Error("Image failed to load"));
+          };
+ 
+          image.src = url;
+        });
+      }
+ 
+      function setScanStatus(text, isError) {
+        const box = $("scanStatus");
+        box.textContent = text;
+        box.classList.toggle("bad", Boolean(isError));
+      }
+ 
+      function updateScanTip() {
+        const amount = Number($("scanAmt").value) || 0;
+        const income = Number($("ing").value) || 0;
+        const costs = Number($("cos").value) || 0;
+        const box = $("scanTip");
+ 
+        if (amount <= 0) {
+          box.textContent = "";
+          return;
+        }
+ 
+        if (income <= 0) {
+          box.textContent = t("scanTipNoIncome");
+          return;
+        }
+ 
+        if (costs + amount > income) {
+          box.textContent = t("scanTipLoss");
+          return;
+        }
+ 
+        const before = ((income - costs) / income) * 100;
+        const after = ((income - costs - amount) / income) * 100;
+        let text = t("scanTipMargin")(before.toFixed(0), after.toFixed(0));
+ 
+        if (before > 0 && before < 99) {
+          const neededIncome = (costs + amount) / (1 - before / 100);
+          const raise = (neededIncome / income - 1) * 100;
+ 
+          if (isFinite(raise) && raise > 0 && raise < 200) {
+            text += t("scanTipRaise")(Math.ceil(raise));
+          }
+        }
+ 
+        box.textContent = text;
+      }
+ 
+      function showScanReview(parsed) {
+        $("scanVendor").value = parsed.vendor || "";
+        $("scanAmt").value = parsed.amount ? parsed.amount.toFixed(2) : "";
+ 
+        const note = $("scanNote");
+        if (!parsed.amount) {
+          note.textContent = t("scanNoAmount");
+          note.hidden = false;
+        } else if (parsed.method === "max") {
+          note.textContent = t("scanCheckAmount");
+          note.hidden = false;
+        } else {
+          note.hidden = true;
+        }
+ 
+        setScanStatus("");
+        $("scanReview").hidden = false;
+        updateScanTip();
+        $("scanAmt").focus();
+      }
+ 
+      async function runScan(file) {
+        if (scanBusy || !file) return;
+ 
+        scanBusy = true;
+        $("scanReview").hidden = true;
+        setScanStatus(t("scanPreparing"));
+ 
+        try {
+          const Tess = await loadTesseract();
+          const canvas = await prepareImage(file);
+ 
+          setScanStatus(t("scanReading"));
+ 
+          const result = await Tess.recognize(canvas, "eng", {
+            logger: function (message) {
+              if (message.status === "recognizing text") {
+                setScanStatus(
+                  t("scanReading") + " " + Math.round(message.progress * 100) + "%"
+                );
+              }
+            }
+          });
+ 
+          showScanReview(parseReceipt(result.data.text || ""));
+        } catch (error) {
+          setScanStatus(t("scanError"), true);
+        } finally {
+          scanBusy = false;
+          $("scanFile").value = "";
+        }
+      }
+ 
+      $("scanBtn").addEventListener("click", function () {
+        $("scanFile").click();
+      });
+ 
+      $("scanFile").addEventListener("change", function (event) {
+        runScan(event.target.files && event.target.files[0]);
+      });
+ 
+      $("scanAmt").addEventListener("input", updateScanTip);
+      $("ing").addEventListener("input", updateScanTip);
+      $("cos").addEventListener("input", updateScanTip);
+ 
+      $("scanAdd").addEventListener("click", function () {
+        const amount = Number($("scanAmt").value) || 0;
+ 
+        if (amount <= 0) {
+          $("scanAmt").focus();
+          return;
+        }
+ 
+        const current = Number($("cos").value) || 0;
+        $("cos").value = Math.round((current + amount) * 100) / 100;
+ 
+        $("scanReview").hidden = true;
+        setScanStatus(t("scanAdded")(fmt2(amount)));
+      });
+ 
+      $("scanDiscard").addEventListener("click", function () {
+        $("scanReview").hidden = true;
+        setScanStatus("");
+      });
+ 
+ 
+      /* ---- Payment details (saved on this device only) ---- */
+ 
+      function loadPaymentProfile() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(PAY_KEY) || "{}");
+          PAY_FIELDS.forEach(function (id) {
+            if (typeof saved[id] === "string") $(id).value = saved[id];
+          });
+        } catch (error) {
+          // Start empty when storage is unavailable.
+        }
+      }
+ 
+      function savePaymentProfile() {
+        const data = {};
+        PAY_FIELDS.forEach(function (id) {
+          data[id] = $(id).value;
+        });
+ 
+        try {
+          localStorage.setItem(PAY_KEY, JSON.stringify(data));
+        } catch (error) {
+          // Details remain for this page session.
+        }
+      }
+ 
+      function paymentMethods() {
+        const get = function (id) {
+          return $(id).value.trim();
+        };
+ 
+        const list = [];
+ 
+        const zelle = get("payZelle");
+        if (zelle) list.push("Zelle: " + zelle);
+ 
+        const cash = get("payCash");
+        if (cash) list.push("Cash App: " + (cash.charAt(0) === "$" ? cash : "$" + cash));
+ 
+        const venmo = get("payVenmo");
+        if (venmo) list.push("Venmo: " + (venmo.charAt(0) === "@" ? venmo : "@" + venmo));
+ 
+        const paypal = get("payPaypal")
+          .replace(/^https?:\/\//i, "")
+          .replace(/^(www\.)?paypal\.me\//i, "")
+          .replace(/^@/, "");
+        if (paypal) list.push("PayPal: paypal.me/" + paypal);
+ 
+        const card = get("payStripe");
+        if (/^https:\/\//i.test(card)) list.push(t("payCardLabel") + ": " + card);
+ 
+        return list;
+      }
+ 
+      $("payDetails").addEventListener("input", function () {
+        savePaymentProfile();
+        refreshReminderLinks();
+      });
+ 
+ 
+      /* ---- WhatsApp reminders ---- */
+ 
+      function whatsappNumber(raw) {
+        let digits = String(raw || "").replace(/\D/g, "");
+        if (digits.length === 10) digits = "1" + digits;
+        return digits;
+      }
+ 
+      function reminderHref(debt) {
+        const message = t("remMessage")(
+          (debt.name || "").trim(),
+          fmt2(debt.amount),
+          paymentMethods(),
+          $("payName").value.trim()
+        );
+ 
+        return "https://wa.me/" + whatsappNumber(debt.phone) +
+          "?text=" + encodeURIComponent(message);
+      }
+ 
+      function refreshReminderLinks() {
+        remDebts.forEach(function (debt, index) {
+          const link = document.querySelector('[data-rl="' + index + '"]');
+          if (link) link.href = reminderHref(debt);
+        });
+      }
+ 
+      function renderCollect() {
+        remDebts = debts
+          .filter(function (debt) {
+            return debt.amount > 0;
+          })
+          .sort(function (a, b) {
+            return b.amount - a.amount;
+          });
+ 
+        const box = $("remList");
+ 
+        if (!remDebts.length) {
+          box.innerHTML = `<p class="mut">${t("remNone")}</p>`;
+          return;
+        }
+ 
+        box.innerHTML = remDebts.map(function (debt, index) {
+          return `
+            <div class="rem">
+              <div class="remtop">
+                <span>${escapeHtml(debt.name || t("noName"))}</span>
+                <span class="warn">$${fmt2(debt.amount)}</span>
+              </div>
+ 
+              <div class="remact">
+                <input
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="off"
+                  data-ri="${index}"
+                  value="${escapeHtml(debt.phone || "")}"
+                  placeholder="${t("remPhone")}"
+                  aria-label="${t("remPhone")}"
+                >
+ 
+                <a
+                  class="btn m"
+                  data-rl="${index}"
+                  target="_blank"
+                  rel="noopener"
+                  href="${reminderHref(debt)}"
+                >${t("remSend")}</a>
+              </div>
+            </div>
+          `;
+        }).join("") + `<span class="hint">${t("remPhoneHint")}</span>`;
+      }
+ 
+      $("remList").addEventListener("input", function (event) {
+        const index = event.target.getAttribute("data-ri");
+        if (index === null || !remDebts[index]) return;
+ 
+        remDebts[index].phone = event.target.value;
+ 
+        const link = document.querySelector('[data-rl="' + index + '"]');
+        if (link) link.href = reminderHref(remDebts[index]);
+      });
+ 
+ 
+      /* ---- Invoice (printable page, saved as PDF by the browser) ---- */
+ 
+      function linkify(escapedText) {
+        return escapedText.replace(
+          /(https:\/\/[^\s<]+)/g,
+          '<a href="$1">$1</a>'
+        );
+      }
+ 
+      function createInvoice() {
+        const client = $("invClient").value.trim();
+        const concept = $("invConcept").value.trim();
+        const amount = Number($("invAmount").value) || 0;
+        const due = $("invDue").value;
+ 
+        const errors = [];
+        if (!client) errors.push("invErrClient");
+        if (!concept) errors.push("invErrConcept");
+        if (amount <= 0) errors.push("invErrAmount");
+ 
+        const errorBox = $("invErr");
+ 
+        if (errors.length) {
+          errorBox.innerHTML = errors.map(function (key) {
+            return escapeHtml(t(key));
+          }).join("<br>");
+          errorBox.style.display = "block";
+          return;
+        }
+ 
+        errorBox.style.display = "none";
+ 
+        const locale = language === "en" ? "en-US" : "es-MX";
+        const now = new Date();
+        const pad = function (n) {
+          return String(n).padStart(2, "0");
+        };
+ 
+        const number = "INV-" + now.getFullYear() + pad(now.getMonth() + 1) +
+          pad(now.getDate()) + "-" + pad(now.getHours()) + pad(now.getMinutes());
+ 
+        const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+        const issued = now.toLocaleDateString(locale, dateOptions);
+ 
+        let dueText = "";
+        if (due) {
+          const parts = due.split("-").map(Number);
+          dueText = new Date(parts[0], parts[1] - 1, parts[2])
+            .toLocaleDateString(locale, dateOptions);
+        }
+ 
+        const from = $("payName").value.trim();
+        const pay = paymentMethods();
+ 
+        const payHtml = pay.length
+          ? "<ul>" + pay.map(function (item) {
+              return "<li>" + linkify(escapeHtml(item)) + "</li>";
+            }).join("") + "</ul>"
+          : "<p>" + escapeHtml(t("invDocNoPay")) + "</p>";
+ 
+        const html = `<!DOCTYPE html>
+<html lang="${language}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${escapeHtml(t("invDocTitle"))} ${number}</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px 20px;background:#FBFBFA;color:#3E2119;font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+  .sheet{max-width:720px;margin:0 auto;background:#fff;border:1px solid #F5E6DB;border-radius:16px;padding:32px;border-top:6px solid #F67F1C}
+  h1{margin:0;font-size:2rem;letter-spacing:-.03em}
+  .meta{color:#7B6B64;font-size:.9rem;margin:4px 0 24px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+  .cols h2{margin:0 0 4px;font-size:.8rem;color:#7B6B64;font-weight:700}
+  .cols p{margin:0;font-weight:700}
+  table{width:100%;border-collapse:collapse;margin-bottom:8px}
+  th{text-align:left;font-size:.8rem;color:#7B6B64;font-weight:700;border-bottom:1px solid #F5E6DB;padding:8px 0}
+  td{padding:12px 0;border-bottom:1px solid #F5E6DB}
+  td.r,th.r{text-align:right}
+  .total{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 28px;font-weight:800}
+  .total span:last-child{font-size:1.6rem;color:#F67F1C}
+  .pay h2{font-size:1rem;margin:0 0 6px}
+  .pay ul{margin:0;padding-left:1.1rem}
+  .pay a{color:#3E2119;word-break:break-all}
+  .thanks{margin-top:28px;color:#7B6B64;font-size:.9rem}
+  .actions{max-width:720px;margin:16px auto 0;text-align:center}
+  .actions button{background:#F67F1C;color:#FBFBFA;border:0;border-radius:10px;padding:14px 24px;font:800 1rem inherit;font-family:inherit;cursor:pointer}
+  @media(max-width:520px){.cols{grid-template-columns:1fr}}
+  @media print{body{background:#fff;padding:0}.sheet{border:0;border-top:6px solid #F67F1C;border-radius:0}.actions{display:none}}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <h1>${escapeHtml(t("invDocTitle"))}</h1>
+    <p class="meta">${escapeHtml(t("invDocNumber"))} ${number} · ${escapeHtml(t("invDocDate"))}: ${escapeHtml(issued)}${dueText ? " · " + escapeHtml(t("invDocDue")) + ": " + escapeHtml(dueText) : ""}</p>
+ 
+    <div class="cols">
+      <div>
+        <h2>${escapeHtml(t("invDocFrom"))}</h2>
+        <p>${escapeHtml(from || "—")}</p>
+      </div>
+      <div>
+        <h2>${escapeHtml(t("invDocBillTo"))}</h2>
+        <p>${escapeHtml(client)}</p>
+      </div>
+    </div>
+ 
+    <table>
+      <thead>
+        <tr><th>${escapeHtml(t("invDocDescription"))}</th><th class="r">${escapeHtml(t("invDocTotal"))}</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>${escapeHtml(concept)}</td><td class="r">$${fmt2(amount)}</td></tr>
+      </tbody>
+    </table>
+ 
+    <div class="total"><span>${escapeHtml(t("invDocTotal"))}</span><span>$${fmt2(amount)}</span></div>
+ 
+    <div class="pay">
+      <h2>${escapeHtml(t("invDocHowToPay"))}</h2>
+      ${payHtml}
+    </div>
+ 
+    <p class="thanks">${escapeHtml(t("invDocThanks"))}</p>
+  </div>
+ 
+  <div class="actions">
+    <button type="button" onclick="window.print()">${escapeHtml(t("invDocPrint"))}</button>
+  </div>
+</body>
+</html>`;
+ 
+        const invoiceWindow = window.open("", "_blank");
+ 
+        if (!invoiceWindow) {
+          errorBox.textContent = t("invPopup");
+          errorBox.style.display = "block";
+          return;
+        }
+ 
+        invoiceWindow.document.open();
+        invoiceWindow.document.write(html);
+        invoiceWindow.document.close();
+        invoiceWindow.focus();
+      }
+ 
+      $("invGo").addEventListener("click", createInvoice);
+ 
+ 
+      /* -----------------------------------------------------
+         14c. WHAT-IF SIMULATOR AND REAL HOURLY RATE
+         Pure arithmetic on the numbers already entered.
+      ------------------------------------------------------ */
+ 
+      const sim = { lose: false, raise: 10, collect: 100 };
+ 
+      function money(value) {
+        const rounded = Math.round(value);
+        return (rounded < 0 ? "-" : "") + "$" + formatNumber(Math.abs(rounded));
+      }
+ 
+      function percentText(value) {
+        return value === null ? "—" : value.toFixed(0) + "%";
+      }
+ 
+      function updateSimulator() {
+        if (!lastResult) return;
+ 
+        const income = lastResult.income;
+        const costs = lastResult.costs;
+        const topClient = lastResult.topClient;
+        const overdue = lastResult.overdueTotal;
+ 
+        const canLose = topClient > 0;
+        const canCollect = overdue > 0;
+ 
+        if (!canLose) {
+          sim.lose = false;
+          $("simLose").checked = false;
+        }
+ 
+        $("simLose").disabled = !canLose;
+        $("simCollect").disabled = !canCollect;
+ 
+        $("simLoseHint").textContent = canLose
+          ? t("simLoseInfo")(money(topClient))
+          : t("simLoseNeed");
+ 
+        $("simCollectHint").textContent = canCollect
+          ? t("simCollectInfo")(money(overdue * sim.collect / 100))
+          : t("simCollectNeed");
+ 
+        $("simRaiseVal").textContent = sim.raise + "%";
+        $("simCollectVal").textContent = sim.collect + "%";
+ 
+        const incomeAfter = (income - (sim.lose ? topClient : 0)) * (1 + sim.raise / 100);
+        const profitBefore = income - costs;
+        const profitAfter = incomeAfter - costs;
+ 
+        const marginBefore = lastResult.margin;
+        const marginAfter = incomeAfter > 0 ? (profitAfter / incomeAfter) * 100 : null;
+ 
+        const receivablesBefore = lastResult.receivables;
+        const receivablesAfter = incomeAfter > 0
+          ? (overdue * (1 - (canCollect ? sim.collect : 0) / 100) / incomeAfter) * 100
+          : null;
+ 
+        const row = function (label, before, after, status) {
+          return `
+            <div class="vrow">
+              <span>${label}</span>
+              <span class="mut">${before}</span>
+              <span class="mut" aria-hidden="true">→</span>
+              <b class="${status}">${after}</b>
+            </div>
+          `;
+        };
+ 
+        $("simRows").innerHTML =
+          row(t("simRowIncome"), money(income), money(incomeAfter), "") +
+          row(t("simRowProfit"), money(profitBefore), money(profitAfter), profitAfter < 0 ? "bad" : "") +
+          row(
+            t("simRowMargin"),
+            percentText(marginBefore),
+            percentText(marginAfter),
+            marginAfter === null ? "bad" : cls(marginAfter, 30, 15)
+          ) +
+          row(
+            t("simRowReceivables"),
+            percentText(receivablesBefore),
+            percentText(receivablesAfter),
+            receivablesAfter === null ? "" : cls(receivablesAfter, 15, 30, true)
+          );
+ 
+        const unchanged =
+          !sim.lose && sim.raise === 0 && (!canCollect || sim.collect === 0);
+ 
+        if (incomeAfter <= 0) {
+          $("simSummary").textContent = t("simSummaryNoIncome");
+        } else if (unchanged) {
+          $("simSummary").textContent = t("simSummaryNoChange");
+        } else {
+          $("simSummary").textContent = t("simSummary")(
+            marginBefore.toFixed(0),
+            marginAfter.toFixed(0),
+            money(profitBefore),
+            money(profitAfter)
+          );
+        }
+      }
+ 
+      $("simLose").addEventListener("change", function (event) {
+        sim.lose = event.target.checked;
+        updateSimulator();
+      });
+ 
+      $("simRaise").addEventListener("input", function (event) {
+        sim.raise = Number(event.target.value) || 0;
+        updateSimulator();
+      });
+ 
+      $("simCollect").addEventListener("input", function (event) {
+        sim.collect = Number(event.target.value) || 0;
+        updateSimulator();
+      });
+ 
+      function updateRate() {
+        if (!lastResult) return;
+ 
+        const income = lastResult.income;
+        const costs = lastResult.costs;
+        const billed = lastResult.billedHours;
+        const available = lastResult.availableHours;
+ 
+        if (billed <= 0 || available <= 0) {
+          $("rateOut").innerHTML = `<p class="mut" style="margin:0">${t("rateNeedHours")}</p>`;
+          $("rateGoalBox").hidden = true;
+          return;
+        }
+ 
+        $("rateGoalBox").hidden = false;
+ 
+        const charged = income / billed;
+        const kept = (income - costs) / available;
+        const breakeven = costs / billed;
+ 
+        const hourly = function (value) {
+          return (value < 0 ? "-" : "") + "$" + fmt2(Math.abs(value));
+        };
+ 
+        const keptStatus = cls((kept / charged) * 100, 30, 15);
+ 
+        $("rateOut").innerHTML = `
+          <div class="vrow2">
+            <span>${t("rateCharged")}</span>
+            <span class="v">${hourly(charged)}</span>
+          </div>
+ 
+          <div class="vrow2">
+            <span>${t("rateKept")}</span>
+            <span class="v ${keptStatus}">${hourly(kept)}</span>
+          </div>
+ 
+          <div class="vrow2">
+            <span>${t("rateBreakeven")}</span>
+            <span class="v">${hourly(breakeven)}</span>
+          </div>
+ 
+          <p class="mut" style="margin:4px 0 12px;font-size:.85rem">${t("rateBreakevenHint")}</p>
+ 
+          <p class="tip" style="margin:0">
+            ${kept >= 0
+              ? t("rateSummaryGain")(hourly(charged), hourly(kept))
+              : t("rateSummaryLoss")(hourly(charged), hourly(Math.abs(kept)))}
+          </p>
+        `;
+ 
+        const goal = Number($("rateGoal").value) || 0;
+        const goalBox = $("rateGoalOut");
+ 
+        if (goal <= 0) {
+          goalBox.innerHTML = `<p class="mut" style="margin:0">${t("rateGoalEmpty")}</p>`;
+          return;
+        }
+ 
+        const needed = goal + costs;
+        const rise = needed / income - 1;
+ 
+        if (rise <= 0) {
+          goalBox.innerHTML = `<p class="tip">${t("rateGoalReached")(money(income - costs))}</p>`;
+          return;
+        }
+ 
+        let html = `<p class="tip">${t("rateGoalRate")(
+          money(goal),
+          hourly(needed / billed),
+          Math.ceil(rise * 100)
+        )}</p>`;
+ 
+        const hoursNeeded = (billed * needed) / income;
+ 
+        html += hoursNeeded <= available
+          ? `<p class="tip">${t("rateGoalHours")(
+              Math.ceil(hoursNeeded),
+              formatNumber(available)
+            )}</p>`
+          : `<p class="tip">${t("rateGoalHoursNo")(hourly(needed / available))}</p>`;
+ 
+        goalBox.innerHTML = html;
+      }
+ 
+      $("rateGoal").addEventListener("input", updateRate);
+ 
+ 
       /* -----------------------------------------------------
          15. INITIALIZATION
       ------------------------------------------------------ */
-
+ 
       document.addEventListener("focusin", function (event) {
         if (event.target.type === "number") {
           event.target.select();
         }
       });
-
+ 
+      loadPaymentProfile();
       applyLanguage(language, false);
-      setCustomerType(customerType);
       updateContactLinks();
-
+ 
     })();
   </script>
 </body>
 </html>
+ 
