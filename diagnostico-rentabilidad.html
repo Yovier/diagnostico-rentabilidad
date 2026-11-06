@@ -178,6 +178,33 @@ input:disabled{opacity:.45;cursor:not-allowed}
 .vrow2:first-child{border-top:0}
 .vrow2 .v{font-weight:800;font-size:1.2rem}
 .tip + .tip{margin-top:8px}
+
+
+/* Instagram / social in-app browser guidance */
+.ig-notice{
+  border:1px solid var(--ac);
+  border-radius:14px;
+  background:var(--soft);
+  color:var(--ink);
+  padding:14px 16px;
+  margin:0 0 16px;
+  box-shadow:var(--sh2);
+}
+.ig-notice[hidden]{display:none!important}
+.ig-notice-head{display:flex;align-items:flex-start;gap:10px}
+.ig-notice-symbol{flex:0 0 26px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ac);color:var(--on);font-weight:800}
+.ig-notice-copy{flex:1;min-width:0}
+.ig-notice-copy strong{display:block;font-size:.96rem;line-height:1.35}
+.ig-notice-copy p{margin:5px 0 0;color:var(--mut);font-size:.88rem}
+.ig-notice-close{flex:0 0 32px;width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:var(--mut);font:700 1.35rem/1 inherit;font-family:inherit;cursor:pointer}
+.ig-notice-close:hover{background:var(--card)}
+.ig-notice details{margin:10px 0 0 36px}
+.ig-notice summary{color:var(--ac);font-size:.88rem;font-weight:800;cursor:pointer}
+.ig-notice-instructions{white-space:pre-line;color:var(--mut);font-size:.86rem;margin:7px 0 0}
+.ig-notice-actions{display:flex;justify-content:flex-end;margin:12px 0 0 36px}
+.ig-notice-dismiss{border:0;border-radius:9px;padding:9px 14px;background:var(--ac);color:var(--on);font:800 .88rem inherit;font-family:inherit;cursor:pointer}
+.ig-notice-dismiss:focus-visible,.ig-notice-close:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+@media(max-width:420px){.ig-notice{padding:12px}.ig-notice-actions{margin-left:0}.ig-notice details{margin-left:36px}}
 </style>
 
 <script>
@@ -194,6 +221,25 @@ try {
 
 <body>
   <main>
+
+    <section class="ig-notice" id="igBrowserNotice" hidden role="status" aria-live="polite" aria-labelledby="igNoticeTitle">
+      <div class="ig-notice-head">
+        <span class="ig-notice-symbol" aria-hidden="true">i</span>
+        <div class="ig-notice-copy">
+          <strong id="igNoticeTitle">Estás probando QuantiQ desde Instagram</strong>
+          <p id="igNoticeText">Puedes explorar el diagnóstico aquí. Para escanear recibos, abre QuantiQ en Safari o Chrome; el navegador interno de algunas redes sociales puede limitar esa función.</p>
+        </div>
+        <button class="ig-notice-close" id="igNoticeClose" type="button" aria-label="Cerrar aviso">×</button>
+      </div>
+      <details>
+        <summary id="igNoticeSummary">Cómo abrir QuantiQ en tu navegador</summary>
+        <p class="ig-notice-instructions" id="igNoticeInstructions">iPhone: toca los tres puntos (···) y selecciona «Abrir en Safari».
+Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en navegador externo».</p>
+      </details>
+      <div class="ig-notice-actions">
+        <button class="ig-notice-dismiss" id="igNoticeDismiss" type="button">Entendido, seguir probando</button>
+      </div>
+    </section>
     <!-- Diagnostic introduction -->
     <header class="ban">
       <div class="banner-controls">
@@ -3218,5 +3264,80 @@ try {
 
     })();
   </script>
+
+<script>
+(function () {
+  "use strict";
+
+  const notice = document.getElementById("igBrowserNotice");
+  if (!notice) return;
+
+  // Instagram, Facebook, Messenger, Threads and TikTok may open links
+  // in an embedded browser with different OCR/WebAssembly support.
+  const userAgent = navigator.userAgent || "";
+  const inSocialWebView = /(Instagram|FBAN|FBAV|FB_IAB|FB4A|Messenger|Threads|TikTok)/i.test(userAgent);
+  if (!inSocialWebView) return;
+
+  try {
+    if (sessionStorage.getItem("quantiq-social-notice-dismissed") === "1") return;
+  } catch (error) {
+    // The notice still works if session storage is unavailable.
+  }
+
+  const translations = {
+    es: {
+      title: "Estás probando QuantiQ desde una red social",
+      message: "Puedes explorar el diagnóstico y sus herramientas aquí. Para escanear recibos, abre QuantiQ en Safari (iPhone) o Chrome (Android), porque el navegador interno de algunas redes sociales puede limitar esa función.",
+      summary: "Cómo abrir QuantiQ en tu navegador",
+      instructions: "iPhone: toca los tres puntos (···) y selecciona «Abrir en Safari».\nAndroid: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en navegador externo».",
+      dismiss: "Entendido, seguir probando",
+      close: "Cerrar aviso"
+    },
+    en: {
+      title: "You are trying QuantiQ from a social app",
+      message: "You can explore the diagnostic and its tools here. To scan receipts, open QuantiQ in Safari (iPhone) or Chrome (Android), because some social apps' built-in browsers may restrict this feature.",
+      summary: "How to open QuantiQ in your browser",
+      instructions: "iPhone: tap the three dots (···) and choose “Open in Safari”.\nAndroid: open the menu (⋮) and choose “Open in Chrome” or “Open in external browser”.",
+      dismiss: "Got it, continue exploring",
+      close: "Close notice"
+    }
+  };
+
+  function refreshNoticeLanguage() {
+    const lang = (document.documentElement.lang || "es").toLowerCase().startsWith("en") ? "en" : "es";
+    const copy = translations[lang];
+    document.getElementById("igNoticeTitle").textContent = copy.title;
+    document.getElementById("igNoticeText").textContent = copy.message;
+    document.getElementById("igNoticeSummary").textContent = copy.summary;
+    document.getElementById("igNoticeInstructions").textContent = copy.instructions;
+    document.getElementById("igNoticeDismiss").textContent = copy.dismiss;
+    document.getElementById("igNoticeClose").setAttribute("aria-label", copy.close);
+  }
+
+  function dismissNotice() {
+    notice.hidden = true;
+    try {
+      sessionStorage.setItem("quantiq-social-notice-dismissed", "1");
+    } catch (error) {
+      // Dismiss for the current page view even without storage.
+    }
+  }
+
+  refreshNoticeLanguage();
+  notice.hidden = false;
+
+  document.getElementById("igNoticeClose").addEventListener("click", dismissNotice);
+  document.getElementById("igNoticeDismiss").addEventListener("click", dismissNotice);
+
+  // Follow the app's ES/EN selector without coupling this notice to its internals.
+  ["langEs", "langEn"].forEach(function (id) {
+    const button = document.getElementById(id);
+    if (button) button.addEventListener("click", function () {
+      window.setTimeout(refreshNoticeLanguage, 0);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
