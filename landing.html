@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>¿Cuánto ganas realmente? | Diagnóstico de rentabilidad</title>
 <meta name="description" content="Escribe los números de tu último mes y descubre cuánto te queda, cuánto te deben y qué tanto dependes de un solo cliente.">
-
+ 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-
+ 
 <style>
-
+ 
 :root{
   --bg:#2a1610;
   --ink:#fbfbfa;
@@ -26,7 +25,7 @@
   --cream-strong:#ecc9b2;
   --border-accent:#cda992;
 }
-
+ 
 @media (prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
     --bg:#2a1610;
@@ -44,7 +43,7 @@
     --border-accent:#cda992;
   }
 }
-
+ 
 :root[data-theme="light"]{
   --bg:#fbfbfa;
   --ink:#2a1610;
@@ -60,7 +59,7 @@
   --cream-strong:#ecc9b2;
   --border-accent:#cda992;
 }
-
+ 
 .tg{
   position:fixed;
   top:calc(env(safe-area-inset-top,0px) + 12px);
@@ -75,20 +74,20 @@
   cursor:pointer;
   z-index:10;
 }
-
+ 
 .tg:focus-visible{
   outline:3px solid var(--accent);
   outline-offset:2px;
 }
-
+ 
 *{
   box-sizing:border-box;
 }
-
+ 
 html{
   scroll-padding-top:env(safe-area-inset-top,0px);
 }
-
+ 
 body{
   margin:0;
   background:var(--bg);
@@ -96,14 +95,14 @@ body{
   font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   line-height:1.6;
 }
-
+ 
 main{
   max-width:720px;
   margin:0 auto;
   padding:40px 24px max(56px,env(safe-area-inset-bottom));
   text-align:center;
 }
-
+ 
 h1{
   font-size:clamp(2.4rem,9vw,4rem);
   line-height:1.02;
@@ -111,24 +110,24 @@ h1{
   letter-spacing:-.04em;
   margin:0 0 20px;
 }
-
+ 
 h2{
   font-size:1.25rem;
   font-weight:800;
   letter-spacing:-.02em;
   margin:56px 0 8px;
 }
-
+ 
 p{
   margin:0 auto 16px;
   max-width:60ch;
 }
-
+ 
 .lead{
   font-size:1.15rem;
   color:var(--muted);
 }
-
+ 
 .cta{
   display:inline-block;
   padding:16px 32px;
@@ -139,26 +138,26 @@ p{
   font-size:1.05rem;
   text-decoration:none;
 }
-
+ 
 .cta:hover{
   background:var(--accent-strong);
 }
-
+ 
 .cta:focus-visible{
   outline:3px solid var(--ink);
   outline-offset:3px;
 }
-
+ 
 .small{
   font-size:.9rem;
   color:var(--muted);
   margin:12px auto 0;
 }
-
+ 
 .demo{
   margin:48px 0 0;
 }
-
+ 
 .bar{
   display:flex;
   height:56px;
@@ -167,7 +166,7 @@ p{
   border-radius:10px;
   overflow:hidden;
 }
-
+ 
 .bar span{
   display:flex;
   align-items:center;
@@ -176,31 +175,31 @@ p{
   font-size:.95rem;
   white-space:nowrap;
 }
-
+ 
 .bar .c{
   flex:72;
   background:var(--cost);
   color:var(--cream);
 }
-
+ 
 .bar .g{
   flex:28;
   background:var(--accent);
   color:var(--on-accent);
 }
-
+ 
 .demo p{
   font-size:.9rem;
   color:var(--muted);
   margin:10px auto 0;
 }
-
+ 
 .end{
   margin-top:56px;
   padding-top:40px;
   border-top:1px solid var(--line);
 }
-
+ 
 .banner{
   text-align:center;
   padding:max(
@@ -209,7 +208,7 @@ p{
   ) 24px 56px;
   border-radius:0 0 32px 32px;
   color:#fbfbfa;
-
+ 
   background:
     radial-gradient(
       640px 260px at 50% 0,
@@ -222,43 +221,43 @@ p{
       #2a1610 55%,
       #4a2c22 100%
     );
-
+ 
   box-shadow:
     0 18px 40px rgba(29,14,9,.35);
 }
-
+ 
 .bi{
   max-width:720px;
   margin:0 auto;
 }
-
+ 
 .banner h1{
   color:#fbfbfa;
   margin-bottom:16px;
 }
-
+ 
 .banner .lead{
   color:rgba(251,251,250,.9);
   margin-bottom:28px;
 }
-
+ 
 .banner .small{
   color:rgba(251,251,250,.78);
 }
-
+ 
 .banner .cta{
   background:#f67f1c;
   color:#2a1610;
 }
-
+ 
 .banner .cta:hover{
   background:#ff963d;
 }
-
+ 
 .banner .cta:focus-visible{
   outline-color:#fbfbfa;
 }
-
+ 
 .cards{
   list-style:none;
   display:grid;
@@ -266,13 +265,13 @@ p{
   margin:24px 0 0;
   padding:0;
 }
-
+ 
 @media (min-width:560px){
   .cards{
     grid-template-columns:repeat(2,1fr);
   }
 }
-
+ 
 .card{
   background:var(--surface);
   border:1px solid var(--line);
@@ -280,20 +279,20 @@ p{
   padding:26px 22px;
   box-shadow:0 12px 32px rgba(29,14,9,.22);
 }
-
+ 
 .card h3{
   font-size:1.05rem;
   font-weight:800;
   letter-spacing:-.01em;
   margin:16px 0 6px;
 }
-
+ 
 .card p{
   margin:0;
   font-size:.95rem;
   color:var(--muted);
 }
-
+ 
 .ic{
   display:grid;
   place-items:center;
@@ -304,7 +303,7 @@ p{
   color:var(--accent);
   background:rgba(246,127,28,.14);
 }
-
+ 
 .steps{
   list-style:none;
   counter-reset:s;
@@ -313,19 +312,19 @@ p{
   margin:40px 0 0;
   padding:0;
 }
-
+ 
 @media (min-width:640px){
   .steps{
     grid-template-columns:repeat(3,1fr);
   }
 }
-
+ 
 .steps li{
   counter-increment:s;
   position:relative;
   padding:34px 20px 24px;
 }
-
+ 
 .steps li::before{
   content:counter(s);
   position:absolute;
@@ -337,55 +336,55 @@ p{
   width:40px;
   height:40px;
   border-radius:50%;
-
+ 
   background:
     linear-gradient(
       135deg,
       #f67f1c,
       #c65d12
     );
-
+ 
   color:#2a1610;
   font-weight:800;
-
+ 
   box-shadow:
     0 8px 16px rgba(29,14,9,.35);
 }
-
+ 
 @media (prefers-reduced-motion:no-preference){
-
+ 
   .card{
     transition:
       transform .2s,
       box-shadow .2s,
       border-color .2s;
   }
-
+ 
   .card:hover{
     transform:translateY(-4px);
     border-color:var(--accent);
-
+ 
     box-shadow:
       0 18px 40px rgba(29,14,9,.3);
   }
 }
-
+ 
 @media (max-width:420px){
-
+ 
   .bar span{
     padding:0 10px;
     font-size:.8rem;
   }
 }
-
+ 
 @media (prefers-reduced-motion:no-preference){
-
+ 
   .cta{
     transition:background .2s;
   }
 }
-
-
+ 
+ 
 /* =========================================================
    LANGUAGE SWITCHER
 ========================================================= */
@@ -401,7 +400,7 @@ p{
   background: var(--surface);
   box-shadow: 0 6px 18px rgba(29, 14, 9, .12);
 }
-
+ 
 .language-switch button {
   min-height: 44px;
   padding: 0 12px;
@@ -413,24 +412,24 @@ p{
   font-family: inherit;
   cursor: pointer;
 }
-
+ 
 .language-switch button[aria-pressed="true"] {
   background: var(--accent);
   color: var(--on-accent);
 }
-
+ 
 @media (max-width: 360px) {
   .language-switch {
     right: 60px;
   }
-
+ 
   .language-switch button {
     padding: 0 9px;
   }
 }
-
+ 
 </style>
-
+ 
 <script>
 try{
   var t=localStorage.getItem("tema");
@@ -439,35 +438,35 @@ try{
   }
 }catch(e){}
 </script>
-
+ 
 </head>
-
-
+ 
+ 
 <body>
   <!-- Language and theme controls -->
   <div class="language-switch" role="group" aria-label="Language / Idioma">
     <button id="langEs" type="button" aria-pressed="true">ES</button>
     <button id="langEn" type="button" aria-pressed="false">EN</button>
   </div>
-
+ 
   <button
     class="tg"
     id="tg"
     type="button"
     aria-label="Cambiar entre modo claro y oscuro"
   ></button>
-
+ 
   <!-- Hero section -->
   <header class="banner">
     <div class="bi">
       <h1 id="heroTitle">¿Cuánto ganas realmente?</h1>
-
+ 
       <p class="lead" id="heroLead">
         Escribe los números de tu último mes y en un minuto
         sabrás cuánto te queda, cuánto te deben y qué tanto
         dependes de un solo cliente.
       </p>
-
+ 
       <a
         href="diagnostico-rentabilidad.html"
         class="cta"
@@ -475,13 +474,13 @@ try{
       >
         Hacer mi diagnóstico
       </a>
-
+ 
       <p class="small" id="heroSmall">
         Es gratis y no necesitas registrarte.
       </p>
     </div>
   </header>
-
+ 
   <main>
     <!-- Example financial breakdown -->
     <div
@@ -494,16 +493,16 @@ try{
         <span class="c" id="barCosts">Costos y gastos</span>
         <span class="g" id="barKeep">Te quedan</span>
       </div>
-
+ 
       <p id="demoCaption">
         Ejemplo: de cada $100 que cobras,
         $72 se van en costos y te quedan $28.
       </p>
     </div>
-
+ 
     <!-- Value proposition -->
     <h1 id="benefitsTitle">¿Qué vas a saber?</h1>
-
+ 
     <ul class="cards">
       <li class="card">
         <span class="ic">
@@ -522,14 +521,14 @@ try{
             <polyline points="15 7 21 7 21 13"/>
           </svg>
         </span>
-
+ 
         <h3 id="benefitMarginTitle">Tu margen</h3>
         <p id="benefitMarginText">
           ¿Cuánto de lo que cobras es ganancia
           después de costos y gastos?
         </p>
       </li>
-
+ 
       <li class="card">
         <span class="ic">
           <svg
@@ -547,14 +546,14 @@ try{
             <path d="M12 7v5l3 2"/>
           </svg>
         </span>
-
+ 
         <h3 id="benefitReceivablesTitle">Tu cartera vencida</h3>
         <p id="benefitReceivablesText">
           ¿Cuánto dinero tienes atrapado
           en pagos atrasados?
         </p>
       </li>
-
+ 
       <li class="card">
         <span class="ic">
           <svg
@@ -572,14 +571,14 @@ try{
             <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
           </svg>
         </span>
-
+ 
         <h3 id="benefitDependencyTitle">Tu dependencia de un cliente</h3>
         <p id="benefitDependencyText">
           ¿Qué pasaría con tus ingresos
           si tu mejor cliente se va?
         </p>
       </li>
-
+ 
       <li class="card">
         <span class="ic">
           <svg
@@ -599,18 +598,73 @@ try{
             <path d="M17 3c0 5-5 6-5 9s5 4 5 9"/>
           </svg>
         </span>
-
+ 
         <h3 id="benefitTimeTitle">El uso de tu tiempo</h3>
         <p id="benefitTimeText">
           ¿Cuántas de tus horas disponibles
           realmente facturas?
         </p>
       </li>
-    </ul>
-
+    
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 6.5v11"/>
+            <path d="M14.8 9.2c-.5-.9-1.5-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2s1 1.7 2.8 2.1c1.8.4 2.8.9 2.8 2.1s-1.2 2-2.8 2c-1.4 0-2.4-.6-2.9-1.5"/>
+          </svg>
+        </span>
+ 
+        <h3 id="benefitRateTitle">Tu tarifa real por hora</h3>
+        <p id="benefitRateText">
+          ¿Cuánto te queda por cada hora de tu tiempo
+          y qué tarifa necesitas para tu meta?
+        </p>
+      </li>
+ 
+      <li class="card">
+        <span class="ic">
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 7h10"/>
+            <path d="M18 7h2"/>
+            <circle cx="16" cy="7" r="2"/>
+            <path d="M4 17h2"/>
+            <path d="M10 17h10"/>
+            <circle cx="8" cy="17" r="2"/>
+          </svg>
+        </span>
+ 
+        <h3 id="benefitScenariosTitle">Tus escenarios</h3>
+        <p id="benefitScenariosText">
+          ¿Qué pasa con tu ganancia si pierdes a un cliente,
+          subes tus precios o cobras lo vencido?
+        </p>
+      </li>
+</ul>
+ 
     <!-- How it works -->
     <h1 id="stepsTitle">¿Cómo funciona?</h1>
-
+ 
     <ol class="steps">
       <li class="card">
         <h3 id="stepOneTitle" style="margin-top:0">
@@ -621,7 +675,7 @@ try{
           y horas del último mes.
         </p>
       </li>
-
+ 
       <li class="card">
         <h3 id="stepTwoTitle" style="margin-top:0">
           Recibe tu diagnóstico
@@ -631,7 +685,7 @@ try{
           y una calificación de salud financiera.
         </p>
       </li>
-
+ 
       <li class="card">
         <h3 id="stepThreeTitle" style="margin-top:0">
           Elige tu siguiente paso
@@ -642,14 +696,19 @@ try{
         </p>
       </li>
     </ol>
-
+ 
     <!-- Final call to action -->
     <div class="end">
+      <p class="lead" id="toolsLead">
+        Además puedes escanear tus recibos con la cámara, mandar
+        recordatorios de cobro por WhatsApp y crear facturas en PDF.
+      </p>
+ 
       <p class="lead" id="finalLead">
         Tus números se quedan en tu pantalla.
         Solo los envías si decides agendar una revisión.
       </p>
-
+ 
       <a
         class="cta"
         href="diagnostico-rentabilidad.html"
@@ -659,19 +718,19 @@ try{
       </a>
     </div>
   </main>
-
+ 
   <!-- Language and theme behavior -->
   <script>
     (function () {
       "use strict";
-
+ 
       const root = document.documentElement;
       const themeButton = document.getElementById("tg");
       const languageButtons = {
         es: document.getElementById("langEs"),
         en: document.getElementById("langEn")
       };
-
+ 
       const translations = {
         es: {
           title: "¿Cuánto ganas realmente? | Diagnóstico de rentabilidad",
@@ -695,6 +754,10 @@ try{
           dependencyText: "¿Qué pasaría con tus ingresos si tu mejor cliente se va?",
           timeTitle: "El uso de tu tiempo",
           timeText: "¿Cuántas de tus horas disponibles realmente facturas?",
+          rateTitle: "Tu tarifa real por hora",
+          rateText: "¿Cuánto te queda por cada hora de tu tiempo y qué tarifa necesitas para tu meta?",
+          scenariosTitle: "Tus escenarios",
+          scenariosText: "¿Qué pasa con tu ganancia si pierdes a un cliente, subes tus precios o cobras lo vencido?",
           stepsTitle: "¿Cómo funciona?",
           stepOneTitle: "Escribe tus números",
           stepOneText: "Ingresos, costos, pagos vencidos y horas del último mes.",
@@ -702,6 +765,7 @@ try{
           stepTwoText: "Verás tu margen, tu cartera y una calificación de salud financiera.",
           stepThreeTitle: "Elige tu siguiente paso",
           stepThreeText: "Revisa las soluciones sugeridas y el plan que mejor te queda.",
+          toolsLead: "Además puedes escanear tus recibos con la cámara, mandar recordatorios de cobro por WhatsApp y crear facturas en PDF.",
           finalLead: "Tus números se quedan en tu pantalla. Solo los envías si decides agendar una revisión."
         },
         en: {
@@ -726,6 +790,10 @@ try{
           dependencyText: "What would happen to your income if your biggest client left?",
           timeTitle: "How you use your time",
           timeText: "How many of your available hours do you actually bill?",
+          rateTitle: "Your real hourly rate",
+          rateText: "How much do you keep for every hour of your time, and what rate do you need to reach your goal?",
+          scenariosTitle: "Your scenarios",
+          scenariosText: "What happens to your profit if you lose a client, raise your prices, or collect what is overdue?",
           stepsTitle: "How does it work?",
           stepOneTitle: "Enter your numbers",
           stepOneText: "Income, costs, overdue payments, and hours from the last month.",
@@ -733,10 +801,11 @@ try{
           stepTwoText: "See your margin, receivables, and a financial health score.",
           stepThreeTitle: "Choose your next step",
           stepThreeText: "Review suggested solutions and the plan that best fits your needs.",
+          toolsLead: "You can also scan your receipts with your camera, send payment reminders on WhatsApp, and create PDF invoices.",
           finalLead: "Your numbers stay on your screen. You only share them if you decide to schedule a review."
         }
       };
-
+ 
       function getLanguage() {
         try {
           const saved = localStorage.getItem("lang");
@@ -746,15 +815,15 @@ try{
         }
         return (navigator.language || "").toLowerCase().startsWith("en") ? "en" : "es";
       }
-
+ 
       let currentLanguage = getLanguage();
-
+ 
       function isDarkMode() {
         const setting = root.getAttribute("data-theme");
         if (setting) return setting === "dark";
         return window.matchMedia("(prefers-color-scheme: dark)").matches;
       }
-
+ 
       function updateThemeButton() {
         const dark = isDarkMode();
         themeButton.textContent = dark ? "☀" : "☾";
@@ -763,17 +832,17 @@ try{
           translations[currentLanguage][dark ? "themeLight" : "themeDark"]
         );
       }
-
+ 
       function applyLanguage(language, persist = true) {
         currentLanguage = language;
         const text = translations[language];
-
+ 
         root.lang = language;
         document.title = text.title;
-
+ 
         const description = document.querySelector('meta[name="description"]');
         if (description) description.setAttribute("content", text.description);
-
+ 
         const ids = {
           heroTitle: text.heroTitle,
           heroLead: text.heroLead,
@@ -792,6 +861,10 @@ try{
           benefitDependencyText: text.dependencyText,
           benefitTimeTitle: text.timeTitle,
           benefitTimeText: text.timeText,
+          benefitRateTitle: text.rateTitle,
+          benefitRateText: text.rateText,
+          benefitScenariosTitle: text.scenariosTitle,
+          benefitScenariosText: text.scenariosText,
           stepsTitle: text.stepsTitle,
           stepOneTitle: text.stepOneTitle,
           stepOneText: text.stepOneText,
@@ -799,20 +872,21 @@ try{
           stepTwoText: text.stepTwoText,
           stepThreeTitle: text.stepThreeTitle,
           stepThreeText: text.stepThreeText,
+          toolsLead: text.toolsLead,
           finalLead: text.finalLead
         };
-
+ 
         Object.entries(ids).forEach(([id, value]) => {
           const element = document.getElementById(id);
           if (element) element.textContent = value;
         });
-
+ 
         document.getElementById("demoGraphic").setAttribute("aria-label", text.demoAria);
-
+ 
         Object.entries(languageButtons).forEach(([key, button]) => {
           button.setAttribute("aria-pressed", key === language ? "true" : "false");
         });
-
+ 
         if (persist) {
           try {
             localStorage.setItem("lang", language);
@@ -820,33 +894,36 @@ try{
             // Language remains active for this page session.
           }
         }
-
+ 
         updateThemeButton();
       }
-
+ 
       languageButtons.es.addEventListener("click", () => applyLanguage("es"));
       languageButtons.en.addEventListener("click", () => applyLanguage("en"));
-
+ 
       themeButton.addEventListener("click", () => {
         const nextTheme = isDarkMode() ? "light" : "dark";
         root.setAttribute("data-theme", nextTheme);
-
+ 
         try {
           localStorage.setItem("tema", nextTheme);
         } catch (error) {
           // Theme remains active for this page session.
         }
-
+ 
         updateThemeButton();
       });
-
+ 
       const darkPreference = window.matchMedia("(prefers-color-scheme: dark)");
       if (darkPreference.addEventListener) {
         darkPreference.addEventListener("change", updateThemeButton);
       }
-
+ 
       applyLanguage(currentLanguage, false);
     })();
   </script>
 </body>
 </html>
+ 
+</html>
+ 
