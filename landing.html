@@ -896,6 +896,104 @@ p{
   clip-path:inset(0 round 20px 20px 0 0);
 }
 
+
+
+/* =========================================================
+   TOUCH FEEDBACK — keep the glass/orange glow while pressed
+   on phones and tablets, not only on hover-capable devices.
+========================================================= */
+.card:active,
+.card.is-pressed{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.42),transparent 40%),
+    linear-gradient(145deg,rgba(255,153,61,.98),rgba(255,105,0,.98) 58%,rgba(232,67,0,.98));
+  border-color:rgba(255,224,193,.95);
+  color:#2a1610;
+  box-shadow:
+    0 20px 44px rgba(255,91,0,.34),
+    0 0 0 1px rgba(255,153,61,.34),
+    inset 0 1px 0 rgba(255,255,255,.72);
+  transform:translateY(-2px) scale(.995);
+}
+
+.card:active h3,
+.card:active p,
+.card.is-pressed h3,
+.card.is-pressed p{
+  color:#2a1610;
+}
+
+.card:active .ic,
+.card.is-pressed .ic{
+  color:#2a1610;
+  border-color:rgba(255,255,255,.78);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.76),rgba(255,255,255,.24)),
+    linear-gradient(135deg,rgba(255,255,255,.25),rgba(255,255,255,.06));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 8px 22px rgba(111,42,0,.2);
+}
+
+.card:active::after,
+.card.is-pressed::after{
+  opacity:.9;
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0));
+}
+
+.steps li:active::before,
+.steps li.is-pressed::before{
+  box-shadow:
+    0 0 0 5px rgba(255,105,0,.18),
+    0 12px 26px rgba(255,91,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.88);
+}
+
+.cta:active,
+.cta.is-pressed,
+.banner .cta:active,
+.banner .cta.is-pressed{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.48),transparent 42%),
+    linear-gradient(145deg,#ffad52 0%,#ff790f 48%,#ff4c00 100%);
+  border-color:rgba(255,232,211,.98);
+  color:#2a1610;
+  box-shadow:
+    0 0 24px rgba(255,105,0,.4),
+    0 14px 30px rgba(255,91,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.84);
+  transform:translateY(-2px) scale(.99);
+}
+
+.language-switch button:active,
+.language-switch button.is-pressed,
+.tg:active,
+.tg.is-pressed{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.42),transparent 42%),
+    linear-gradient(145deg,#ffad52 0%,#ff6900 58%,#ff4c00 100%);
+  border-color:rgba(255,232,211,.98);
+  color:#2a1610;
+  box-shadow:
+    0 0 22px rgba(255,105,0,.36),
+    0 10px 24px rgba(255,91,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.84);
+  transform:translateY(-2px) scale(.98);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .card:active,
+  .card.is-pressed,
+  .cta:active,
+  .cta.is-pressed,
+  .language-switch button:active,
+  .language-switch button.is-pressed,
+  .tg:active,
+  .tg.is-pressed{
+    transform:none !important;
+  }
+}
+
 </style>
 
 <script>
@@ -1394,5 +1492,42 @@ try{
       applyLanguage(currentLanguage, false);
     })();
   </script>
+
+<script>
+/* Add a reliable pressed state for touchscreens. The class is removed
+   on release/cancel, so normal navigation and control actions are unchanged. */
+(function () {
+  "use strict";
+  const pressableSelector = ".card, .cta, .language-switch button, .tg";
+  let pressedElement = null;
+
+  function getPressable(target) {
+    const element = target instanceof Element ? target : target && target.parentElement;
+    return element ? element.closest(pressableSelector) : null;
+  }
+
+  document.addEventListener("pointerdown", function (event) {
+    if (event.pointerType === "mouse") return;
+    const element = getPressable(event.target);
+    if (!element) return;
+    if (pressedElement && pressedElement !== element) {
+      pressedElement.classList.remove("is-pressed");
+    }
+    pressedElement = element;
+    pressedElement.classList.add("is-pressed");
+  }, { passive: true });
+
+  function clearPressedState() {
+    if (!pressedElement) return;
+    pressedElement.classList.remove("is-pressed");
+    pressedElement = null;
+  }
+
+  window.addEventListener("pointerup", clearPressedState, { passive: true });
+  window.addEventListener("pointercancel", clearPressedState, { passive: true });
+  window.addEventListener("blur", clearPressedState);
+})();
+</script>
+
 </body>
 </html>
