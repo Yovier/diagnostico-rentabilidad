@@ -315,7 +315,7 @@ p{
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:20px;
-  padding:26px 22px;
+  padding:21px 18px;
   box-shadow:0 12px 32px rgba(29,14,9,.22);
 }
 
@@ -323,7 +323,7 @@ p{
   font-size:1.05rem;
   font-weight:800;
   letter-spacing:-.01em;
-  margin:16px 0 6px;
+  margin:12px 0 5px;
 }
 
 .card p{
@@ -335,8 +335,8 @@ p{
 .ic{
   display:grid;
   place-items:center;
-  width:52px;
-  height:52px;
+  width:48px;
+  height:48px;
   margin:0 auto;
   border-radius:16px;
   color:var(--accent);
@@ -347,8 +347,8 @@ p{
   list-style:none;
   counter-reset:s;
   display:grid;
-  gap:34px 16px;
-  margin:40px 0 0;
+  gap:29px 14px;
+  margin:38px 0 0;
   padding:0;
 }
 
@@ -361,7 +361,7 @@ p{
 .steps li{
   counter-increment:s;
   position:relative;
-  padding:34px 20px 24px;
+  padding:30px 18px 20px;
 }
 
 .steps li::before{
@@ -423,6 +423,21 @@ p{
   }
 }
 
+
+
+/* Prevent accidental text highlighting while tapping glass cards and controls.
+   This does not affect normal text selection elsewhere on the page. */
+.card,
+.card *,
+.cta,
+.language-switch,
+.language-switch *,
+.tg {
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
+}
 
 /* =========================================================
    LANGUAGE SWITCHER
@@ -910,9 +925,10 @@ p{
   border-color:rgba(255,224,193,.95);
   color:#2a1610;
   box-shadow:
-    0 20px 44px rgba(255,91,0,.34),
-    0 0 0 1px rgba(255,153,61,.34),
-    inset 0 1px 0 rgba(255,255,255,.72);
+    0 0 0 1px rgba(255,153,61,.42),
+    0 0 30px rgba(255,105,0,.46),
+    0 14px 32px rgba(255,91,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.84);
   transform:translateY(-2px) scale(.995);
 }
 
@@ -996,78 +1012,7 @@ p{
 
 
 
-/* =========================================================
-   PERSISTENT ORANGE SELECTION — click/tap stays illuminated
-========================================================= */
-.card.is-selected {
-  background:
-    linear-gradient(135deg,rgba(255,255,255,.42),transparent 40%),
-    linear-gradient(145deg,rgba(255,153,61,.98),rgba(255,105,0,.98) 58%,rgba(232,67,0,.98));
-  border-color:rgba(255,224,193,.98);
-  color:#2a1610;
-  box-shadow:
-    0 20px 44px rgba(255,91,0,.36),
-    0 0 0 1px rgba(255,153,61,.38),
-    0 0 26px rgba(255,105,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.78);
-}
-
-.card.is-selected h3,
-.card.is-selected p {
-  color:#2a1610;
-}
-
-.card.is-selected .ic {
-  color:#2a1610;
-  border-color:rgba(255,255,255,.82);
-  background:
-    linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,.26)),
-    linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.08));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.92),
-    0 8px 22px rgba(111,42,0,.22);
-}
-
-.card.is-selected::after {
-  opacity:.95;
-  background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0));
-}
-
-.steps li.is-selected::before {
-  box-shadow:
-    0 0 0 5px rgba(255,105,0,.2),
-    0 12px 28px rgba(255,91,0,.42),
-    inset 0 1px 0 rgba(255,255,255,.9);
-}
-
-.cta.is-selected,
-.banner .cta.is-selected,
-.tg.is-selected,
-.language-switch button[aria-pressed="true"] {
-  background:
-    linear-gradient(135deg,rgba(255,255,255,.48),transparent 42%),
-    linear-gradient(145deg,#ffad52 0%,#ff790f 48%,#ff4c00 100%);
-  border-color:rgba(255,232,211,.98);
-  color:#2a1610;
-  box-shadow:
-    0 0 24px rgba(255,105,0,.4),
-    0 12px 28px rgba(255,91,0,.34),
-    inset 0 1px 0 rgba(255,255,255,.86);
-}
-
-/* Keep the currently chosen language clearly orange in both themes. */
-.language-switch button[aria-pressed="true"] {
-  transform:translateY(-1px);
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .card.is-selected,
-  .cta.is-selected,
-  .tg.is-selected,
-  .language-switch button[aria-pressed="true"] {
-    transform:none !important;
-  }
-}
+/* Selection feedback is temporary: cards and controls glow only while pressed. */
 
 
 /* =========================================================
@@ -1075,7 +1020,6 @@ p{
    "What will you discover?" card when it is activated.
    Keep its orange selected state, but use a clean glass fill.
 ========================================================= */
-.cards > .card:first-child.is-selected,
 .cards > .card:first-child.is-pressed,
 .cards > .card:first-child:active{
   background:linear-gradient(
@@ -1086,12 +1030,195 @@ p{
   );
 }
 
-.cards > .card:first-child.is-selected::after,
 .cards > .card:first-child.is-pressed::after,
 .cards > .card:first-child:active::after{
   opacity:0;
   height:0;
   background:none;
+}
+
+
+
+/* FIX DEFINITIVO: elimina la capa de reflejo que dibuja una línea
+   horizontal en la primera tarjeta de "Qué vas a saber". */
+.cards > .card:first-child::after {
+  content: none !important;
+  display: none !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+
+/* =========================================================
+   FINAL TOUCH REFINEMENT — slimmer cards + unmistakable orange
+   The whole card surface turns orange while it is being pressed.
+========================================================= */
+.cards > .card {
+  padding:21px 18px;
+}
+
+.cards > .card .ic {
+  width:48px;
+  height:48px;
+}
+
+.cards > .card h3 {
+  margin:12px 0 5px;
+}
+
+.steps > .card {
+  padding:30px 18px 20px;
+}
+
+.card:active,
+.card.is-pressed {
+  background-color:#ff6900 !important;
+  background-image:linear-gradient(145deg,#ffb45f 0%,#ff790f 42%,#ff6900 68%,#ed4500 100%) !important;
+  border-color:rgba(255,239,222,.98) !important;
+  color:#2a1610 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,180,95,.7),
+    0 0 34px rgba(255,105,0,.62),
+    0 16px 36px rgba(255,79,0,.48),
+    inset 0 1px 0 rgba(255,255,255,.78) !important;
+  -webkit-filter:saturate(1.16);
+  filter:saturate(1.16);
+  transform:translateY(-2px) scale(.995);
+}
+
+/* Remove the frosted white overlay while pressed so it cannot mute the fill. */
+.card:active::after,
+.card.is-pressed::after {
+  display:none !important;
+  content:none !important;
+  opacity:0 !important;
+  background:none !important;
+}
+
+.card:active h3,
+.card:active p,
+.card.is-pressed h3,
+.card.is-pressed p {
+  color:#2a1610 !important;
+}
+
+.card:active .ic,
+.card.is-pressed .ic {
+  background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,.24)) !important;
+  color:#2a1610 !important;
+  border-color:rgba(255,255,255,.82) !important;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .card:active,
+  .card.is-pressed {
+    transform:none !important;
+  }
+}
+
+
+
+/* =========================================================
+   ILLUMINATED CARD BACKGROUND — warm liquid-glass spotlight
+   This lights the card's full surface while it is pressed,
+   without adding a reflective stripe or overlay layer.
+========================================================= */
+.card:active,
+.card.is-pressed {
+  background-color:#ff6900 !important;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,226,177,.48) 0%, rgba(255,190,112,.20) 34%, transparent 66%),
+    radial-gradient(ellipse at 100% 100%, rgba(255,91,0,.48) 0%, transparent 55%),
+    linear-gradient(145deg, #ffb968 0%, #ff8a24 38%, #ff6900 70%, #e94700 100%) !important;
+  background-blend-mode:screen,normal,normal;
+  box-shadow:
+    0 0 0 1px rgba(255,190,112,.78),
+    0 0 38px rgba(255,105,0,.70),
+    0 18px 38px rgba(255,79,0,.50),
+    inset 0 0 30px rgba(255,213,153,.26),
+    inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+/* Keep the first benefit card free of any reflective pseudo-element. */
+.cards > .card:first-child:active::after,
+.cards > .card:first-child.is-pressed::after {
+  display:none !important;
+  content:none !important;
+  opacity:0 !important;
+  background:none !important;
+}
+
+
+
+/* =========================================================
+   UNIFIED CARD GLOW — same vivid orange illumination as CTAs
+   Applies on desktop hover and while the card is pressed on touch.
+   No reflective pseudo-layer is used, preventing the old white stripe.
+========================================================= */
+.card:hover,
+.card:active,
+.card.is-pressed {
+  background-color:#ff6900 !important;
+  background-image:linear-gradient(145deg,#ffad52 0%,#ff790f 48%,#ff4c00 100%) !important;
+  background-blend-mode:normal !important;
+  border-color:rgba(255,232,211,.98) !important;
+  color:#2a1610 !important;
+  box-shadow:
+    0 20px 44px rgba(255,91,0,.38),
+    0 0 0 1px rgba(255,153,61,.38),
+    0 0 26px rgba(255,105,0,.36),
+    inset 0 1px 0 rgba(255,255,255,.82) !important;
+  -webkit-filter:saturate(1.16);
+  filter:saturate(1.16);
+}
+
+.card:hover h3,
+.card:hover p,
+.card:active h3,
+.card:active p,
+.card.is-pressed h3,
+.card.is-pressed p {
+  color:#2a1610 !important;
+}
+
+/* The card fill itself provides the orange lighting; hide sheen layers
+   during interaction so no pale stripe can appear across the surface. */
+.card:hover::after,
+.card:active::after,
+.card.is-pressed::after {
+  display:none !important;
+  content:none !important;
+  opacity:0 !important;
+  background:none !important;
+}
+
+.card:hover .ic,
+.card:active .ic,
+.card.is-pressed .ic {
+  color:#2a1610 !important;
+  border-color:rgba(255,255,255,.82) !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,.24)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 8px 22px rgba(111,42,0,.2) !important;
+}
+
+.steps li:hover::before,
+.steps li:active::before,
+.steps li.is-pressed::before {
+  box-shadow:
+    0 0 0 5px rgba(255,105,0,.2),
+    0 12px 26px rgba(255,91,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.88) !important;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .card:hover,
+  .card:active,
+  .card.is-pressed {
+    transform:none !important;
+  }
 }
 
 </style>
@@ -1594,8 +1721,8 @@ try{
   </script>
 
 <script>
-/* Touch feedback plus a persistent selected state after click/tap.
-   Cards can be tapped again to turn their orange selection off. */
+/* Temporary press feedback for touchscreens and pointer devices.
+   The class stays on only while the finger/button is held down. */
 (function () {
   "use strict";
   const pressableSelector = ".card, .cta, .language-switch button, .tg";
@@ -1606,16 +1733,15 @@ try{
     return element ? element.closest(pressableSelector) : null;
   }
 
-  document.addEventListener("pointerdown", function (event) {
-    if (event.pointerType === "mouse") return;
-    const element = getPressable(event.target);
+  function setPressed(target) {
+    const element = getPressable(target);
     if (!element) return;
     if (pressedElement && pressedElement !== element) {
       pressedElement.classList.remove("is-pressed");
     }
     pressedElement = element;
     pressedElement.classList.add("is-pressed");
-  }, { passive: true });
+  }
 
   function clearPressedState() {
     if (!pressedElement) return;
@@ -1623,21 +1749,27 @@ try{
     pressedElement = null;
   }
 
+  /* Pointer Events are used by modern Safari, Chrome and desktop browsers. */
+  document.addEventListener("pointerdown", function (event) {
+    if (event.pointerType === "mouse") return;
+    setPressed(event.target);
+  }, { passive: true });
+
+  /* Touch Events provide a fallback for embedded/mobile browsers that do not
+     reliably keep :active or Pointer Events active during a long press. */
+  document.addEventListener("touchstart", function (event) {
+    if (event.changedTouches && event.changedTouches.length) {
+      setPressed(event.target);
+    }
+  }, { passive: true });
+
   window.addEventListener("pointerup", clearPressedState, { passive: true });
   window.addEventListener("pointercancel", clearPressedState, { passive: true });
+  window.addEventListener("touchend", clearPressedState, { passive: true });
+  window.addEventListener("touchcancel", clearPressedState, { passive: true });
   window.addEventListener("blur", clearPressedState);
-
-  document.addEventListener("click", function (event) {
-    const element = getPressable(event.target);
-    if (!element) return;
-
-    if (element.classList.contains("card")) {
-      element.classList.toggle("is-selected");
-    } else if (element.classList.contains("tg") || element.classList.contains("cta")) {
-      element.classList.add("is-selected");
-    }
-    /* Language buttons stay orange through aria-pressed="true", which is
-       updated by the existing language switcher before this handler runs. */
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) clearPressedState();
   });
 })();
 </script>
