@@ -1069,6 +1069,31 @@ p{
   }
 }
 
+
+/* =========================================================
+   FIX — Remove the white reflection line from the first
+   "What will you discover?" card when it is activated.
+   Keep its orange selected state, but use a clean glass fill.
+========================================================= */
+.cards > .card:first-child.is-selected,
+.cards > .card:first-child.is-pressed,
+.cards > .card:first-child:active{
+  background:linear-gradient(
+    145deg,
+    rgba(255,153,61,.98),
+    rgba(255,105,0,.98) 58%,
+    rgba(232,67,0,.98)
+  );
+}
+
+.cards > .card:first-child.is-selected::after,
+.cards > .card:first-child.is-pressed::after,
+.cards > .card:first-child:active::after{
+  opacity:0;
+  height:0;
+  background:none;
+}
+
 </style>
 
 <script>
