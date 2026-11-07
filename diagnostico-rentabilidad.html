@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -246,7 +247,758 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
           <button id="langEs" type="button" aria-pressed="true">ES</button>
           <button id="langEn" type="button" aria-pressed="false">EN</button>
         </div>
-               kpiReceivablesDescription: function (amount, count) {
+
+        <button
+          class="tg"
+          id="tg"
+          type="button"
+          aria-label="Cambiar entre modo claro y oscuro"
+        ></button>
+      </div>
+
+      <h1 id="pageTitle">Inteligencia Financiera</h1>
+      <p id="pageIntro">
+        Comprende la rentabilidad de tu negocio, identifica oportunidades y toma mejores decisiones financieras con datos.
+      </p>
+
+      <div class="sbar" aria-hidden="true">
+        <i class="c"></i>
+        <i class="g"></i>
+      </div>
+
+      <div class="leg" style="margin-top:0">
+        <span><u class="c"></u><span id="legendCosts">Costos y gastos</span></span>
+        <span><u class="g"></u><span id="legendRemainder">Lo que realmente te queda</span></span>
+      </div>
+    </header>
+
+    <!-- Financial input fields -->
+    <div class="grid">
+      <div>
+        <label for="ing" id="labelIncome">Ingresos del mes</label>
+        <input id="ing" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <div>
+        <label for="cos" id="labelCosts">Costos y gastos</label>
+        <input id="cos" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <div class="full scan">
+        <label id="labelScan" data-i18n="scanTitle">Escanear un recibo</label>
+        <button type="button" class="add" id="scanBtn" data-i18n="scanButton">Escanear recibo</button>
+        <input id="scanFile" type="file" accept="image/*" hidden>
+        <span class="hint" data-i18n="scanPrivacy">La foto se lee en tu teléfono y no se sube a ningún servidor.</span>
+        <span class="hint" id="scanStatus" role="status" aria-live="polite"></span>
+
+        <div class="card" id="scanReview" hidden>
+          <p class="mut" style="margin-bottom:12px" data-i18n="scanReviewHint">Revisa los datos antes de sumarlos.</p>
+          <div class="rowf">
+            <div>
+              <label for="scanVendor" data-i18n="scanVendor">Proveedor</label>
+              <input id="scanVendor" autocomplete="off">
+            </div>
+            <div>
+              <label for="scanAmt" data-i18n="scanAmount">Monto ($)</label>
+              <input id="scanAmt" type="number" inputmode="decimal" step="0.01" min="0">
+            </div>
+          </div>
+          <p class="note" id="scanNote" hidden></p>
+          <p class="tip" id="scanTip" aria-live="polite"></p>
+          <div class="btns">
+            <button type="button" class="btn m" id="scanAdd" data-i18n="scanAdd">Sumar a mis costos</button>
+            <button type="button" class="btn" id="scanDiscard" data-i18n="scanDiscard">Descartar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="full">
+        <label id="labelDebts">Clientes con pagos vencidos</label>
+        <div id="debts"></div>
+        <button type="button" class="add" id="addD">+ Agregar cliente</button>
+        <span class="hint" id="dtot" style="display:none"></span>
+      </div>
+
+      <div class="full">
+        <label for="top" id="labelTopClient">Lo que te pagó tu mejor cliente este mes ($)</label>
+        <input id="top" type="number" inputmode="decimal" value="0">
+        <span class="hint" id="topHint">
+          Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.
+        </span>
+      </div>
+
+      <div>
+        <label for="ing3" id="labelIncome3">Ingresos de los últimos 3 meses ($)</label>
+        <input id="ing3" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <div>
+        <label for="top3" id="labelTopClient3">Tu mejor cliente en esos 3 meses ($)</label>
+        <input id="top3" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <span class="hint full" id="threeMonthHint" style="margin-top:-8px">
+        Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.
+      </span>
+
+      <div>
+        <label for="hf" id="labelBilledHours">Horas facturadas</label>
+        <input id="hf" type="number" inputmode="decimal" value="0">
+      </div>
+
+      <div>
+        <label for="hd" id="labelAvailableHours">Horas disponibles</label>
+        <input id="hd" type="number" inputmode="decimal" value="0">
+      </div>
+    </div>
+
+    <button class="cta" id="go" type="button">Ver mi diagnóstico</button>
+    <div class="err" id="err" role="alert"></div>
+
+    <!-- Results -->
+    <section id="res" aria-live="polite" hidden>
+      <div class="hero" id="hero"></div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;font-weight:800">
+          <span id="healthTitle">Salud financiera</span>
+          <span id="hs">0%</span>
+        </div>
+        <div class="meter">
+          <i id="hf2" class="ok" style="width:0"></i>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="generalResultTitle">Resultado general</h3>
+        <div class="cbox" id="cbox"></div>
+
+        <div class="leg">
+          <span><b id="legendMargin">Margen</b> <span id="legendNet">neto</span></span>
+          <span><b id="legendReceivables">Cartera</b> <span id="legendOverdue">vencida</span></span>
+          <span><b id="legendDependency">Dependencia</b></span>
+        </div>
+      </div>
+
+      <div id="kpis"></div>
+
+      <h2 id="simTitle" data-i18n="simTitle">¿Y si…?</h2>
+
+      <div class="card">
+        <p class="mut" data-i18n="simIntro">Mueve los controles y mira cómo cambian tus números de este mes.</p>
+
+        <div class="ctl">
+          <label class="chk" for="simLose">
+            <input type="checkbox" id="simLose">
+            <span data-i18n="simLose">Pierdo a mi mejor cliente</span>
+          </label>
+          <span class="hint" id="simLoseHint"></span>
+        </div>
+
+        <div class="ctl">
+          <label class="sl" for="simRaise">
+            <span data-i18n="simRaise">Subo mis precios</span>: <b id="simRaiseVal">10%</b>
+          </label>
+          <input type="range" id="simRaise" min="0" max="30" step="1" value="10">
+        </div>
+
+        <div class="ctl">
+          <label class="sl" for="simCollect">
+            <span data-i18n="simCollect">Cobro lo vencido</span>: <b id="simCollectVal">100%</b>
+          </label>
+          <input type="range" id="simCollect" min="0" max="100" step="10" value="100">
+          <span class="hint" id="simCollectHint"></span>
+        </div>
+
+        <div class="sim" id="simRows"></div>
+        <p class="tip" id="simSummary" aria-live="polite"></p>
+        <span class="hint" data-i18n="simAssume">Supone que tus costos y tus demás clientes se mantienen igual. Es un estimado, no una predicción.</span>
+      </div>
+
+      <h2 id="rateTitle" data-i18n="rateTitle">Tu tarifa real por hora</h2>
+
+      <div class="card">
+        <div id="rateOut"></div>
+
+        <div id="rateGoalBox">
+          <div class="ctl">
+            <label for="rateGoal" data-i18n="rateGoalLabel">Cuánto quieres ganar al mes, después de costos ($)</label>
+            <input id="rateGoal" type="number" inputmode="decimal" min="0" placeholder="0">
+          </div>
+          <div id="rateGoalOut" aria-live="polite" style="margin-top:8px"></div>
+          <span class="hint" data-i18n="rateAssume">Supone que tus costos no cambian.</span>
+        </div>
+      </div>
+
+      <h2 id="collectTitle" data-i18n="collectTitle">Cobra lo que te deben</h2>
+
+      <div class="card">
+        <details id="payDetails">
+          <summary data-i18n="payTitle">Cómo te pagan</summary>
+          <p class="mut" style="margin:10px 0 14px" data-i18n="payHint">Estos datos se guardan solo en este dispositivo y se agregan a tus recordatorios y facturas.</p>
+          <div class="grid" style="margin-bottom:0">
+            <div class="full">
+              <label for="payName" data-i18n="payName">Tu nombre o negocio</label>
+              <input id="payName" autocomplete="organization">
+            </div>
+            <div>
+              <label for="payZelle" data-i18n="payZelle">Zelle (correo o teléfono)</label>
+              <input id="payZelle" autocomplete="off">
+            </div>
+            <div>
+              <label for="payCash" data-i18n="payCash">Cash App ($usuario)</label>
+              <input id="payCash" autocomplete="off">
+            </div>
+            <div>
+              <label for="payVenmo" data-i18n="payVenmo">Venmo (@usuario)</label>
+              <input id="payVenmo" autocomplete="off">
+            </div>
+            <div>
+              <label for="payPaypal" data-i18n="payPaypal">PayPal.me (usuario)</label>
+              <input id="payPaypal" autocomplete="off">
+            </div>
+            <div class="full">
+              <label for="payStripe" data-i18n="payStripe">Enlace de pago con tarjeta (Stripe u otro)</label>
+              <input id="payStripe" type="url" inputmode="url" autocomplete="off" placeholder="https://">
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="remTitle">Recordatorios de cobro</h3>
+        <div id="remList"></div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="invTitle">Crear una factura</h3>
+        <div class="grid" style="margin:14px 0 0">
+          <div>
+            <label for="invClient" data-i18n="invClient">Cliente</label>
+            <input id="invClient" autocomplete="off">
+          </div>
+          <div>
+            <label for="invAmount" data-i18n="invAmount">Monto ($)</label>
+            <input id="invAmount" type="number" inputmode="decimal" step="0.01" min="0" value="0">
+          </div>
+          <div class="full">
+            <label for="invConcept" data-i18n="invConcept">Concepto</label>
+            <input id="invConcept" autocomplete="off">
+          </div>
+          <div class="full">
+            <label for="invDue" data-i18n="invDue">Fecha de pago</label>
+            <input id="invDue" type="date">
+          </div>
+        </div>
+        <div class="err" id="invErr" role="alert"></div>
+        <button class="cta" id="invGo" type="button" style="margin:4px auto 0" data-i18n="invCreate">Crear factura (PDF)</button>
+        <span class="hint" style="text-align:center" data-i18n="invHint">Se abre una vista para imprimir o guardar como PDF.</span>
+      </div>
+
+      <h2 id="solutionsTitle">Soluciones sugeridas</h2>
+      <div id="sols"></div>
+
+      <h2 id="plansTitle">Tu plan recomendado</h2>
+      <div class="plans" id="plans"></div>
+
+      <p class="mut" id="priceNote" style="text-align:center;margin:12px 0 32px">
+        Precios de referencia en USD al mes.
+      </p>
+
+      <!-- Contact and consultation -->
+      <div class="card" style="text-align:center;padding:24px">
+        <h3 id="contactTitle">¿Lo revisamos juntos?</h3>
+        <p class="mut" id="contactText">
+          Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.
+        </p>
+
+        <div class="grid" style="margin:20px 0 0;text-align:left">
+          <div>
+            <label for="nom" id="labelName">Tu nombre</label>
+            <input id="nom" autocomplete="name">
+          </div>
+
+          <div>
+            <label for="neg" id="labelBusiness">Tu negocio</label>
+            <input id="neg">
+          </div>
+        </div>
+
+        <div class="btns">
+          <a class="btn m" id="lCal" target="_blank" rel="noopener">Agenda tu diagnóstico</a>
+          <a class="btn" id="lWa" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+          <a class="btn" id="lMail">Enviar por correo</a>
+        </div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="card fb" style="padding:24px">
+        <div id="fbForm">
+          <h3 id="feedbackTitle">¿Qué tal te pareció?</h3>
+          <p class="mut" id="feedbackInstruction">
+            Toca las estrellas que quieras, del 1 al 5.
+          </p>
+
+          <div
+            class="stars"
+            id="stars"
+            role="radiogroup"
+            aria-label="Calificación"
+          ></div>
+
+          <div id="qs"></div>
+
+          <div class="q">
+            <p id="suggestionQuestion">¿Qué te gustaría que agregáramos? (opcional)</p>
+            <textarea id="fbTxt" aria-label="Sugerencia"></textarea>
+          </div>
+
+          <div class="err" id="fbErr" role="alert">
+            Elige al menos una calificación de estrellas.
+          </div>
+
+          <button
+            class="cta"
+            id="fbSend"
+            type="button"
+            style="margin-bottom:0"
+          >
+            Enviar opinión
+          </button>
+        </div>
+
+        <div id="fbThanks" style="display:none">
+          <h3 id="thanksTitle">¡Gracias por tu opinión!</h3>
+          <p class="mut" id="thanksText">
+            Si quieres, mándamela directo para que la lea.
+          </p>
+
+          <div class="btns">
+            <a class="btn m" id="fWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <a class="btn" id="fMail">Enviar por correo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- =====================================================
+       BILINGUAL DIAGNOSTIC LOGIC
+  ====================================================== -->
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* -----------------------------------------------------
+         1. CONFIGURATION AND SHARED STATE
+      ------------------------------------------------------ */
+
+      const CAL = "https://calendly.com/TU_USUARIO";
+      const WA = "521XXXXXXXXXX";
+      const MAIL = "yovier.cruz@gmail.com";
+
+      const root = document.documentElement;
+      const themeButton = document.getElementById("tg");
+
+      const $ = function (id) {
+        return document.getElementById(id);
+      };
+
+      let language = getSavedLanguage();
+      let customerType = "pro";
+      let debts = [];
+      let summary = "";
+      let lastResult = null;
+      let currentErrorKeys = [];
+
+      const feedback = {
+        stars: 0,
+        real: null,
+        clear: null,
+        pay: null,
+        submitted: false
+      };
+
+
+      /* -----------------------------------------------------
+         2. TRANSLATIONS
+      ------------------------------------------------------ */
+
+      const TEXT = {
+        es: {
+          pageTitle: "Inteligencia Financiera",
+          metaDescription: "Analiza la rentabilidad de tu negocio, identifica oportunidades y toma mejores decisiones financieras con datos.",
+
+          themeToLight: "Cambiar a modo claro",
+          themeToDark: "Cambiar a modo oscuro",
+
+          heading: "Inteligencia Financiera",
+          intro: "Comprende la rentabilidad de tu negocio, identifica oportunidades y toma mejores decisiones financieras con datos.",
+          costs: "Costos y gastos",
+          remainder: "Lo que realmente te queda",
+
+          customerType: "Tipo de cliente",
+          professional: "Profesionista",
+          serviceBusiness: "Pyme de servicios",
+
+          income: "Ingresos del mes",
+          costsField: "Costos y gastos",
+          overdueClients: "Clientes con pagos vencidos",
+          addClient: "+ Agregar cliente",
+          clientPlaceholder: "Cliente",
+          clientNameAria: "Nombre del cliente",
+          overdueAmountAria: "Monto vencido",
+          removeClientAria: "Eliminar cliente",
+          overdueTotal: function (amount, count) {
+            return "Total vencido: $" + amount + " en " + count +
+              (count === 1 ? " cliente" : " clientes");
+          },
+
+          topClient: "Lo que te pagó tu mejor cliente este mes ($)",
+          topHint: "Se divide entre tus ingresos totales. Si supera el 30%, tu negocio depende mucho de él.",
+          income3: "Ingresos de los últimos 3 meses ($)",
+          topClient3: "Tu mejor cliente en esos 3 meses ($)",
+          threeMonthHint: "Opcional: llena ambos campos y la dependencia se mide con 3 meses. Si no, déjalos en 0.",
+          billedHours: "Horas facturadas",
+          availableHours: "Horas disponibles",
+
+          runDiagnostic: "Ver mi diagnóstico",
+          errorIncome: "Escribe tus ingresos del mes.",
+          errorPositive: "Usa solo números positivos.",
+          errorTop: "Tu mejor cliente no puede haber pagado más que tus ingresos del mes.",
+          errorHours: "Las horas facturadas no pueden superar las disponibles.",
+          errorThreeMonthPair: "Llena los dos campos de 3 meses o déjalos en 0.",
+          errorThreeMonthTop: "En 3 meses, tu mejor cliente no puede haber pagado más que tus ingresos totales.",
+
+          marginThisMonth: "Tu margen este mes",
+          marginGood: "Tu negocio deja buen margen. Cuídalo y anticipa meses flojos.",
+          marginAverage: "Tu margen es aceptable, pero hay espacio para mejorar.",
+          marginLow: "De cada $100 que cobras, te quedan muy pocos. Reduce costos, sube precios o elimina servicios no rentables.",
+
+          financialHealth: "Salud financiera",
+          generalResult: "Resultado general",
+          margin: "Margen",
+          net: "neto",
+          receivables: "Cartera",
+          overdue: "vencida",
+          dependency: "Dependencia",
+
+          kpiMargin: "Margen neto",
+          kpiMarginDescription: function (amount) {
+            return "De cada $100 que cobras, te quedan $" + amount + " después de costos y gastos";
+          },
+          kpiReceivables: "Cartera vencida",
+          kpiReceivablesDescription: function (amount, count) {
+            return "$" + amount + " por cobrar" +
+              (count ? " en " + count + (count === 1 ? " cliente" : " clientes") : "") +
+              ", sobre tus ingresos del mes";
+          },
+          kpiDependency: "Dependencia de un cliente",
+          kpiDependencyThisMonth: function (top, income) {
+            return "$" + top + " de $" + income + " este mes";
+          },
+          kpiDependencyThreeMonths: function (top, income) {
+            return "$" + top + " de $" + income + " en 3 meses";
+          },
+          kpiTime: "Uso de tu tiempo",
+          kpiTimeDescription: "Horas facturadas sobre disponibles",
+          kpiDebtors: "Clientes con pagos vencidos",
+          noName: "Sin nombre",
+
+          solutions: "Soluciones sugeridas",
+          solutionMarginTitle: "Análisis de rentabilidad por cliente y servicio",
+          solutionMarginText: "Tu margen es bajo. Descubre qué clientes y servicios te hacen perder dinero y ajusta precios.",
+          solutionCollectionsTitle: "Seguimiento de cobranza con alertas",
+          solutionCollectionsText: "Tienes mucho dinero atrapado en facturas vencidas. Recibe avisos y recordatorios automáticos.",
+          solutionDependencyTitle: "Reducir dependencia de un cliente",
+          solutionDependencyText: "Si se va tu mejor cliente, pierdes casi la mitad. Mide tu embudo y diversifica.",
+          solutionHoursProfessionalTitle: "Tablero de horas y precio por hora",
+          solutionHoursBusinessTitle: "Utilización del equipo",
+          solutionHoursText: "Aprovechas poco tu tiempo disponible. Calcula cuánto vale tu hora y dónde se pierde.",
+          solutionCashTitle: "Proyección de flujo de caja a 90 días",
+          solutionCashText: "Tus números son sanos. El siguiente paso es anticipar meses flojos y planear crecimiento.",
+          solutionReportTitle: "Reporte mensual automático",
+          solutionReportText: "Recibe cada mes un resumen con tus indicadores, sin armar nada a mano.",
+          solutionCustomTitle: "Implementación a la medida",
+          solutionCustomText: "Varias alertas a la vez piden un tablero conectado a tu facturación.",
+          includedIn: "Incluido en",
+
+          plans: "Tu plan recomendado",
+          recommended: "recomendado",
+          priceNote: "Precios de referencia en USD al mes.",
+
+          planBasic: "Básico",
+          planPro: "Pro",
+          planCustom: "A la medida",
+          planBasicFeatures: [
+            "Carga de datos con plantilla",
+            "Tablero de 5 KPIs",
+            "Reporte mensual por correo"
+          ],
+          planProFeatures: [
+            "Todo lo del Básico",
+            "Rentabilidad por cliente y servicio",
+            "Alertas de cobranza y proyección a 90 días"
+          ],
+          planCustomFeatures: [
+            "Diagnóstico con el experto",
+            "Conexión a tu facturación",
+            "Tablero personalizado"
+          ],
+          planCustomPrice: "Desde $500 + $120/mes",
+
+          contactTitle: "¿Lo revisamos juntos?",
+          contactText: "Agenda un diagnóstico de 45 minutos. Tu resultado viaja con el mensaje.",
+          name: "Tu nombre",
+          business: "Tu negocio",
+          bookDiagnostic: "Agenda tu diagnóstico",
+          whatsapp: "Escríbeme por WhatsApp",
+          email: "Enviar por correo",
+
+          feedbackTitle: "¿Qué tal te pareció?",
+          feedbackInstruction: "Toca las estrellas que quieras, del 1 al 5.",
+          ratingAria: "Calificación",
+          oneStar: "estrella",
+          manyStars: "estrellas",
+          questionReal: "¿El diagnóstico refleja tu situación real?",
+          questionClear: "¿Entendiste los resultados fácilmente?",
+          questionPay: "¿Pagarías por un plan con estas soluciones?",
+          answerYes: "Sí",
+          answerNo: "No",
+          answerPartial: "Parcialmente",
+          answerVeryEasy: "Muy fácil",
+          answerEasy: "Fácil",
+          answerDifficult: "Complicado",
+          answerPossibly: "Posiblemente",
+          suggestionQuestion: "¿Qué te gustaría que agregáramos? (opcional)",
+          suggestionAria: "Sugerencia",
+          ratingRequired: "Elige al menos una calificación de estrellas.",
+          sendFeedback: "Enviar opinión",
+          thanksTitle: "¡Gracias por tu opinión!",
+          thanksText: "Si quieres, mándamela directo para que la lea.",
+
+          scanTitle: "Escanear un recibo",
+          scanButton: "Escanear recibo",
+          scanPrivacy: "La foto se lee en tu teléfono y no se sube a ningún servidor.",
+          scanPreparingImage: "Preparando la foto…",
+          scanPreparing: "Preparando el lector. La primera vez descarga aproximadamente 7 MB…",
+          scanPreparingCore: "Descargando el motor de lectura…",
+          scanPreparingLanguage: "Descargando los datos de idioma…",
+          scanTryingProvider: function (name) {
+            return "Probando la fuente de descarga " + name + "…";
+          },
+          scanReading: "Leyendo el recibo…",
+          scanErrorLib: "No se pudo descargar el programa del lector desde jsDelivr ni UNPKG. Revisa tu conexión e inténtalo de nuevo, o escribe el monto manualmente.",
+          scanErrorImage: "No se pudo abrir la foto. Prueba con JPG, PNG o WEBP; también puedes escribir el monto manualmente.",
+          scanErrorLarge: "La foto supera el límite de 20 MB. Elige una imagen más pequeña o escribe el monto manualmente.",
+          scanErrorEngine: "No se pudo iniciar el motor de lectura. Puede que la red esté bloqueando el worker, el motor o los datos de idioma. Inténtalo con otra conexión.",
+          scanErrorRead: "La foto se abrió, pero no se pudo reconocer el texto. Prueba con buena luz, el recibo plano y el total visible.",
+          scanDetail: "Detalle",
+          scanReviewHint: "Revisa los datos antes de sumarlos.",
+          scanVendor: "Proveedor",
+          scanAmount: "Monto ($)",
+          scanAdd: "Sumar a mis costos",
+          scanDiscard: "Descartar",
+          scanNoAmount: "No encontramos el monto. Escríbelo tú.",
+          scanCheckAmount: "No vimos una línea de total. Confirma que este monto sea el correcto.",
+          scanAdded: function (amount) {
+            return "Se sumaron $" + amount + " a tus costos. Toca «Ver mi diagnóstico» para actualizar.";
+          },
+          scanTipNoIncome: "Escribe tus ingresos del mes para ver cómo cambia tu margen.",
+          scanTipLoss: "Con este recibo tus costos superan tus ingresos del mes.",
+          scanTipMargin: function (before, after) {
+            return "Con este recibo, tu margen baja de " + before + "% a " + after + "%.";
+          },
+          scanTipRaise: function (raise) {
+            return " Para recuperarlo, tendrías que subir tus precios cerca de " + raise + "%.";
+          },
+
+          collectTitle: "Cobra lo que te deben",
+          payTitle: "Cómo te pagan",
+          payHint: "Estos datos se guardan solo en este dispositivo y se agregan a tus recordatorios y facturas.",
+          payName: "Tu nombre o negocio",
+          payZelle: "Zelle (correo o teléfono)",
+          payCash: "Cash App ($usuario)",
+          payVenmo: "Venmo (@usuario)",
+          payPaypal: "PayPal.me (usuario)",
+          payStripe: "Enlace de pago con tarjeta (Stripe u otro)",
+          payCardLabel: "Tarjeta",
+          remTitle: "Recordatorios de cobro",
+          remNone: "Cuando agregues clientes con pagos vencidos, aquí podrás enviarles un recordatorio por WhatsApp.",
+          remPhone: "Teléfono (opcional)",
+          remSend: "Recordar por WhatsApp",
+          remPhoneHint: "Sin teléfono, WhatsApp te deja elegir el contacto. Tú revisas y envías el mensaje.",
+          remMessage: function (name, amount, pay, from) {
+            return (name ? "Hola " + name + ", " : "Hola, ") +
+              "te escribo para recordarte tu pago pendiente de $" + amount + "." +
+              (pay.length ? " Puedes pagar con " + pay.join(", ") + "." : "") +
+              " Gracias." + (from ? " " + from : "");
+          },
+
+          simTitle: "¿Y si…?",
+          simIntro: "Mueve los controles y mira cómo cambian tus números de este mes.",
+          simLose: "Pierdo a mi mejor cliente",
+          simLoseNeed: "Escribe lo que te pagó tu mejor cliente para usar esta opción.",
+          simLoseInfo: function (amount) {
+            return "Se irían " + amount + " de tus ingresos del mes.";
+          },
+          simRaise: "Subo mis precios",
+          simCollect: "Cobro lo vencido",
+          simCollectNeed: "No tienes pagos vencidos registrados.",
+          simCollectInfo: function (amount) {
+            return "Entrarían " + amount + " a tu bolsillo.";
+          },
+          simRowIncome: "Ingreso del mes",
+          simRowProfit: "Ganancia del mes",
+          simRowMargin: "Margen",
+          simRowReceivables: "Cartera vencida",
+          simSummary: function (marginBefore, marginAfter, profitBefore, profitAfter) {
+            return "Con estos cambios, tu margen pasaría de " + marginBefore + "% a " + marginAfter +
+              "% y tu ganancia del mes de " + profitBefore + " a " + profitAfter + ".";
+          },
+          simSummaryNoIncome: "Sin ese cliente no te quedarían ingresos este mes.",
+          simSummaryNoChange: "Mueve un control para ver el efecto.",
+          simAssume: "Supone que tus costos y tus demás clientes se mantienen igual. Es un estimado, no una predicción.",
+
+          rateTitle: "Tu tarifa real por hora",
+          rateNeedHours: "Escribe tus horas facturadas y disponibles, y vuelve a ver tu diagnóstico para calcular tu tarifa.",
+          rateCharged: "Cobras por hora facturada",
+          rateKept: "Te queda por hora de tu tiempo",
+          rateBreakeven: "Tarifa de equilibrio",
+          rateBreakevenHint: "Por debajo de esta tarifa pierdes dinero con tus horas actuales.",
+          rateSummaryGain: function (charged, kept) {
+            return "Cobras " + charged + " por cada hora facturada, pero después de costos y horas sin facturar te quedan " +
+              kept + " por cada hora de tu tiempo.";
+          },
+          rateSummaryLoss: function (charged, lost) {
+            return "Cobras " + charged + " por cada hora facturada, pero tus costos y tus horas sin facturar hacen que pierdas " +
+              lost + " por cada hora de tu tiempo.";
+          },
+          rateGoalLabel: "Cuánto quieres ganar al mes, después de costos ($)",
+          rateGoalEmpty: "Escribe tu meta para ver qué tarifa necesitas.",
+          rateGoalReached: function (profit) {
+            return "Con tus números actuales ya ganas " + profit + " al mes. Tu meta ya está cubierta.";
+          },
+          rateGoalRate: function (goal, rate, percent) {
+            return "Para ganar " + goal + " al mes con tus horas actuales, tu tarifa debería ser " + rate +
+              " por hora (" + percent + "% más que hoy).";
+          },
+          rateGoalHours: function (hours, available) {
+            return "O mantén tu tarifa y factura " + hours + " horas al mes (tienes " + available + " disponibles).";
+          },
+          rateGoalHoursNo: function (floor) {
+            return "Aunque factures todas tus horas disponibles con tu tarifa actual, no llegas a tu meta. " +
+              "Si las facturaras todas, tu tarifa mínima sería " + floor + " por hora.";
+          },
+          rateAssume: "Supone que tus costos no cambian.",
+
+          invTitle: "Crear una factura",
+          invClient: "Cliente",
+          invAmount: "Monto ($)",
+          invConcept: "Concepto",
+          invDue: "Fecha de pago",
+          invCreate: "Crear factura (PDF)",
+          invHint: "Se abre una vista para imprimir o guardar como PDF.",
+          invErrClient: "Escribe el nombre del cliente.",
+          invErrConcept: "Escribe el concepto de la factura.",
+          invErrAmount: "Escribe un monto mayor a 0.",
+          invPopup: "Tu navegador bloqueó la ventana. Permite ventanas emergentes e inténtalo otra vez.",
+          invDocTitle: "Factura",
+          invDocNumber: "No.",
+          invDocDate: "Fecha",
+          invDocDue: "Vence",
+          invDocFrom: "De",
+          invDocBillTo: "Para",
+          invDocDescription: "Descripción",
+          invDocTotal: "Total",
+          invDocHowToPay: "Cómo pagar",
+          invDocNoPay: "Pregunta por las opciones de pago.",
+          invDocPrint: "Imprimir o guardar como PDF",
+          invDocThanks: "Gracias por tu pago.",
+          emailSubjectDiagnostic: "Diagnóstico de rentabilidad",
+          shareGreeting: "Hola, soy ",
+          shareFrom: " de ",
+          shareCompleted: ". Hice el diagnóstico: ",
+          shareReview: " Quiero agendar una revisión.",
+          feedbackSubject: "Opinión sobre el diagnóstico",
+          feedbackMessage: "Mi opinión sobre el diagnóstico: ",
+          starsSuffix: "/5 estrellas.",
+          feedbackReal: "¿Refleja mi situación? ",
+          feedbackClear: "¿Resultados claros? ",
+          feedbackPay: "¿Pagaría por un plan? ",
+          feedbackSuggestion: "Sugerencia: ",
+          noAnswer: "sin responder",
+          noSuggestion: "sin sugerencias",
+          emailNamePlaceholder: "(mi nombre)",
+          emailBusinessPlaceholder: "(mi negocio)"
+        },
+
+        en: {
+          pageTitle: "Financial Intelligence",
+          metaDescription: "Understand your business profitability, identify opportunities, and make better financial decisions with data.",
+
+          themeToLight: "Switch to light mode",
+          themeToDark: "Switch to dark mode",
+
+          heading: "Financial Intelligence",
+          intro: "Understand your business profitability, identify opportunities, and make better financial decisions with data.",
+          costs: "Costs and expenses",
+          remainder: "What you actually keep",
+
+          customerType: "Customer type",
+          professional: "Independent professional",
+          serviceBusiness: "Service-based small business",
+
+          income: "Monthly income",
+          costsField: "Costs and expenses",
+          overdueClients: "Customers with overdue payments",
+          addClient: "+ Add customer",
+          clientPlaceholder: "Customer",
+          clientNameAria: "Customer name",
+          overdueAmountAria: "Overdue amount",
+          removeClientAria: "Remove customer",
+          overdueTotal: function (amount, count) {
+            return "Total overdue: $" + amount + " across " + count +
+              (count === 1 ? " customer" : " customers");
+          },
+
+          topClient: "Amount paid by your largest client this month ($)",
+          topHint: "This amount is divided by your total income. If it exceeds 30%, your business is highly dependent on that client.",
+          income3: "Income over the last 3 months ($)",
+          topClient3: "Your largest client over those 3 months ($)",
+          threeMonthHint: "Optional: complete both fields to measure client concentration over 3 months. Otherwise, leave both at 0.",
+          billedHours: "Billable hours",
+          availableHours: "Available hours",
+
+          runDiagnostic: "View my diagnostic",
+          errorIncome: "Enter your income for the month.",
+          errorPositive: "Use positive numbers only.",
+          errorTop: "Your largest client cannot have paid more than your total income for the month.",
+          errorHours: "Billable hours cannot exceed available hours.",
+          errorThreeMonthPair: "Complete both 3-month fields or leave both at 0.",
+          errorThreeMonthTop: "Over 3 months, your largest client cannot have paid more than your total income.",
+
+          marginThisMonth: "Your margin this month",
+          marginGood: "Your business has a healthy margin. Protect it and plan for slower months.",
+          marginAverage: "Your margin is acceptable, but there is room to improve.",
+          marginLow: "For every $100 you collect, very little remains. Reduce costs, raise prices, or remove unprofitable services.",
+
+          financialHealth: "Financial health",
+          generalResult: "Overall result",
+          margin: "Margin",
+          net: "net",
+          receivables: "Receivables",
+          overdue: "overdue",
+          dependency: "Client concentration",
+
+          kpiMargin: "Net margin",
+          kpiMarginDescription: function (amount) {
+            return "For every $100 you collect, you keep $" + amount + " after costs and expenses";
+          },
+          kpiReceivables: "Overdue receivables",
+          kpiReceivablesDescription: function (amount, count) {
             return "$" + amount + " outstanding" +
               (count ? " across " + count + (count === 1 ? " customer" : " customers") : "") +
               ", compared with your monthly income";
@@ -496,7 +1248,8 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
       /* -----------------------------------------------------
          3. PLAN CATALOG AND RECOMMENDATION RANKING
       ------------------------------------------------------ */
-           const PLAN_RANK = {
+
+      const PLAN_RANK = {
         basico: 1,
         pro: 2,
         medida: 3
@@ -744,8 +1497,8 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
       function renderFeedbackQuestions() {
         $("stars").setAttribute("aria-label", t("ratingAria"));
 
-        $("stars").innerHTML = [1, 2, 3, 4, 5]   
-                .map(function (number) {
+        $("stars").innerHTML = [1, 2, 3, 4, 5]
+          .map(function (number) {
             const starWord = number === 1
               ? t("oneStar")
               : t("manyStars");
@@ -995,7 +1748,7 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
             description: t("kpiMarginDescription")(result.margin.toFixed(0)),
             status: cls(result.margin, 30, 15)
           },
-                    {
+          {
             title: t("kpiReceivables"),
             value: result.receivables,
             description: t("kpiReceivablesDescription")(
@@ -1245,7 +1998,7 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
           topClient3: topClient3,
           usingThreeMonths: usingThreeMonths,
           overdueTotal: overdueTotal,
-                  overdueCount: overdueCount,
+          overdueCount: overdueCount,
           margin: margin,
           receivables: receivables,
           concentration: concentration,
@@ -1495,7 +2248,8 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
         const readAmounts = function (line) {
           const found = [];
           let match;
-                  amountPattern.lastIndex = 0;
+
+          amountPattern.lastIndex = 0;
 
           while ((match = amountPattern.exec(line)) !== null) {
             const value = Number(match[1].replace(/,/g, "") + "." + match[2]);
@@ -1744,7 +2498,7 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
 
               if (!context) {
                 throw new Error("El navegador no pudo preparar la imagen.");
-                          }
+              }
 
               context.fillStyle = "#FFFFFF";
               context.fillRect(0, 0, width, height);
@@ -1992,7 +2746,9 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
         $("scanReview").hidden = true;
         setScanStatus("");
       });
-            /* ---- Payment details (saved on this device only) ---- */
+
+
+      /* ---- Payment details (saved on this device only) ---- */
 
       function loadPaymentProfile() {
         try {
@@ -2242,7 +2998,7 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
       <div>
         <h2>${escapeHtml(t("invDocBillTo"))}</h2>
         <p>${escapeHtml(client)}</p>
-              </div>
+      </div>
     </div>
 
     <table>
@@ -2490,7 +3246,9 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
       }
 
       $("rateGoal").addEventListener("input", updateRate);
-             /* -----------------------------------------------------
+
+
+      /* -----------------------------------------------------
          15. INITIALIZATION
       ------------------------------------------------------ */
 
@@ -2582,4 +3340,4 @@ Android: toca el menú (⋮) y selecciona «Abrir en Chrome» o «Abrir en naveg
 </script>
 
 </body>
-</html>   
+</html>
