@@ -396,11 +396,70 @@
       background: var(--card);
       color: var(--ink);
       box-shadow: 0 8px 20px rgba(0,0,0,.12);
+      transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+      isolation: isolate;
     }
 
+    /* Completed floors resemble occupied offices: soft window lights sit
+       behind the text, so the content remains clear and easy to read. */
     .floor.done .floor-card {
       border-color: var(--accent);
-      box-shadow: 0 0 18px rgba(246,127,28,.28);
+      background:
+        linear-gradient(135deg, rgba(246,127,28,.075), transparent 58%),
+        var(--card);
+      box-shadow: 0 0 18px rgba(246,127,28,.22);
+    }
+
+    .floor.done .floor-card::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      z-index: 0;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: .55;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='44' viewBox='0 0 52 44'%3E%3Crect x='5' y='5' width='13' height='12' rx='1.5' fill='%23F67F1C' fill-opacity='.22'/%3E%3Crect x='29' y='5' width='13' height='12' rx='1.5' fill='%23ECC9B2' fill-opacity='.18'/%3E%3Crect x='5' y='27' width='13' height='12' rx='1.5' fill='%23ECC9B2' fill-opacity='.14'/%3E%3Crect x='29' y='27' width='13' height='12' rx='1.5' fill='%23F67F1C' fill-opacity='.18'/%3E%3C/svg%3E");
+      background-size: 52px 44px;
+      background-position: 0 0;
+      mix-blend-mode: normal;
+      /* Only completed floors have animated windows: a soft on/off glow. */
+      animation: completed-window-lights 4.8s ease-in-out infinite;
+    }
+
+    @keyframes completed-window-lights {
+      0%, 100% {
+        opacity: .10;
+        filter: brightness(.85);
+      }
+      38% {
+        opacity: .72;
+        filter: brightness(1.22);
+      }
+      56% {
+        opacity: .24;
+        filter: brightness(.92);
+      }
+      76% {
+        opacity: .62;
+        filter: brightness(1.15);
+      }
+    }
+
+    /* Keep all readable and interactive content above the window-light layer. */
+    .floor-toggle,
+    .floor-details,
+    .next-floor,
+    .robot {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Any floor the visitor opens lights up in the app's signature orange. */
+    .floor.is-open .floor-node {
+      border: 3px solid var(--accent);
+      background: var(--accent);
+      color: #3E2119;
+      box-shadow: 0 0 0 5px rgba(246,127,28,.13), 0 0 18px rgba(246,127,28,.32);
     }
 
     .floor.current .floor-card {
@@ -420,6 +479,27 @@
       background: #5A3A2E;
       color: #F5E6DB;
       box-shadow: none;
+    }
+
+
+    /* The selected/open floor always lights up, regardless of its roadmap status. */
+    .floor.is-open .floor-card {
+      border-color: var(--accent);
+      background:
+        linear-gradient(135deg, rgba(246,127,28,.16), rgba(236,201,178,.08)),
+        var(--card);
+      box-shadow: 0 0 0 2px rgba(246,127,28,.13), 0 0 26px rgba(246,127,28,.30);
+    }
+
+    .floor.current.is-open .floor-card {
+      animation: none;
+    }
+
+    .floor.future.is-open .floor-card {
+      background:
+        linear-gradient(135deg, rgba(246,127,28,.16), rgba(236,201,178,.06)),
+        #5A3A2E;
+      color: #F5E6DB;
     }
 
     .floor-toggle {
@@ -506,11 +586,32 @@
 
     .expand-icon {
       float: right;
-      margin-left: 8px;
+      display: grid;
+      width: 34px;
+      height: 34px;
+      margin: 0 0 8px 10px;
+      place-items: center;
+      border: 1px solid rgba(246,127,28,.42);
+      border-radius: 50%;
+      background: rgba(246,127,28,.12);
       color: var(--accent);
       font-size: 1.4rem;
       font-weight: 800;
       line-height: 1;
+      transition: transform .22s ease, background .22s ease, color .22s ease, box-shadow .22s ease;
+    }
+
+    .floor-toggle:hover .expand-icon,
+    .floor-toggle:focus-visible .expand-icon {
+      background: rgba(246,127,28,.22);
+      box-shadow: 0 0 0 4px rgba(246,127,28,.10);
+    }
+
+    .floor-toggle[aria-expanded="true"] .expand-icon {
+      background: var(--accent);
+      color: #3E2119;
+      box-shadow: 0 0 0 4px rgba(246,127,28,.14), 0 0 16px rgba(246,127,28,.24);
+      transform: rotate(180deg);
     }
 
     .floor-details {
@@ -549,13 +650,34 @@
 
     .next-floor {
       display: flex;
+      width: calc(100% - 28px);
       align-items: center;
       justify-content: flex-end;
       gap: 8px;
-      padding: 0 14px 12px;
+      margin: 0 14px 12px;
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: var(--accent);
       font-size: .78rem;
       font-weight: 800;
+      text-align: right;
+      cursor: pointer;
+    }
+
+    .next-floor:hover .up-arrow {
+      box-shadow: 0 0 0 5px rgba(246,127,28,.14), 0 0 18px rgba(246,127,28,.28);
+      transform: translateY(-2px);
+    }
+
+    .next-floor:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
+    .up-arrow {
+      transition: transform .2s ease, box-shadow .2s ease;
     }
 
     .up-arrow {
@@ -666,7 +788,8 @@
       }
 
       .next-floor {
-        padding: 0 10px 10px;
+        width: calc(100% - 20px);
+        margin: 0 10px 10px;
         font-size: .72rem;
       }
 
@@ -702,12 +825,21 @@
       .antenna::before,
       .floor.current .floor-node,
       .floor.current .floor-card,
+      .floor.done .floor-card::before,
       .robot-arm {
         animation: none;
       }
 
+      .floor.done .floor-card::before {
+        opacity: .35;
+        filter: none;
+      }
+
       .floor-one,
-      .hero-cta {
+      .hero-cta,
+      .floor-card,
+      .expand-icon,
+      .up-arrow {
         transition: none;
       }
     }
@@ -770,14 +902,14 @@
 
       <p class="lead" id="heroLead">
         Imagina un edificio en Wall Street, Nueva York. Cada piso representa
-        una etapa de QuantiQ: los pisos inferiores ya están resueltos y los
+        una etapa de la app de Inteligencia Financiera: los pisos inferiores ya están resueltos y los
         superiores siguen en desarrollo. Selecciona cada piso y pulsa el signo
         (+) para conocer sus detalles. Al terminar el recorrido, descubre la app.
       </p>
 
       <p class="demo" id="demoNote">
         <strong>DEMO</strong>
-        Esta app esta en etapa demo y está en proceso de desarrollo: sus funciones,
+        Esta app está en etapa de demostración y continúa en desarrollo: sus funciones,
         etapas y fechas pueden cambiar.
       </p>
 
@@ -787,7 +919,7 @@
     </header>
 
     <!-- Building roadmap -->
-    <section class="building" aria-label="Hoja de ruta de QuantiQ">
+    <section class="building" aria-label="Hoja de ruta de la app">
       <div class="crown" aria-hidden="true">
         <span class="antenna"></span>
         <span class="crown-step small"></span>
@@ -805,7 +937,7 @@
     </section>
 
     <footer id="footerText">
-      © 2026 Inteligencia Financiera· Versión en proceso
+      © 2026 · Inteligencia Financiera · Versión en desarrollo
     </footer>
   </main>
 
@@ -821,8 +953,8 @@
         floorOne: "↓ Piso 1",
         floorOneAria: "Ir al primer piso",
         heroTitle: "Piso a piso hacia la <em>inteligencia financiera</em>",
-        heroLead: "Imagina un edificio en Wall Street, Nueva York. Cada piso representa una etapa de QuantiQ: los pisos inferiores ya están resueltos y los superiores siguen en desarrollo. Selecciona cada piso y pulsa el signo (+) para conocer sus detalles. Para comenza haz clic en el boton de arriba que dice 'piso uno'.Al terminar el recorrido haz clic en el boton 'descubre la app'.",
-        demo: "<strong>DEMO</strong>QuantiQ es una app demo y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
+        heroLead: "Imagina un edificio en Wall Street, Nueva York. Cada piso representa una etapa de la app de Inteligencia Financiera: los pisos inferiores ya están resueltos y los superiores siguen en desarrollo. Selecciona cada piso y pulsa el signo (+) para conocer sus detalles. Para comenza haz clic en el boton de arriba que dice 'piso uno'.Al terminar el recorrido haz clic en el boton 'descubre la app'.",
+        demo: "<strong>DEMO</strong>Esta app es una versión de demostración y está en proceso de desarrollo: sus funciones, etapas y fechas pueden cambiar.",
         cta: "Descubre la App",
         done: "Logrado",
         current: "En desarrollo",
@@ -833,7 +965,7 @@
         nextFloor: "Sigue al piso siguiente",
         what: "Lo que descubres",
         why: "Por qué importa",
-        footer: "© 2026 QuantiQ · Versión demo en proceso",
+        footer: "© 2026 · Inteligencia Financiera · Versión demo en desarrollo",
         themeDay: "Cambiar a modo día",
         themeNight: "Cambiar a modo noche"
       },
@@ -842,8 +974,8 @@
         floorOne: "↓ Floor 1",
         floorOneAria: "Go to the first floor",
         heroTitle: "Financial Intelligence: Floor by floor toward <em>financial intelligence</em>",
-        heroLead: "Imagine a building on Wall Street in New York. Each floor represents a stage of QuantiQ: the lower floors have already been completed, while the upper floors are still in development. Select a floor and click the (+) sign to explore its details. To get started, click the button at the top labeled 'Floor 1.' At the end of the tour, click the 'Discover the App' button.",
-        demo: "<strong>DEMO</strong>QuantiQ is a demo app and is still in development: its features, stages and dates may change.",
+        heroLead: "Imagine a building on Wall Street in New York. Each floor represents a stage of the financial intelligence app: the lower floors have already been completed, while the upper floors are still in development. Select a floor and click the (+) sign to explore its details. To get started, click the button at the top labeled 'Floor 1.' At the end of the tour, click the 'Discover the App' button.",
+        demo: "<strong>DEMO</strong>This app is a demo version and is still in development: its features, stages and dates may change.",
         cta: "Discover the App",
         done: "Achieved",
         current: "In development",
@@ -854,7 +986,7 @@
         nextFloor: "Continue to the next floor",
         what: "What you uncover",
         why: "Why it matters",
-        footer: "© 2026 QuantiQ · Demo version in progress",
+        footer: "© 2026 · Financial Intelligence · Demo version in development",
         themeDay: "Switch to day mode",
         themeNight: "Switch to night mode"
       }
@@ -1096,7 +1228,7 @@
 
         return `
           <li
-            class="floor ${floor.status}"
+            class="floor ${floor.status}${isOpen ? " is-open" : ""}"
             data-floor="${index}"
             style="--floor-width:${width}%"
           >
@@ -1138,10 +1270,17 @@
                 </div>
               </div>
 
-              <div class="next-floor">
-                <span class="up-arrow" aria-hidden="true">↑</span>
-                <span>${labels.nextFloor}</span>
-              </div>
+              ${floor.status === "done" ? `
+                <button
+                  class="next-floor"
+                  type="button"
+                  data-next-floor="${index}"
+                  aria-label="${labels.nextFloor}"
+                >
+                  <span>${labels.nextFloor}</span>
+                  <span class="up-arrow" aria-hidden="true">↑</span>
+                </button>
+              ` : ""}
             </article>
           </li>
         `;
@@ -1226,11 +1365,40 @@
     -------------------------------------------------- */
 
     $("floorList").addEventListener("click", (event) => {
-      const toggle = event.target.closest("[data-toggle-floor]");
+      // The “next floor” arrow is available only on completed floors.
+      const nextButton = event.target.closest("[data-next-floor]");
 
-      if (!toggle) {
+      if (nextButton) {
+        const currentIndex = Number(nextButton.dataset.nextFloor);
+        const nextIndex = currentIndex + 1;
+
+        if (nextIndex < floors.length) {
+          openFloors.add(nextIndex);
+          renderFloors();
+
+          const nextFloorElement = document.querySelector(
+            `[data-floor="${nextIndex}"]`
+          );
+
+          if (nextFloorElement) {
+            const reduceMotion = window.matchMedia &&
+              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            nextFloorElement.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "center"
+            });
+
+            const nextToggle = nextFloorElement.querySelector("[data-toggle-floor]");
+            if (nextToggle) nextToggle.focus({ preventScroll: true });
+          }
+        }
+
         return;
       }
+
+      const toggle = event.target.closest("[data-toggle-floor]");
+      if (!toggle) return;
 
       const index = Number(toggle.dataset.toggleFloor);
 
@@ -1246,9 +1414,7 @@
         `[data-toggle-floor="${index}"]`
       );
 
-      if (updated) {
-        updated.focus();
-      }
+      if (updated) updated.focus();
     });
 
     /* --------------------------------------------------
